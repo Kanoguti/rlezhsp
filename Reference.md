@@ -18,6 +18,8 @@ int x=RlezGetMouseX();
 x=rlez_get_mouse_x()
 ```
 
+引数に文字列型(`const char*`)を除いたポインタ型がある場合は、varptr関数等で取得したアドレスではなく、変数を入力してください。
+
 ## 関数一覧
 
 ### rlez.dllの初期化と終了
@@ -251,6 +253,15 @@ x=rlez_get_mouse_x()
 | [RlezGetAxisCount](#RlezGetAxisCount) | ゲームパッドの軸の数を取得 |
 | [RlezGetGamepadAxis](#RlezGetGamepadAxis) | ゲームパッドの軸の値を取得 |
 | [RlezSetGamepadVibration](#RlezSetGamepadVibration) | ゲームパッドを振動させる |
+| | |
+
+### HSP3言語でのみ使用できる命令
+| | |
+| :---: | :---: |
+| [rlez_load_file_from_hsp](#rlez_load_file_from_hsp) | ファイルのデータを変数に書き込む |
+| [rlez_load_texture_from_hsp](#rlez_load_texture_from_hsp) | ファイルからテクスチャを作成 |
+| [rlez_load_font_from_hsp](#rlez_load_font_from_hsp) | ファイルからフォントを作成 |
+| [rlez_load_sound_from_hsp](#rlez_load_sound_from_hsp) | ファイルからサウンドを作成 |
 | | |
 
 ---
@@ -2739,5 +2750,83 @@ void RlezSetGamepadVibration(int gamepad,double left,double right,double duratio
 `duration`:振動の長さ(秒単位)
 
 指定したゲームパッドを振動させます。
+
+---
+
+<div id="rlez_load_file_from_hsp"></div>
+
+### rlez_load_file_from_hsp
+
+```
+#deffunc rlez_load_file_from_hsp str p_file,var p_data
+```
+
+`p_file`:ファイルのパスの文字列
+
+`p_data`:書き込む文字列型変数
+
+`(stat)`:ファイルのサイズ
+
+ファイルのデータを変数に書き込みます。この命令を実行する際、`p_data`引数で指定した文字列型変数は全て空の状態にした後、ファイルのデータのサイズに拡張されます。この命令で指定する`p_file`引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。
+
+---
+
+<div id="rlez_load_texture_from_hsp"></div>
+
+### rlez_load_texture_from_hsp
+
+```
+#defcfunc rlez_load_texture_from_hsp str p1
+```
+
+`p1`:ファイルのパスの文字列
+
+`(return)`:テクスチャのリソースID
+
+指定したファイルからテクスチャを作成します。この命令で指定する`p1`引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。
+
+---
+
+<div id="rlez_load_font_from_hsp"></div>
+
+### rlez_load_font_from_hsp
+
+```
+#defcfunc rlez_load_font_from_hsp str p1,int p2,str p3,int p4,int p5
+```
+
+`p1`:ファイルのパスの文字列
+
+`p2`:生成されるフォントデータ内のフォントテクスチャに描画されるフォントサイズ
+
+`p3`:生成されるフォントデータ内のフォントテクスチャに描画される文字群の文字列
+
+`p4`,`p5`:内部で生成されるフォントテクスチャの目標サイズの横幅と縦幅
+
+`(return)`:フォントデータのリソースID
+
+指定したファイルからフォントを作成します。この命令で指定する`p1`引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。
+
+---
+
+<div id="rlez_load_sound_from_hsp"></div>
+
+### rlez_load_sound_from_hsp
+
+```
+#defcfunc rlez_load_sound_from_hsp str p1,int p2,double p3,int p4
+```
+
+`p1`:ファイルのパスの文字列
+
+`p2`:0だとサウンドを効果音として扱い、それ以外だと音楽(BGM)として扱う
+
+`p3`:サウンドを音楽として扱う際、サウンド情報を更新する時間の間隔(秒単位)
+
+`p4`:サウンドを音楽として扱う際、サウンド情報を1回更新するときに読み込むサンプル数
+
+`(return)`:サウンドのリソースID
+
+指定したファイルからサウンドを作成します。この命令で指定する`p1`引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。
 
 ---

@@ -379,6 +379,7 @@ int x=RlezGetMouseX();
 // HSP3言語での記述例
 x=rlez_get_mouse_x()
 </div></code></pre>
+<p>引数に文字列型(<code>const char*</code>)を除いたポインタ型がある場合は、varptr関数等で取得したアドレスではなく、変数を入力してください。</p>
 <h2 id="関数一覧">関数一覧</h2>
 <h3 id="rlezdllの初期化と終了">rlez.dllの初期化と終了</h3>
 <table>
@@ -1161,6 +1162,37 @@ x=rlez_get_mouse_x()
 <tr>
 <td style="text-align:center"><a href="#RlezSetGamepadVibration">RlezSetGamepadVibration</a></td>
 <td style="text-align:center">ゲームパッドを振動させる</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="hsp3言語でのみ使用できる命令">HSP3言語でのみ使用できる命令</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#rlez_load_file_from_hsp">rlez_load_file_from_hsp</a></td>
+<td style="text-align:center">ファイルのデータを変数に書き込む</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#rlez_load_texture_from_hsp">rlez_load_texture_from_hsp</a></td>
+<td style="text-align:center">ファイルからテクスチャを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#rlez_load_font_from_hsp">rlez_load_font_from_hsp</a></td>
+<td style="text-align:center">ファイルからフォントを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#rlez_load_sound_from_hsp">rlez_load_sound_from_hsp</a></td>
+<td style="text-align:center">ファイルからサウンドを作成</td>
 </tr>
 <tr>
 <td style="text-align:center"></td>
@@ -2519,6 +2551,45 @@ x=rlez_get_mouse_x()
 <p><code>right</code>:右側のモーターの振動の強さ(0.0～1.0)</p>
 <p><code>duration</code>:振動の長さ(秒単位)</p>
 <p>指定したゲームパッドを振動させます。</p>
+<hr>
+<div id="rlez_load_file_from_hsp"></div>
+<h3 id="rlez_load_file_from_hsp">rlez_load_file_from_hsp</h3>
+<pre class="hljs"><code><div>#deffunc rlez_load_file_from_hsp str p_file,var p_data
+</div></code></pre>
+<p><code>p_file</code>:ファイルのパスの文字列</p>
+<p><code>p_data</code>:書き込む文字列型変数</p>
+<p><code>(stat)</code>:ファイルのサイズ</p>
+<p>ファイルのデータを変数に書き込みます。この命令を実行する際、<code>p_data</code>引数で指定した文字列型変数は全て空の状態にした後、ファイルのデータのサイズに拡張されます。この命令で指定する<code>p_file</code>引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。</p>
+<hr>
+<div id="rlez_load_texture_from_hsp"></div>
+<h3 id="rlez_load_texture_from_hsp">rlez_load_texture_from_hsp</h3>
+<pre class="hljs"><code><div>#defcfunc rlez_load_texture_from_hsp str p1
+</div></code></pre>
+<p><code>p1</code>:ファイルのパスの文字列</p>
+<p><code>(return)</code>:テクスチャのリソースID</p>
+<p>指定したファイルからテクスチャを作成します。この命令で指定する<code>p1</code>引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。</p>
+<hr>
+<div id="rlez_load_font_from_hsp"></div>
+<h3 id="rlez_load_font_from_hsp">rlez_load_font_from_hsp</h3>
+<pre class="hljs"><code><div>#defcfunc rlez_load_font_from_hsp str p1,int p2,str p3,int p4,int p5
+</div></code></pre>
+<p><code>p1</code>:ファイルのパスの文字列</p>
+<p><code>p2</code>:生成されるフォントデータ内のフォントテクスチャに描画されるフォントサイズ</p>
+<p><code>p3</code>:生成されるフォントデータ内のフォントテクスチャに描画される文字群の文字列</p>
+<p><code>p4</code>,<code>p5</code>:内部で生成されるフォントテクスチャの目標サイズの横幅と縦幅</p>
+<p><code>(return)</code>:フォントデータのリソースID</p>
+<p>指定したファイルからフォントを作成します。この命令で指定する<code>p1</code>引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。</p>
+<hr>
+<div id="rlez_load_sound_from_hsp"></div>
+<h3 id="rlez_load_sound_from_hsp">rlez_load_sound_from_hsp</h3>
+<pre class="hljs"><code><div>#defcfunc rlez_load_sound_from_hsp str p1,int p2,double p3,int p4
+</div></code></pre>
+<p><code>p1</code>:ファイルのパスの文字列</p>
+<p><code>p2</code>:0だとサウンドを効果音として扱い、それ以外だと音楽(BGM)として扱う</p>
+<p><code>p3</code>:サウンドを音楽として扱う際、サウンド情報を更新する時間の間隔(秒単位)</p>
+<p><code>p4</code>:サウンドを音楽として扱う際、サウンド情報を1回更新するときに読み込むサンプル数</p>
+<p><code>(return)</code>:サウンドのリソースID</p>
+<p>指定したファイルからサウンドを作成します。この命令で指定する<code>p1</code>引数には、DPMファイル内のファイルや実行ファイル内に埋め込まれたファイルのパスも指定できます。</p>
 <hr>
 
 </body>
