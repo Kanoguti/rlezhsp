@@ -298,9 +298,9 @@ rlez.dllの内部処理を終了します。この関数はアプリケーショ
 void RlezGroup(int id,const char *name);
 ```
 
-`int id`:リソースID
+`id`:リソースID
 
-`const char *name`:リソースグループ名
+`name`:リソースグループ名の文字列
 
 指定したリソースIDのリソースグループ名を設定します。リソースグループ名を設定することで、[RlezDeleteGroup](#RlezDeleteGroup)関数を使用した際に指定したリソースグループ名に一致するリソースIDをまとめて削除することができます。リソースグループ名のデフォルト値は空の文字列です。
 
