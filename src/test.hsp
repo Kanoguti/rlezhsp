@@ -1,0 +1,26 @@
+#packopt hide 1
+
+#include "hsp3_64.as"
+#include "rlez.hsp"
+
+gsel 0,-1
+rlez_open_window 640,480
+rlez_set_window_focus
+
+while rlez_check_window_close()==0
+rlez_begin_window
+
+rlez_background 255,255,255,255
+
+rlez_begin_2d 0,0,0,0,0,1
+
+rlez_color 0,0,0,255
+rlez_draw_text -1,"Hello, world!",0,0,30,5
+
+rlez_end_2d
+
+rlez_end_draw
+wend
+
+rlez_end
+end

@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reference.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="rlezdll---リファレンス">rlez.dll - リファレンス</h1>
+<p>rlez.dll内の関数の定義と解説です。</p>
+<h2 id="hsp3言語で使用する際の注意">HSP3言語で使用する際の注意</h2>
+<p>HSP3言語では、各関数の名前は全て小文字のスネークケースに置き換えてください。返り値がない場合は「命令」として記述し、返り値がある場合は「関数」として記述してください。</p>
+<pre class="hljs"><code><div>// C言語での記述例
+RlezBegin2D(0,0,0,0,0,1);
+// HSP3言語での記述例
+rlez_begin_2d 0,0,0,0,0,1
+
+// C言語での記述例
+int x=RlezGetMouseX();
+// HSP3言語での記述例
+x=rlez_get_mouse_x()
+</div></code></pre>
+<h2 id="関数一覧">関数一覧</h2>
+<h3 id="rlezdllの初期化と終了">rlez.dllの初期化と終了</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezInit">RlezInit</a></td>
+<td style="text-align:center">rlez.dllの初期化</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEnd">RlezEnd</a></td>
+<td style="text-align:center">rlez.dllの終了</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="リソース管理">リソース管理</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezGroup">RlezGroup</a></td>
+<td style="text-align:center">リソースグループ名の設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDelete">RlezDelete</a></td>
+<td style="text-align:center">リソースの削除</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDeleteGroup">RlezDeleteGroup</a></td>
+<td style="text-align:center">リソースをリソースグループ名を指定してまとめて削除</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDeleteAll">RlezDeleteAll</a></td>
+<td style="text-align:center">リソースを全て削除</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="テンポラリフォルダ関連">テンポラリフォルダ関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadTempDir">RlezLoadTempDir</a></td>
+<td style="text-align:center">テンポラリフォルダの作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDeleteDir">RlezDeleteDir</a></td>
+<td style="text-align:center">フォルダを削除</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ウィンドウ関連">ウィンドウ関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezOpenWindow">RlezOpenWindow</a></td>
+<td style="text-align:center">raylibのウィンドウを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetWindowFocus">RlezSetWindowFocus</a></td>
+<td style="text-align:center">raylibのウィンドウにフォーカスさせる</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezCheckWindowFocus">RlezCheckWindowFocus</a></td>
+<td style="text-align:center">raylibのウィンドウにフォーカスされているかを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetWindowSize">RlezSetWindowSize</a></td>
+<td style="text-align:center">raylibのウィンドウをリサイズ</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetWindowPosition">RlezSetWindowPosition</a></td>
+<td style="text-align:center">raylibのウィンドウの位置を設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetWindowX">RlezGetWindowX</a></td>
+<td style="text-align:center">raylibのウィンドウのX座標を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetWindowY">RlezGetWindowY</a></td>
+<td style="text-align:center">raylibのウィンドウのY座標を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetWindowHandle">RlezGetWindowHandle</a></td>
+<td style="text-align:center">raylibのウィンドウのウィンドウハンドルを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetWindowIcon">RlezSetWindowIcon</a></td>
+<td style="text-align:center">raylibのウィンドウのアイコンを書き換える</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetWindowWidth">RlezGetWindowWidth</a></td>
+<td style="text-align:center">raylibのウィンドウの横幅のサイズを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetWindowHeight">RlezGetWindowHeight</a></td>
+<td style="text-align:center">raylibのウィンドウの縦幅のサイズを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetWidth">RlezGetWidth</a></td>
+<td style="text-align:center">テクスチャの横幅サイズを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetHeight">RlezGetHeight</a></td>
+<td style="text-align:center">テクスチャの縦幅サイズを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezCheckWindowState">RlezCheckWindowState</a></td>
+<td style="text-align:center">raylibのウィンドウのウィンドウステートを確認</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetWindowState">RlezSetWindowState</a></td>
+<td style="text-align:center">raylibのウィンドウのウィンドウステートの設定をする</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetWindowTitle">RlezSetWindowTitle</a></td>
+<td style="text-align:center">raylibのウィンドウのタイトルを設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezCheckWindowClose">RlezCheckWindowClose</a></td>
+<td style="text-align:center">raylibのウィンドウの閉じるボタンが押されたかを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="フレームレート関連">フレームレート関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezGetFrameRate">RlezGetFrameRate</a></td>
+<td style="text-align:center">フレームレートを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetFrameRate">RlezSetFrameRate</a></td>
+<td style="text-align:center">フレームレートを設定</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ディスプレイ関連">ディスプレイ関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezGetDisplayCount">RlezGetDisplayCount</a></td>
+<td style="text-align:center">ディスプレイの数を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetCurrentDisplay">RlezGetCurrentDisplay</a></td>
+<td style="text-align:center">現在raylibのウィンドウが表示されているディスプレイを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetDisplayX">RlezGetDisplayX</a></td>
+<td style="text-align:center">ディスプレイのX座標を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetDisplayY">RlezGetDisplayY</a></td>
+<td style="text-align:center">ディスプレイのY座標を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetDisplayWidth">RlezGetDisplayWidth</a></td>
+<td style="text-align:center">ディスプレイの横幅サイズを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetDisplayHeight">RlezGetDisplayHeight</a></td>
+<td style="text-align:center">ディスプレイの縦幅サイズを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="システム関連">システム関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezGetBackend">RlezGetBackend</a></td>
+<td style="text-align:center">バックエンドレンダラー名を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetTime">RlezGetTime</a></td>
+<td style="text-align:center">raylibのウィンドウを作成してから現在までの時間を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="開始と終了処理関連">開始と終了処理関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezBeginDraw">RlezBeginDraw</a></td>
+<td style="text-align:center">テクスチャに描画開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBeginWindow">RlezBeginWindow</a></td>
+<td style="text-align:center">raylibのウィンドウに描画開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEndDraw">RlezEndDraw</a></td>
+<td style="text-align:center">描画の終了</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBegin2D">RlezBegin2D</a></td>
+<td style="text-align:center">2D描画の開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEnd2D">RlezEnd2D</a></td>
+<td style="text-align:center">2D描画の終了</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBegin3D">RlezBegin3D</a></td>
+<td style="text-align:center">3D描画の開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEnd3D">RlezEnd3D</a></td>
+<td style="text-align:center">3D描画の終了</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBeginBlend">RlezBeginBlend</a></td>
+<td style="text-align:center">ブレンドモードを用いての描画を開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBeginBlendCustom">RlezBeginBlendCustom</a></td>
+<td style="text-align:center">ブレンドファクターを用いての描画を開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBeginBlendCustomSeparate">RlezBeginBlendCustomSeparate</a></td>
+<td style="text-align:center">ブレンドファクターを用いての描画を開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEndBlend">RlezEndBlend</a></td>
+<td style="text-align:center">ブレンドモードまたはブレンドファクターを用いての描画を終了</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBeginShader">RlezBeginShader</a></td>
+<td style="text-align:center">シェーダーを用いての描画を開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEndShader">RlezEndShader</a></td>
+<td style="text-align:center">シェーダーを用いての描画を終了</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="座標変換関連">座標変換関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezPerspective">RlezPerspective</a></td>
+<td style="text-align:center">透視投影行列を透視投影図法に設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezFrustum">RlezFrustum</a></td>
+<td style="text-align:center">透視投影行列を透視投影図法に設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezOrtho">RlezOrtho</a></td>
+<td style="text-align:center">透視投影行列を平行投影図法に設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezPushMatrix">RlezPushMatrix</a></td>
+<td style="text-align:center">現在のモデル行列を記憶</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezPopMatrix">RlezPopMatrix</a></td>
+<td style="text-align:center">記憶したモデル行列を復元</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezTranslate">RlezTranslate</a></td>
+<td style="text-align:center">平行移動行列を適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezScale">RlezScale</a></td>
+<td style="text-align:center">拡大行列を適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezRotateAxis">RlezRotateAxis</a></td>
+<td style="text-align:center">任意軸の回転行列を適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezRotateX">RlezRotateX</a></td>
+<td style="text-align:center">X軸の回転行列を適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezRotateY">RlezRotateY</a></td>
+<td style="text-align:center">Y軸の回転行列を適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezRotateZ">RlezRotateZ</a></td>
+<td style="text-align:center">Z軸の回転行列を適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezRotate">RlezRotate</a></td>
+<td style="text-align:center">2D回転行列を適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezLocalToWorld">RlezLocalToWorld</a></td>
+<td style="text-align:center">ローカル座標からワールド座標へ変換</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezWorldToLocal">RlezWorldToLocal</a></td>
+<td style="text-align:center">ワールド座標からローカル座標へ変換</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezWorldToScreen">RlezWorldToScreen</a></td>
+<td style="text-align:center">ワールド座標からスクリーン座標へ変換</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="テクスチャ関連">テクスチャ関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadRenderTexture">RlezLoadRenderTexture</a></td>
+<td style="text-align:center">空のテクスチャを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadTexture">RlezLoadTexture</a></td>
+<td style="text-align:center">画像ファイルからテクスチャを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadTextureFromMemory">RlezLoadTextureFromMemory</a></td>
+<td style="text-align:center">メモリ上の画像ファイルからテクスチャを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetTextureFilter">RlezSetTextureFilter</a></td>
+<td style="text-align:center">テクスチャのフィルターの設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetTextureMipmaps">RlezSetTextureMipmaps</a></td>
+<td style="text-align:center">テクスチャのミップマップを更新</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="フォント関連">フォント関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadFont">RlezLoadFont</a></td>
+<td style="text-align:center">フォントファイルからフォントデータを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadFontFromMemory">RlezLoadFontFromMemory</a></td>
+<td style="text-align:center">メモリ上のフォントファイルからフォントデータを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ピクセル操作関連">ピクセル操作関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadPixels">RlezLoadPixels</a></td>
+<td style="text-align:center">ピクセル情報を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezCopyPixels">RlezCopyPixels</a></td>
+<td style="text-align:center">取得したピクセル情報をコピー</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezRestorePixels">RlezRestorePixels</a></td>
+<td style="text-align:center">取得したピクセル情報に書き込む</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetPixel">RlezGetPixel</a></td>
+<td style="text-align:center">取得したピクセル情報からピクセルの色を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetPixel">RlezSetPixel</a></td>
+<td style="text-align:center">取得したピクセル情報のピクセルの色を設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezUpdatePixels">RlezUpdatePixels</a></td>
+<td style="text-align:center">変更されたピクセル情報を反映</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSavePixels">RlezSavePixels</a></td>
+<td style="text-align:center">取得したピクセル情報を画像ファイルに保存</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezUnloadPixels">RlezUnloadPixels</a></td>
+<td style="text-align:center">取得したピクセル情報を破棄</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="描画関連">描画関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezBackground">RlezBackground</a></td>
+<td style="text-align:center">背景色を設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezBeginShape">RlezBeginShape</a></td>
+<td style="text-align:center">形状の描画を開始</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezVertex">RlezVertex</a></td>
+<td style="text-align:center">形状の頂点を設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEndShape">RlezEndShape</a></td>
+<td style="text-align:center">形状の描画を実際に行う</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezEndMesh">RlezEndMesh</a></td>
+<td style="text-align:center">作成済みの形状からメッシュを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetMeshTexture">RlezSetMeshTexture</a></td>
+<td style="text-align:center">メッシュのテクスチャを変更</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadModel">RlezLoadModel</a></td>
+<td style="text-align:center">3Dモデルを読み込み</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezFromMeshToModel">RlezFromMeshToModel</a></td>
+<td style="text-align:center">メッシュから3Dモデルを作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetModelTexture">RlezSetModelTexture</a></td>
+<td style="text-align:center">3Dモデルのテクスチャを変更</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetAnimationCount">RlezGetAnimationCount</a></td>
+<td style="text-align:center">3Dモデルのアニメーションの数を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetAnimationId">RlezGetAnimationId</a></td>
+<td style="text-align:center">3Dモデルのアニメーションのインデックス値を文字列から取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetAnimationFrames">RlezGetAnimationFrames</a></td>
+<td style="text-align:center">3Dモデルのアニメーションのキーフレーム数を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetModelAnimation">RlezSetModelAnimation</a></td>
+<td style="text-align:center">3Dモデルにアニメーションを適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetModelAnimationBlend">RlezSetModelAnimationBlend</a></td>
+<td style="text-align:center">3Dモデルのアニメーション2つをブレンドして適用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezColor">RlezColor</a></td>
+<td style="text-align:center">使用する色の設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetColorR">RlezGetColorR</a></td>
+<td style="text-align:center">現在の描画色の赤色の値を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetColorG">RlezGetColorG</a></td>
+<td style="text-align:center">現在の描画色の緑色の値を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetColorB">RlezGetColorB</a></td>
+<td style="text-align:center">現在の描画色の青色の値を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetColorA">RlezGetColorA</a></td>
+<td style="text-align:center">現在の描画色のアルファ値を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawMesh">RlezDrawMesh</a></td>
+<td style="text-align:center">メッシュを描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawModel">RlezDrawModel</a></td>
+<td style="text-align:center">3Dモデルを描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawText">RlezDrawText</a></td>
+<td style="text-align:center">文字列を描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawLine">RlezDrawLine</a></td>
+<td style="text-align:center">線を描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawRect">RlezDrawRect</a></td>
+<td style="text-align:center">長方形を描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawEllipse">RlezDrawEllipse</a></td>
+<td style="text-align:center">楕円を描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawBox">RlezDrawBox</a></td>
+<td style="text-align:center">直方体を描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawSphere">RlezDrawSphere</a></td>
+<td style="text-align:center">球を描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawCylinder">RlezDrawCylinder</a></td>
+<td style="text-align:center">円柱を描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawCapsule">RlezDrawCapsule</a></td>
+<td style="text-align:center">カプセルを描画</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezDrawTexture">RlezDrawTexture</a></td>
+<td style="text-align:center">テクスチャを長方形に貼り付けて描画</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="シェーダー関連">シェーダー関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadShaderFromMemory">RlezLoadShaderFromMemory</a></td>
+<td style="text-align:center">シェーダーをメモリ上の文字列から作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadShader">RlezLoadShader</a></td>
+<td style="text-align:center">シェーダーをファイルから作成</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="サウンド関連">サウンド関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadSoundFromMemory">RlezLoadSoundFromMemory</a></td>
+<td style="text-align:center">サウンドをメモリ上のバイナリデータから作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezLoadSound">RlezLoadSound</a></td>
+<td style="text-align:center">サウンドをファイルから作成</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezStopSound">RlezStopSound</a></td>
+<td style="text-align:center">サウンドを停止</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezPauseSound">RlezPauseSound</a></td>
+<td style="text-align:center">サウンドを一時停止</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezResumeSound">RlezResumeSound</a></td>
+<td style="text-align:center">サウンドの再生を再開</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezPlaySound">RlezPlaySound</a></td>
+<td style="text-align:center">サウンドの再生</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetSoundStatus">RlezGetSoundStatus</a></td>
+<td style="text-align:center">サウンドが再生中か取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetSoundTime">RlezGetSoundTime</a></td>
+<td style="text-align:center">サウンドの再生位置を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetSoundTime">RlezSetSoundTime</a></td>
+<td style="text-align:center">サウンドの再生位置を設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetSoundLength">RlezGetSoundLength</a></td>
+<td style="text-align:center">サウンドの総再生時間を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetSoundPitch">RlezSetSoundPitch</a></td>
+<td style="text-align:center">サウンドの再生スピードを設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetSoundVolume">RlezSetSoundVolume</a></td>
+<td style="text-align:center">サウンドの音量を設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetSoundPan">RlezSetSoundPan</a></td>
+<td style="text-align:center">サウンドのパンニングを設定</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="入力関連">入力関連</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="#RlezGetKey">RlezGetKey</a></td>
+<td style="text-align:center">キーボードのキーが押されているかを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetMouseButton">RlezGetMouseButton</a></td>
+<td style="text-align:center">マウスのボタンが押されているかを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetMouseX">RlezGetMouseX</a></td>
+<td style="text-align:center">マウスカーソルのX座標を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetMouseY">RlezGetMouseY</a></td>
+<td style="text-align:center">マウスカーソルのY座標を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetMousePosition">RlezSetMousePosition</a></td>
+<td style="text-align:center">マウスカーソルを移動させる</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetMouseVisible">RlezSetMouseVisible</a></td>
+<td style="text-align:center">マウスカーソルの表示設定</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezCheckMouseInWindow">RlezCheckMouseInWindow</a></td>
+<td style="text-align:center">マウスカーソルがウィンドウ内にあるかを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetMouseWheelX">RlezGetMouseWheelX</a></td>
+<td style="text-align:center">マウスホイールのX値を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetMouseWheelY">RlezGetMouseWheelY</a></td>
+<td style="text-align:center">マウスホイールのY値を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezCheckGamepad">RlezCheckGamepad</a></td>
+<td style="text-align:center">ゲームパッドが接続されているかを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetGamepadButton">RlezGetGamepadButton</a></td>
+<td style="text-align:center">ゲームパッドのボタンが押されているかを取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetAxisCount">RlezGetAxisCount</a></td>
+<td style="text-align:center">ゲームパッドの軸の数を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezGetGamepadAxis">RlezGetGamepadAxis</a></td>
+<td style="text-align:center">ゲームパッドの軸の値を取得</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="#RlezSetGamepadVibration">RlezSetGamepadVibration</a></td>
+<td style="text-align:center">ゲームパッドを振動させる</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div id="RlezInit"></div>
+<h3 id="rlezinit">RlezInit</h3>
+<pre class="hljs"><code><div>void RlezInit(void);
+</div></code></pre>
+<p>rlez.dllの内部処理を初期化します。この関数は必ず１回は実行してください。</p>
+<hr>
+<div id="RlezEnd"></div>
+<h3 id="rlezend">RlezEnd</h3>
+<pre class="hljs"><code><div>void RlezEnd(void);
+</div></code></pre>
+<p>rlez.dllの内部処理を終了します。この関数はアプリケーションの終了時に必ず実行してください。この関数を実行した際には、内部で<a href="#RlezDeleteAll">RlezDeleteAll</a>関数も実行されます。</p>
+<hr>
+<div id="RlezGroup"></div>
+<h3 id="rlezgroup">RlezGroup</h3>
+<pre class="hljs"><code><div>void RlezGroup(int id,const char *name);
+</div></code></pre>
+<p><code>int id</code>:リソースID</p>
+<p><code>const char *name</code>:リソースグループ名</p>
+<p>指定したリソースIDのリソースグループ名を設定します。リソースグループ名を設定することで、<a href="#RlezDeleteGroup">RlezDeleteGroup</a>関数を使用した際に指定したリソースグループ名に一致するリソースIDをまとめて削除することができます。リソースグループ名のデフォルト値は空の文字列です。</p>
+<hr>
+<div id="RlezDelete"></div>
+<h3 id="rlezdelete">RlezDelete</h3>
+<pre class="hljs"><code><div>void RlezDelete(int id);
+</div></code></pre>
+<p><code>id</code>:リソースID</p>
+<p>指定したリソースIDを削除します。</p>
+<hr>
+<div id="RlezDeleteGroup"></div>
+<h3 id="rlezdeletegroup">RlezDeleteGroup</h3>
+<pre class="hljs"><code><div>void RlezDeleteGroup(const char *name);
+</div></code></pre>
+<p><code>name</code>:リソースグループ名</p>
+<p>指定したリソースグループ名に一致するリソースIDを全て削除します。リソースグループ名については<a href="#RlezGroup">RlezGroup</a>関数の説明をご覧ください。</p>
+<hr>
+<div id="RlezDeleteAll"></div>
+<h3 id="rlezdeleteall">RlezDeleteAll</h3>
+<pre class="hljs"><code><div>void RlezDeleteAll(void);
+</div></code></pre>
+<p>全てのリソースIDに対して<a href="#RlezDelete">RlezDelete</a>関数を実行します。</p>
+<hr>
+<div id="RlezLoadTempDir"></div>
+<h3 id="rlezloadtempdir">RlezLoadTempDir</h3>
+<pre class="hljs"><code><div>void RlezLoadTempDir(char *return_pointer);
+</div></code></pre>
+<p><code>return_pointer</code>:作成されたテンポラリフォルダのパスの文字列を代入させる変数のポインタ</p>
+<p>一時的に使うテンポラリフォルダを作成し、そのフォルダのパスを文字列で取得します。結果を代入させる変数のサイズは、わからなければあらかじめOSのファイルパスの最大文字数分のサイズを確保しておくと良いです。作成されたフォルダは自動的には削除されないので、必要がなくなったら<a href="#RlezDeleteDir">RlezDeleteDir</a>関数を使用して削除してください。</p>
+<hr>
+<div id="RlezDeleteDir"></div>
+<h3 id="rlezdeletedir">RlezDeleteDir</h3>
+<pre class="hljs"><code><div>void RlezDeleteDir(const char *path);
+</div></code></pre>
+<p><code>path</code>:削除するフォルダのパスの文字列</p>
+<p>指定したフォルダとそのフォルダの内部のファイルやフォルダを全て削除します。<a href="#RlezLoadTempDir">RlezLoadTempDir</a>関数で作成されたテンポラリフォルダが必要なくなった際等に使用すると便利です。</p>
+<hr>
+<div id="RlezOpenWindow"></div>
+<h3 id="rlezopenwindow">RlezOpenWindow</h3>
+<pre class="hljs"><code><div>void RlezOpenWindow(int width,int height);
+</div></code></pre>
+<p><code>width</code>:作成するウィンドウの横幅のサイズ</p>
+<p><code>height</code>:作成するウィンドウの縦幅のサイズ</p>
+<p>raylibのウィンドウを指定したサイズで作成します。<code>width</code>引数または<code>height</code>引数を0以下にすると、メインディスプレイのサイズに設定されます。</p>
+<hr>
+<div id="RlezSetWindowFocus"></div>
+<h3 id="rlezsetwindowfocus">RlezSetWindowFocus</h3>
+<pre class="hljs"><code><div>void RlezSetWindowFocus(void);
+</div></code></pre>
+<p>raylibのウィンドウにフォーカスさせます。raylibのウィンドウに現在フォーカスされているかは<a href="#RlezCheckWindowFocus">RlezCheckWindowFocus</a>関数で確認できます。</p>
+<hr>
+<div id="RlezCheckWindowFocus"></div>
+<pre class="hljs"><code><div>int RlezCheckWindowFocus(void);
+</div></code></pre>
+<p><code>(return)</code>:0だとフォーカスはされていない、1だとされている</p>
+<p>raylibのウィンドウに現在フォーカスされているかを取得します。</p>
+<hr>
+<div id="RlezSetWindowSize"></div>
+<h3 id="rlezsetwindowsize">RlezSetWindowSize</h3>
+<pre class="hljs"><code><div>void RlezSetWindowSize(int width,int height);
+</div></code></pre>
+<p><code>width</code>:設定するウィンドウの横幅のサイズ</p>
+<p><code>height</code>:設定するウィンドウの縦幅のサイズ</p>
+<p>作成済みのraylibのウィンドウのサイズを設定します。</p>
+<hr>
+<div id="RlezSetWindowPosition"></div>
+<h3 id="rlezsetwindowposition">RlezSetWindowPosition</h3>
+<pre class="hljs"><code><div>void RlezSetWindowPosition(int x,int y);
+</div></code></pre>
+<p><code>x</code>:設定するウィンドウのX座標</p>
+<p><code>y</code>:設定するウィンドウのY座標</p>
+<p>作成済みのraylibのウィンドウの座標を設定します。</p>
+<hr>
+<div id="RlezGetWindowX"></div>
+<h3 id="rlezgetwindowx">RlezGetWindowX</h3>
+<pre class="hljs"><code><div>int RlezGetWindowX(void);
+</div></code></pre>
+<p><code>(return)</code>:現在のウィンドウのX座標</p>
+<p>作成済みのraylibのウィンドウのX座標を取得します。</p>
+<hr>
+<div id="RlezGetWindowX"></div>
+<h3 id="rlezgetwindowx-1">RlezGetWindowX</h3>
+<pre class="hljs"><code><div>int RlezGetWindowY(void);
+</div></code></pre>
+<p><code>(return)</code>:現在のウィンドウのY座標</p>
+<p>作成済みのraylibのウィンドウのY座標を取得します。</p>
+<hr>
+<div id="RlezGetWindowHandle"></div>
+<h3 id="rlezgetwindowhandle">RlezGetWindowHandle</h3>
+<pre class="hljs"><code><div>void *RlezGetWindowHandle(void);
+</div></code></pre>
+<p><code>(return)</code>:raylibのウィンドウのウィンドウハンドル</p>
+<p>作成済みのraylibのウィンドウのウィンドウハンドルを取得します。</p>
+<hr>
+<div id="RlezSetWindowIcon"></div>
+<h3 id="rlezsetwindowicon">RlezSetWindowIcon</h3>
+<pre class="hljs"><code><div>void RlezSetWindowIcon(int texture);
+</div></code></pre>
+<p><code>texture</code>:テクスチャのリソースID</p>
+<p>作成済みのraylibのウィンドウのアイコンを、指定したテクスチャに書き換えます。</p>
+<hr>
+<div id="RlezGetWindowWidth"></div>
+<h3 id="rlezgetwindowwidth">RlezGetWindowWidth</h3>
+<pre class="hljs"><code><div>int RlezGetWindowWidth(void);
+</div></code></pre>
+<p><code>(return)</code>:現在のウィンドウの横幅のサイズ</p>
+<p>作成済みのraylibのウィンドウの横幅のサイズを取得します。ピクセル単位のサイズを取得したい場合は<a href="#RlezGetWidth">RlezGetWidth</a>関数の<code>resource</code>引数に<code>-1</code>を指定してください。</p>
+<hr>
+<div id="RlezGetWindowHeight"></div>
+<h3 id="rlezgetwindowheight">RlezGetWindowHeight</h3>
+<pre class="hljs"><code><div>int RlezGetWindowHeight(void);
+</div></code></pre>
+<p><code>(return)</code>:現在のウィンドウの縦幅のサイズ</p>
+<p>作成済みのraylibのウィンドウの縦幅のサイズを取得します。ピクセル単位のサイズを取得したい場合は<a href="#RlezGetHeight">RlezGetHeight</a>関数の<code>resource</code>引数に<code>-1</code>を指定してください。</p>
+<hr>
+<div id="RlezGetWidth"></div>
+<h3 id="rlezgetwidth">RlezGetWidth</h3>
+<pre class="hljs"><code><div>int RlezGetWidth(int resource);
+</div></code></pre>
+<p><code>resource</code>:テクスチャのリソースID</p>
+<p><code>(return)</code>:テクスチャの横幅のピクセルサイズ</p>
+<p>指定したテクスチャの横幅のピクセルサイズを取得します。<code>resource</code>引数の値を<code>-1</code>以下にすると、作成済みのraylibのウィンドウの横幅のピクセルサイズを取得します。<a href="#RlezGetWindowWidth">RlezGetWindowWidth</a>関数とは違う挙動をすることにご注意ください。</p>
+<hr>
+<div id="RlezGetHeight"></div>
+<h3 id="rlezgetheight">RlezGetHeight</h3>
+<pre class="hljs"><code><div>int RlezGetHeight(int resource);
+</div></code></pre>
+<p><code>resource</code>:テクスチャのリソースID</p>
+<p><code>(return)</code>:テクスチャの縦幅のピクセルサイズ</p>
+<p>指定したテクスチャの縦幅のピクセルサイズを取得します。<code>resource</code>引数の値を<code>-1</code>以下にすると、作成済みのraylibのウィンドウの縦幅のピクセルサイズを取得します。<a href="#RlezGetWindowHeight">RlezGetWindowHeight</a>関数とは違う挙動をすることにご注意ください。</p>
+<hr>
+<div id="RlezCheckWindowState"></div>
+<h3 id="rlezcheckwindowstate">RlezCheckWindowState</h3>
+<pre class="hljs"><code><div>int RlezCheckWindowState(const char *flag);
+</div></code></pre>
+<p><code>flag</code>:現在の状態を確認するウィンドウステート名</p>
+<p><code>(return)</code>:0だと無効を示し、1だと有効を示す</p>
+<p>指定したウィンドウステートの現在の状態を取得します。指定できるウィンドウステート名は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;FLAG_VSYNC_HINT&quot;
+&quot;FLAG_FULLSCREEN_MODE&quot;
+&quot;FLAG_WINDOW_RESIZABLE&quot;
+&quot;FLAG_WINDOW_UNDECORATED&quot;
+&quot;FLAG_WINDOW_HIDDEN&quot;
+&quot;FLAG_WINDOW_MINIMIZED&quot;
+&quot;FLAG_WINDOW_MAXIMIZED&quot;
+&quot;FLAG_WINDOW_UNFOCUSED&quot;
+&quot;FLAG_WINDOW_TOPMOST&quot;
+&quot;FLAG_WINDOW_ALWAYS_RUN&quot;
+&quot;FLAG_WINDOW_TRANSPARENT&quot;
+&quot;FLAG_WINDOW_HIGHDPI&quot;
+&quot;FLAG_WINDOW_MOUSE_PASSTHROUGH&quot;
+&quot;FLAG_BORDERLESS_WINDOWED_MODE&quot;
+&quot;FLAG_MSAA_4X_HINT&quot;
+&quot;FLAG_INTERLACED_HINT&quot;
+</div></code></pre>
+<p>各ウィンドウステート名の意味はraylibの「<code>raylib.h</code>」ファイル内をご覧ください。</p>
+<hr>
+<div id="RlezSetWindowState"></div>
+<h3 id="rlezsetwindowstate">RlezSetWindowState</h3>
+<pre class="hljs"><code><div>void RlezSetWindowState(const char *flag,int value);
+</div></code></pre>
+<p><code>flag</code>:設定するウィンドウステート名</p>
+<p><code>value</code>:0だと無効化、0以外だと有効化</p>
+<p>指定したウィンドウステートを設定します。<code>flag</code>引数に設定できるウィンドウステート名については<a href="#RlezCheckWindowState">RlezCheckWindowState</a>関数の説明をご覧ください。一部のウィンドウステートは<a href="#RlezOpenWindow">RlezOpenWindow</a>関数を呼び出す前にも設定できます。</p>
+<hr>
+<div id="RlezSetWindowTitle"></div>
+<h3 id="rlezsetwindowtitle">RlezSetWindowTitle</h3>
+<pre class="hljs"><code><div>void RlezSetWindowTitle(const char *title);
+</div></code></pre>
+<p><code>title</code>:ウィンドウのタイトルに設定する文字列</p>
+<p>作成済みのraylibのウィンドウのタイトルの文字列を設定します。</p>
+<hr>
+<div id="RlezCheckWindowClose"></div>
+<h3 id="rlezcheckwindowclose">RlezCheckWindowClose</h3>
+<pre class="hljs"><code><div>int RlezCheckWindowClose(void);
+</div></code></pre>
+<p><code>(return)</code>:0だと閉じるボタンが押されていない、1だと閉じるボタンが押されている</p>
+<p>作成済みのraylibのウィンドウの閉じるボタンが押されたかを取得します。</p>
+<hr>
+<div id="RlezGetFrameRate"></div>
+<h3 id="rlezgetframerate">RlezGetFrameRate</h3>
+<pre class="hljs"><code><div>int RlezGetFrameRate(void);
+</div></code></pre>
+<p><code>(return)</code>:現在のフレームレート</p>
+<p>現在のフレームレートを取得します。</p>
+<hr>
+<div id="RlezSetFrameRate"></div>
+<h3 id="rlezsetframerate">RlezSetFrameRate</h3>
+<pre class="hljs"><code><div>void RlezSetFrameRate(int fps);
+</div></code></pre>
+<p><code>fps</code>:目標フレームレート</p>
+<p>目標とするフレームレートを設定します。</p>
+<hr>
+<div id="RlezGetDisplayCount"></div>
+<h3 id="rlezgetdisplaycount">RlezGetDisplayCount</h3>
+<pre class="hljs"><code><div>int RlezGetDisplayCount(void);
+</div></code></pre>
+<p><code>(return)</code>:ディスプレイの数</p>
+<p>現在有効なディスプレイの数を取得します。</p>
+<hr>
+<div id="RlezGetCurrentDisplay"></div>
+<h3 id="rlezgetcurrentdisplay">RlezGetCurrentDisplay</h3>
+<pre class="hljs"><code><div>int RlezGetCurrentDisplay(void);
+</div></code></pre>
+<p><code>(return)</code>:ディスプレイID</p>
+<p>現在raylibのウィンドウが表示されているディスプレイのIDを取得します。</p>
+<hr>
+<div id="RlezGetDisplayX"></div>
+<h3 id="rlezgetdisplayx">RlezGetDisplayX</h3>
+<pre class="hljs"><code><div>int RlezGetDisplayX(int display);
+</div></code></pre>
+<p><code>display</code>:情報を取得するディスプレイID</p>
+<p><code>(return)</code>:ディスプレイのX座標</p>
+<p>指定したディスプレイのX座標を取得します。</p>
+<hr>
+<div id="RlezGetDisplayY"></div>
+<h3 id="rlezgetdisplayy">RlezGetDisplayY</h3>
+<pre class="hljs"><code><div>int RlezGetDisplayY(int display);
+</div></code></pre>
+<p><code>display</code>:情報を取得するディスプレイID</p>
+<p><code>(return)</code>:ディスプレイのY座標</p>
+<p>指定したディスプレイのY座標を取得します。</p>
+<hr>
+<div id="RlezGetDisplayWidth"></div>
+<h3 id="rlezgetdisplaywidth">RlezGetDisplayWidth</h3>
+<pre class="hljs"><code><div>int RlezGetDisplayWidth(int display);
+</div></code></pre>
+<p><code>display</code>:情報を取得するディスプレイID</p>
+<p><code>(return)</code>:ディスプレイの横幅のサイズ</p>
+<p>指定したディスプレイの横幅のサイズを取得します。</p>
+<hr>
+<div id="RlezGetDisplayHeight"></div>
+<h3 id="rlezgetdisplayheight">RlezGetDisplayHeight</h3>
+<pre class="hljs"><code><div>int RlezGetDisplayHeight(int display);
+</div></code></pre>
+<p><code>display</code>:情報を取得するディスプレイID</p>
+<p><code>(return)</code>:ディスプレイの縦幅のサイズ</p>
+<p>指定したディスプレイの縦幅のサイズを取得します。</p>
+<hr>
+<div id="RlezGetBackend"></div>
+<h3 id="rlezgetbackend">RlezGetBackend</h3>
+<pre class="hljs"><code><div>void RlezGetBackend(char *return_pointer);
+</div></code></pre>
+<p><code>return_pointer</code>:バックエンド名を代入させる文字列型変数のポインタ</p>
+<p>現在raylibの機能が使用しているレンダラーのバックエンド名を取得します。<code>return_pointer</code>引数で指定された変数には、レンダラーのバックエンドが<code>OpenGL 3.3</code>の場合は「<code>&quot;opengl33&quot;</code>」、<code>ANGLE</code>の場合は「<code>&quot;angle&quot;</code>」という文字列が代入されます。<code>return_pointer</code>引数で指定する変数のサイズは、わからなければ32文字分確保しておくと良いです。</p>
+<hr>
+<div id="RlezGetTime"></div>
+<h3 id="rlezgettime">RlezGetTime</h3>
+<pre class="hljs"><code><div>double RlezGetTime(void);
+</div></code></pre>
+<p><code>(return)</code>:<a href="#RlezOpenWindow">RlezOpenWindow</a>関数を実行してからの時間</p>
+<p><a href="#RlezOpenWindow">RlezOpenWindow</a>関数を実行してからの時間を秒単位で取得します。</p>
+<hr>
+<div id="RlezBeginDraw"></div>
+<h3 id="rlezbegindraw">RlezBeginDraw</h3>
+<pre class="hljs"><code><div>void RlezBeginDraw(int resource);
+</div></code></pre>
+<p><code>resource</code>:テクスチャのリソースID</p>
+<p>指定したテクスチャに対して描画を開始します。テクスチャへの描画が完了したら必ず<a href="#RlezEndDraw">RlezEndDraw</a>関数を実行してください。</p>
+<hr>
+<div id="RlezBeginWindow"></div>
+<h3 id="rlezbeginwindow">RlezBeginWindow</h3>
+<pre class="hljs"><code><div>void RlezBeginWindow(void);
+</div></code></pre>
+<p>作成済みのraylibのウィンドウに描画を開始します。raylibのウィンドウへの描画が完了したら必ず<a href="#RlezEndDraw">RlezEndDraw</a>関数を実行してください。さらに、このRlezBeginWindow関数と<a href="#RlezEndDraw">RlezEndDraw</a>関数の組み合わせは必ず毎フレーム実行する必要があります。もしこの組み合わせを実行しなかったら、その間raylibのウィンドウの処理はフリーズしているように見えるでしょう。</p>
+<hr>
+<div id="RlezEndDraw"></div>
+<h3 id="rlezenddraw">RlezEndDraw</h3>
+<pre class="hljs"><code><div>void RlezEndDraw(void);
+</div></code></pre>
+<p>テクスチャやraylibのウィンドウへの描画を完了させます。<a href="#RlezBeginDraw">RlezBeginDraw</a>関数や<a href="#RlezBeginWindow">RlezBeginWindow</a>関数で描画を開始した後、描画を完了させるために必ずこの関数を実行する必要があります。</p>
+<hr>
+<div id="RlezBegin2D"></div>
+<h3 id="rlezbegin2d">RlezBegin2D</h3>
+<pre class="hljs"><code><div>void RlezBegin2D(double offset_x,double offset_y,double target_x,double target_y,double rotation,double zoom);
+</div></code></pre>
+<p><code>offset_x</code>,<code>offset_y</code>:カメラの基準点の座標</p>
+<p><code>target_x</code>,<code>target_y</code>:カメラの注視点の座標</p>
+<p><code>rotation</code>:カメラの角度(度単位)</p>
+<p><code>zoom</code>:カメラの拡大値(1.0で等倍)</p>
+<p>2D描画を開始します。モデル行列は初期化され、ビュー行列と透視投影行列が設定されます。2D描画を終了する際は必ず<a href="#RlezEnd2D">RlezEnd2D</a>関数を実行してください。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezEnd2D"></div>
+<h3 id="rlezend2d">RlezEnd2D</h3>
+<pre class="hljs"><code><div>void RlezEnd2D(void);
+</div></code></pre>
+<p><a href="#RlezBegin2D">RlezBegin2D</a>関数で開始した2D描画を終了します。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezBegin3D"></div>
+<pre class="hljs"><code><div>void RlezBegin3D(double position_x,double position_y,double position_z,double target_x,double target_y,double target_z,double up_x,double up_y,double up_z,double fovy,int projection);
+</div></code></pre>
+<p><code>position_x</code>,<code>position_y</code>,<code>position_z</code>:カメラの位置の座標</p>
+<p><code>target_x</code>,<code>target_y</code>,<code>target_z</code>:カメラの注視点の座標</p>
+<p><code>up_x</code>,<code>up_y</code>,<code>up_z</code>:カメラの上方向とするベクトル(長さは1にすることをおすすめします)</p>
+<p><code>fovy</code>:カメラの縦の視野角(度単位)</p>
+<p><code>projection</code>:0にすると透視投影、0以外だと平行投影</p>
+<p>3D描画を開始します。モデル行列は初期化され、ビュー行列と透視投影行列が設定されます。3D描画を終了する際は必ず<a href="#RlezEnd3D">RlezEnd3D</a>関数を実行してください。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezEnd3D"></div>
+<h3 id="rlezend3d">RlezEnd3D</h3>
+<pre class="hljs"><code><div>void RlezEnd3D(void);
+</div></code></pre>
+<p><a href="#RlezBegin3D">RlezBegin3D</a>関数で開始した3D描画を終了します。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezBeginBlend"></div>
+<h3 id="rlezbeginblend">RlezBeginBlend</h3>
+<pre class="hljs"><code><div>void RlezBeginBlend(const char *mode);
+</div></code></pre>
+<p><code>mode</code>:ブレンドモードを記述した文字列</p>
+<p>指定したブレンドモードでの描画を開始します。指定できるブレンドモードは以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;BLEND_ALPHA&quot;
+&quot;BLEND_ADDITIVE&quot;
+&quot;BLEND_MULTIPLIED&quot;
+&quot;BLEND_ADD_COLORS&quot;
+&quot;BLEND_SUBTRACT_COLORS&quot;
+&quot;BLEND_ALPHA_PREMULTIPLY&quot;
+</div></code></pre>
+<p>各ブレンドモードの意味はraylibの「<code>raylib.h</code>」ファイル内をご覧ください。ブレンドモードでの描画を終了する際は必ず<a href="#RlezEndBlend">RlezEndBlend</a>関数を実行してください。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezBeginBlendCustom"></div>
+<h3 id="rlezbeginblendcustom">RlezBeginBlendCustom</h3>
+<pre class="hljs"><code><div>void RlezBeginBlendCustom(const char *src_factor,const char *dest_factor,const char *equation);
+</div></code></pre>
+<p><code>src_factor</code>:描画元のブレンドファクター名の文字列</p>
+<p><code>dest_factor</code>:描画先のブレンドファクター名の文字列</p>
+<p><code>equation</code>:合成方法の名前の文字列</p>
+<p>指定したブレンドファクターを用いて描画を開始します。ブレンドファクター名の引数に指定できるブレンドファクター名は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;ZERO&quot;
+&quot;ONE&quot;
+&quot;SRC_COLOR&quot;
+&quot;ONE_MINUS_SRC_COLOR&quot;
+&quot;SRC_ALPHA&quot;
+&quot;ONE_MINUS_SRC_ALPHA&quot;
+&quot;DST_ALPHA&quot;
+&quot;ONE_MINUS_DST_ALPHA&quot;
+&quot;DST_COLOR&quot;
+&quot;ONE_MINUS_DST_COLOR&quot;
+&quot;SRC_ALPHA_SATURATE&quot;
+&quot;CONSTANT_COLOR&quot;
+&quot;ONE_MINUS_CONSTANT_COLOR&quot;
+&quot;CONSTANT_ALPHA&quot;
+&quot;ONE_MINUS_CONSTANT_ALPHA&quot;
+</div></code></pre>
+<p>合成方法の名前の引数に指定できる合成方法の名前は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;FUNC_ADD&quot;
+&quot;MIN&quot;
+&quot;MAX&quot;
+&quot;FUNC_SUBTRACT&quot;
+&quot;FUNC_REVERSE_SUBTRACT&quot;
+&quot;BLEND_EQUATION&quot;
+&quot;BLEND_EQUATION_RGB&quot;
+&quot;BLEND_EQUATION_ALPHA&quot;
+&quot;BLEND_DST_RGB&quot;
+&quot;BLEND_SRC_RGB&quot;
+&quot;BLEND_DST_ALPHA&quot;
+&quot;BLEND_SRC_ALPHA&quot;
+&quot;BLEND_COLOR&quot;
+</div></code></pre>
+<p>各名前の意味はraylibの「<code>rlgl.h</code>」ファイルの内容をご覧ください。例えば以下の様に入力すると、図形等を描画した際に描画元の色が描画先の色を完全に上書きするようになります。</p>
+<pre class="hljs"><code><div>RlezBeginBlendCustom(&quot;ONE&quot;,&quot;ZERO&quot;,&quot;FUNC_ADD&quot;)
+</div></code></pre>
+<p>ブレンドファクターを用いての描画を終了する際は必ず<a href="#RlezEndBlend">RlezEndBlend</a>関数を実行してください。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezBeginBlendCustomSeparate"></div>
+<h3 id="rlezbeginblendcustomseparate">RlezBeginBlendCustomSeparate</h3>
+<pre class="hljs"><code><div>void RlezBeginBlendCustomSeparate(const char *src_rgb,const char *dest_rgb,const char *src_alpha,const char *dest_alpha,const char *eq_rgb,const char *eq_alpha);
+</div></code></pre>
+<p><code>src_rgb</code>,<code>dest_rgb</code>:描画元と描画先のRGB値のブレンドファクター名の文字列</p>
+<p><code>src_alpha</code>,<code>dest_alpha</code>:描画元と描画先のアルファ値のブレンドファクター名の文字列</p>
+<p><code>eq_rgb</code>,<code>eq_alpha</code>:RGB値とアルファ値の合成方法の名前の文字列</p>
+<p>指定したブレンドファクターを用いて描画を開始します。<a href="#RlezBeginBlendCustom">RlezBeginBlendCustom</a>関数との違いは、ブレンドファクターをRGB値とアルファ値それぞれに設定できるようになった点です。指定できるブレンドファクター名と合成方法の名前は<a href="#RlezBeginBlendCustom">RlezBeginBlendCustom</a>関数の説明をご覧ください。ブレンドファクターを用いての描画を終了する際は必ず<a href="#RlezEndBlend">RlezEndBlend</a>関数を実行してください。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezEndBlend"></div>
+<h3 id="rlezendblend">RlezEndBlend</h3>
+<pre class="hljs"><code><div>void RlezEndBlend(void);
+</div></code></pre>
+<p><a href="#RlezBeginBlend">RlezBeginBlend</a>関数や<a href="#RlezBeginBlendCustom">RlezBeginBlendCustom</a>関数と<a href="#RlezBeginBlendCustomSeparate">RlezBeginBlendCustomSeparate</a>関数で開始したブレンドモードやブレンドファクターでの描画を終了します。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezBeginShader"></div>
+<h3 id="rlezbeginshader">RlezBeginShader</h3>
+<pre class="hljs"><code><div>void RlezBeginShader(int resource);
+</div></code></pre>
+<p><code>resource</code>:シェーダーのリソースID</p>
+<p>指定したシェーダーを使用する描画を開始します。指定したシェーダーを使用する描画を終了する際は必ず<a href="#RlezEndShader">RlezEndShader</a>関数を実行してください。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezEndShader"></div>
+<h3 id="rlezendshader">RlezEndShader</h3>
+<pre class="hljs"><code><div>void RlezEndShader(void);
+</div></code></pre>
+<p><a href="#RlezBeginShader">RlezBeginShader</a>関数で指定したシェーダーを使用する描画を終了します。この関数は<a href="#RlezBeginDraw">RlezBeginDraw</a>関数または<a href="#RlezBeginWindow">RlezBeginWindow</a>関数から<a href="#RlezEndDraw">RlezEndDraw</a>関数の間に記述してください。</p>
+<hr>
+<div id="RlezPerspective"></div>
+<h3 id="rlezperspective">RlezPerspective</h3>
+<pre class="hljs"><code><div>void RlezPerspective(double fovy,double aspect,double near,double far);
+</div></code></pre>
+<p><code>fovy</code>:縦の視野角(度単位)</p>
+<p><code>aspect</code>:アスペクト比</p>
+<p><code>near</code>:クリッピング面の手前の距離</p>
+<p><code>far</code>:クリッピング面の奥の距離</p>
+<p>現在の透視投影行列を視野角とアスペクト比を用いて透視投影図法に書き換えます。物体の位置がカメラから遠くなるほど物体が小さく見えます。</p>
+<hr>
+<div id="RlezFrustum"></div>
+<h3 id="rlezfrustum">RlezFrustum</h3>
+<pre class="hljs"><code><div>void RlezFrustum(double left,double right,double bottom,double top,double near,double far);
+</div></code></pre>
+<p><code>left</code>:手前のクリッピング面の左の位置</p>
+<p><code>right</code>:手前のクリッピング面の右の位置</p>
+<p><code>bottom</code>:手前のクリッピング面の下の位置</p>
+<p><code>top</code>:手前のクリッピング面の上の位置</p>
+<p><code>near</code>:クリッピング面の手前の距離</p>
+<p><code>far</code>:クリッピング面の奥の距離</p>
+<p>現在の透視投影行列を手前のクリッピング面の位置の設定を用いて透視投影図法に書き換えます。物体の位置がカメラから遠くなるほど物体が小さく見えます。</p>
+<hr>
+<div id="RlezOrtho"></div>
+<h3 id="rlezortho">RlezOrtho</h3>
+<pre class="hljs"><code><div>void RlezOrtho(double left,double right,double bottom,double top,double near,double far);
+</div></code></pre>
+<p><code>left</code>:クリッピング面の左の位置</p>
+<p><code>right</code>:クリッピング面の右の位置</p>
+<p><code>bottom</code>:クリッピング面の下の位置</p>
+<p><code>top</code>:クリッピング面の上の位置</p>
+<p><code>near</code>:クリッピング面の手前の距離</p>
+<p><code>far</code>:クリッピング面の奥の距離</p>
+<p>現在の透視投影行列を平行投影図法に書き換えます。物体の位置がカメラから遠くなっても物体の大きさは変わりません。</p>
+<hr>
+<div id="RlezPushMatrix"></div>
+<h3 id="rlezpushmatrix">RlezPushMatrix</h3>
+<pre class="hljs"><code><div>void RlezPushMatrix(void);
+</div></code></pre>
+<p>現在のモデル行列を記憶します。この関数の後に<a href="#RlezPopMatrix">RlezPopMatrix</a>関数を実行することで、記憶したモデル行列を復元できます。RlezPushMatrix関数を実行した後はRlezPushMatrix関数を実行した回数と同じ回数分<a href="#RlezPopMatrix">RlezPopMatrix</a>関数を実行するようにしてください。raylibの仕様上モデル行列を記憶できる回数には制限があるためです。</p>
+<hr>
+<div id="RlezPopMatrix"></div>
+<h3 id="rlezpopmatrix">RlezPopMatrix</h3>
+<pre class="hljs"><code><div>void RlezPopMatrix(void);
+</div></code></pre>
+<p><a href="#RlezPushMatrix">RlezPushMatrix</a>関数で記憶したモデル行列を現在のモデル行列に復元した後破棄します。<a href="#RlezPushMatrix">RlezPushMatrix</a>関数で何もモデル行列を記憶していない状態でRlezPopMatrix関数を呼び出さないようにしてください。</p>
+<hr>
+<div id="RlezTranslate"></div>
+<h3 id="rleztranslate">RlezTranslate</h3>
+<pre class="hljs"><code><div>void RlezTranslate(double x,double y,double z);
+</div></code></pre>
+<p><code>x</code>,<code>y</code>,<code>z</code>:平行移動する距離</p>
+<p>平行移動行列を作成し、現在のモデル行列に掛けます。描画の基準点の座標が移動します。</p>
+<hr>
+<div id="RlezScale"></div>
+<h3 id="rlezscale">RlezScale</h3>
+<pre class="hljs"><code><div>void RlezScale(double x,double y,double z);
+</div></code></pre>
+<p><code>x</code>,<code>y</code>,<code>z</code>:拡大率(それぞれ1.0で等倍)</p>
+<p>拡大行列を作成し、現在のモデル行列に掛けます。描画の基準点からの拡大率が乗算されます。</p>
+<hr>
+<div id="RlezRotateAxis"></div>
+<h3 id="rlezrotateaxis">RlezRotateAxis</h3>
+<pre class="hljs"><code><div>void RlezRotateAxis(double angle,double x,double y,double z);
+</div></code></pre>
+<p><code>angle</code>:回転させる角度(度単位)</p>
+<p><code>x</code>,<code>y</code>,<code>z</code>:回転させる軸</p>
+<p>指定した角度と軸から回転行列を作成し、現在のモデル行列に掛けます。描画の基準点が回転します。</p>
+<hr>
+<div id="RlezRotateX"></div>
+<h3 id="rlezrotatex">RlezRotateX</h3>
+<pre class="hljs"><code><div>void RlezRotateX(double angle);
+</div></code></pre>
+<p><code>angle</code>:回転させる角度(度単位)</p>
+<p>描画の基準点のX軸を回転させます。行っている処理は以下と同等です。</p>
+<pre class="hljs"><code><div>RlezRotateAxis(angle,1,0,0);
+</div></code></pre>
+<hr>
+<div id="RlezRotateY"></div>
+<h3 id="rlezrotatey">RlezRotateY</h3>
+<pre class="hljs"><code><div>void RlezRotateY(double angle);
+</div></code></pre>
+<p><code>angle</code>:回転させる角度(度単位)</p>
+<p>描画の基準点のY軸を回転させます。行っている処理は以下と同等です。</p>
+<pre class="hljs"><code><div>RlezRotateAxis(angle,1,0,0);
+</div></code></pre>
+<hr>
+<div id="RlezRotateZ"></div>
+<h3 id="rlezrotatez">RlezRotateZ</h3>
+<pre class="hljs"><code><div>void RlezRotateZ(double angle);
+</div></code></pre>
+<p><code>angle</code>:回転させる角度(度単位)</p>
+<p>描画の基準点のZ軸を回転させます。行っている処理は以下と同等です。</p>
+<pre class="hljs"><code><div>RlezRotateAxis(angle,1,0,0);
+</div></code></pre>
+<hr>
+<div id="RlezRotate"></div>
+<h3 id="rlezrotate">RlezRotate</h3>
+<pre class="hljs"><code><div>void RlezRotate(double angle);
+</div></code></pre>
+<p><code>angle</code>:回転させる角度(度単位)</p>
+<p>2D回転させます。行っている処理は<a href="#RlezRotateZ">RlezRotateZ</a>関数と同じです。</p>
+<hr>
+<div id="RlezLocalToWorld"></div>
+<h3 id="rlezlocaltoworld">RlezLocalToWorld</h3>
+<pre class="hljs"><code><div>void RlezLocalToWorld(double sx,double sy,double sz,double *dx,double *dy,double *dz);
+</div></code></pre>
+<p><code>sx</code>,<code>sy</code>,<code>sz</code>:変換前の座標(ローカル座標)</p>
+<p><code>dx</code>,<code>dy</code>,<code>dz</code>:変換後の座標(ワールド座標)を代入させる変数へのポインタ</p>
+<p>現在のモデル行列を基に、ローカル座標からワールド座標に変換します。</p>
+<hr>
+<div id="RlezWorldToLocal"></div>
+<h3 id="rlezworldtolocal">RlezWorldToLocal</h3>
+<pre class="hljs"><code><div>void RlezWorldToLocal(double sx,double sy,double sz,double *dx,double *dy,double *dz);
+</div></code></pre>
+<p><code>sx</code>,<code>sy</code>,<code>sz</code>:変換前の座標(ワールド座標)</p>
+<p><code>dx</code>,<code>dy</code>,<code>dz</code>:変換後の座標(ローカル座標)を代入させる変数へのポインタ</p>
+<p>現在のモデル行列を基に、ワールド座標からローカル座標に変換します。</p>
+<hr>
+<div id="RlezWorldToScreen"></div>
+<h3 id="rlezworldtoscreen">RlezWorldToScreen</h3>
+<pre class="hljs"><code><div>void RlezWorldToScreen(double screen_x,double screen_y,double screen_w,double screen_h,double sx,double sy,double sz,double *dx,double *dy,double *dz,double *dw);
+</div></code></pre>
+<p><code>screen_x</code>,<code>screen_y</code>:スクリーンの中心の座標</p>
+<p><code>screen_w</code>,<code>screen_h</code>:スクリーンの横幅と縦幅</p>
+<p><code>sx</code>,<code>sy</code>,<code>sz</code>:変換前の座標(ワールド座標)</p>
+<p><code>dx</code>,<code>dy</code>,<code>dz</code>,<code>dw</code>:変換後の座標(スクリーン座標)を代入させる変数へのポインタ</p>
+<p>現在のビュー行列と透視投影行列を基に、ワールド座標からスクリーン座標に変換します。</p>
+<hr>
+<div id="RlezLoadRenderTexture"></div>
+<h3 id="rlezloadrendertexture">RlezLoadRenderTexture</h3>
+<pre class="hljs"><code><div>int RlezLoadRenderTexture(int width,int height);
+</div></code></pre>
+<p><code>width</code>:テクスチャの横幅のサイズ</p>
+<p><code>height</code>:テクスチャの縦幅のサイズ</p>
+<p><code>(return)</code>:作成されたテクスチャのリソースID</p>
+<p>空のテクスチャを作成します。rlez.dllでは、レンダーテクスチャもテクスチャとして扱います。</p>
+<hr>
+<div id="RlezLoadTexture"></div>
+<h3 id="rlezloadtexture">RlezLoadTexture</h3>
+<pre class="hljs"><code><div>int RlezLoadTexture(const char *path);
+</div></code></pre>
+<p><code>path</code>:画像ファイルへのパスの文字列</p>
+<p><code>(return)</code>:作成されたテクスチャのリソースID</p>
+<p>画像ファイルからテクスチャを作成します。</p>
+<hr>
+<div id="RlezLoadTextureFromMemory"></div>
+<h3 id="rlezloadtexturefrommemory">RlezLoadTextureFromMemory</h3>
+<pre class="hljs"><code><div>int RlezLoadTextureFromMemory(const char *file_type,void *data,int size);
+</div></code></pre>
+<p><code>file_type</code>:画像ファイルの拡張子の文字列(例えば<code>&quot;.png&quot;</code>)(ドットを含めてください)</p>
+<p><code>data</code>:画像ファイルのバイナリデータが書き込まれている変数へのポインタ</p>
+<p><code>size</code>:画像ファイルのバイナリデータのサイズ</p>
+<p><code>(return)</code>:作成されたテクスチャのリソースID</p>
+<p>メモリ上の画像ファイルのバイナリデータからテクスチャを作成します。</p>
+<hr>
+<div id="RlezSetTextureFilter"></div>
+<h3 id="rlezsettexturefilter">RlezSetTextureFilter</h3>
+<pre class="hljs"><code><div>void RlezSetTextureFilter(int texture,const char *filter_type);
+</div></code></pre>
+<p><code>texture</code>:テクスチャのリソースID</p>
+<p><code>filter_type</code>:フィルターのタイプ名の文字列</p>
+<p>指定したテクスチャを拡大や縮小をして描画する際のフィルターの設定を行います。<code>filter_type</code>引数に設定できるフィルターのタイプ名は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;TEXTURE_FILTER_POINT&quot;
+&quot;TEXTURE_FILTER_BILINEAR&quot;
+&quot;TEXTURE_FILTER_TRILINEAR&quot;(*)
+&quot;TEXTURE_FILTER_ANISOTROPIC_4X&quot;(*)
+&quot;TEXTURE_FILTER_ANISOTROPIC_8X&quot;(*)
+&quot;TEXTURE_FILTER_ANISOTROPIC_16X&quot;(*)
+</div></code></pre>
+<p>上記のうち、「<code>(*)</code>」がついているタイプ名を使用する際は、テクスチャを読み込んだ後や書き換えた後に<a href="#RlezSetTextureMipmaps">RlezSetTextureMipmaps</a>関数を実行してミップマップを更新する必要があります。</p>
+<hr>
+<div id="RlezSetTextureMipmaps"></div>
+<h3 id="rlezsettexturemipmaps">RlezSetTextureMipmaps</h3>
+<pre class="hljs"><code><div>void RlezSetTextureMipmaps(int texture);
+</div></code></pre>
+<p><code>texture</code>:テクスチャのリソースID</p>
+<p>指定したテクスチャのミップマップを更新します。<a href="#RlezSetTextureFilter">RlezSetTextureFilter</a>関数の説明に記述されている一部のフィルターを使用しているテクスチャを読み込んだ後や書き換えた後にこの関数を実行する必要があります。</p>
+<hr>
+<div id="RlezLoadFont"></div>
+<h3 id="rlezloadfont">RlezLoadFont</h3>
+<pre class="hljs"><code><div>int RlezLoadFont(const char *path,int font_size,const char *target_string,int target_image_width,int target_image_height);
+</div></code></pre>
+<p><code>path</code>:フォントファイルのパスの文字列</p>
+<p><code>font_size</code>:生成されるフォントデータ内のフォントテクスチャに描画されるフォントサイズ</p>
+<p><code>target_string</code>:生成されるフォントデータ内のフォントテクスチャに描画される文字群の文字列</p>
+<p><code>target_image_width</code>,<code>target_image_height</code>:内部で生成されるフォントテクスチャの目標サイズの横幅と縦幅</p>
+<p><code>(return)</code>:フォントデータのリソースID</p>
+<p>フォントファイルからフォントデータを作成します。フォントデータの内部で作成されるフォントテクスチャに<code>target_string</code>引数に指定された文字群を描画します。<a href="#RlezDrawText">RlezDrawText</a>関数で文字列を描画する際、そのフォントテクスチャを使用して描画します。<code>target_strint</code>引数を空「<code>&quot;&quot;</code>」に設定すると、下記の通りの基本的な英数字に設定されます。</p>
+<pre><code>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890\&quot;!`?'.,;:()[]{}&lt;&gt;|/@\\^$-%+=#_&amp;~*
+</code></pre>
+<p>フォントテクスチャ作成時、大まかに以下の処理が行われます。</p>
+<ol>
+<li><code>target_image_width</code>引数と<code>target_image_height</code>引数で指定した目標フォントテクスチャサイズを基に、大雑把に<code>target_string</code>引数の一部の文字を切り取る。</li>
+<li>切り取った<code>target_string</code>引数の一部の文字を使ってフォントテクスチャを作成する。</li>
+<li>「2.」で作成したフォントテクスチャのサイズが<code>target_image_width</code>引数と<code>target_image_height</code>引数以上だったら「5.」に進む。そうでない場合は次へ。</li>
+<li>切り取った<code>target_string</code>引数の一部に残りの文字を1文字ずつ足して「2.」に戻る。</li>
+<li>切り取った<code>target_string</code>引数の一部を使ったフォントテクスチャの作成を完了し、フォントデータに登録する。もし<code>target_string</code>引数の文字の中でフォントテクスチャに描画していない文字があったらその残りの文字の一部を切り取って「2.」に戻る。もし残りの文字が空だった場合、次へ。</li>
+<li>フォントデータの作成を終了する。</li>
+</ol>
+<hr>
+<div id="RlezLoadFontFromMemory"></div>
+<h3 id="rlezloadfontfrommemory">RlezLoadFontFromMemory</h3>
+<pre class="hljs"><code><div>int RlezLoadFontFromMemory(void *font_data,int font_data_size,int font_size,const char *target_string,int target_image_width,int target_image_height);
+</div></code></pre>
+<p><code>font_data</code>:フォントファイルのバイナリデータが入った変数へのポインタ</p>
+<p><code>font_data_size</code>:フォントファイルのサイズ</p>
+<p><code>font_size</code>:生成されるフォントデータ内のフォントテクスチャに描画されるフォントサイズ</p>
+<p><code>target_string</code>:生成されるフォントデータ内のフォントテクスチャに描画される文字群の文字列</p>
+<p><code>target_image_width</code>,<code>target_image_height</code>:内部で生成されるフォントテクスチャの目標サイズの横幅と縦幅</p>
+<p><code>(return)</code>:フォントデータのリソースID</p>
+<p>メモリ上のフォントファイルのバイナリデータからフォントデータを作成します。<code>font_size</code>引数と<code>target_string</code>引数と<code>target_image_width</code>引数と<code>target_image_height</code>引数に関しては<a href="#RlezLoadFont">RlezLoadFont</a>関数と同じです。フォントデータを作成する過程については<a href="#RlezLoadFont">RlezLoadFont</a>関数の説明をご覧ください。</p>
+<hr>
+<div id="RlezLoadPixels"></div>
+<h3 id="rlezloadpixels">RlezLoadPixels</h3>
+<pre class="hljs"><code><div>void RlezLoadPixels(int texture,const char *format);
+</div></code></pre>
+<p><code>texture</code>:テクスチャのリソースID</p>
+<p><code>format</code>:ピクセルデータのフォーマット名の文字列</p>
+<p>指定したテクスチャのピクセル情報を取得します。この関数を実行する際、内部では<a href="#RlezUnloadPixels">RlezUnloadPixels</a>関数が最初に実行されます。ピクセル情報を取得した後、必要がなくなったら<a href="#RlezUnloadPixels">RlezUnloadPixels</a>関数を実行してください。<code>format</code>引数で指定できるフォーマット名は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;RGBA&quot;(1ピクセルあたり4バイト)
+&quot;RGB&quot;(1ピクセルあたり3バイト)
+&quot;BGR&quot;(1ピクセルあたり3バイト)
+</div></code></pre>
+<p>取得したピクセル情報のサイズの計算は<code>テクスチャの横幅*テクスチャの縦幅*1ピクセルあたりのバイト数</code>になります。</p>
+<hr>
+<div id="RlezCopyPixels"></div>
+<h3 id="rlezcopypixels">RlezCopyPixels</h3>
+<pre class="hljs"><code><div>void RlezCopyPixels(int src_offset,int src_length,void *dest_pointer,int dest_offset);
+</div></code></pre>
+<p><code>src_offset</code>:読み込み元のピクセル情報の読み込み開始位置(バイト単位)</p>
+<p><code>src_length</code>:読み込み元のピクセル情報を読み込む長さ(バイト単位)</p>
+<p><code>dest_pointer</code>:ピクセル情報の書き込み先の変数のポインタ</p>
+<p><code>dest_offset</code>:ピクセル情報の書き込み先の変数の書き込み開始位置</p>
+<p><a href="#RlezLoadPixels">RlezLoadPixels</a>関数で取得したピクセル情報を指定した変数にコピーします。読み込み元のピクセル情報から書き込み先の変数に書き込む際、オーバーフローしないように気を付けてください。</p>
+<hr>
+<div id="RlezRestorePixels"></div>
+<h3 id="rlezrestorepixels">RlezRestorePixels</h3>
+<pre class="hljs"><code><div>void RlezRestorePixels(void *src_pointer,int src_offset,int src_length,int dest_offset);
+</div></code></pre>
+<p><code>src_pointer</code>:読み込み元のピクセル情報の変数のポインタ</p>
+<p><code>src_offset</code>:読み込み元のピクセル情報の読み込み開始位置(バイト単位)</p>
+<p><code>src_length</code>:読み込み元のピクセル情報を読み込む長さ(バイト単位)</p>
+<p><code>dest_offset</code>:ピクセル情報の書き込み先の書き込み開始位置</p>
+<p><a href="#RlezLoadPixels">RlezLoadPixels</a>関数で取得したピクセル情報のデータを書き換えます。読み込み元のピクセル情報の変数から書き込み先のピクセル情報のデータに書き込む際、オーバーフローしないように気を付けてください。ピクセル情報を書き換えたら、<a href="#RlezUpdatePixels">RlezUpdatePixels</a>関数を実行するまで元のテクスチャにピクセル情報は反映されません。</p>
+<hr>
+<div id="RlezGetPixel"></div>
+<h3 id="rlezgetpixel">RlezGetPixel</h3>
+<pre class="hljs"><code><div>void RlezGetPixel(int x,int y);
+</div></code></pre>
+<p><code>x</code>:ピクセル情報のデータのピクセルのX座標</p>
+<p><code>y</code>:ピクセル情報のデータのピクセルのY座標</p>
+<p><a href="#RlezLoadPixels">RlezLoadPixels</a>関数で取得したピクセル情報のデータから指定した座標のピクセルの色を取得します。取得した色情報は、<a href="#RlezGetColorR">RlezGetColorR</a>関数、<a href="#RlezGetColorG">RlezGetColorG</a>関数、<a href="#RlezGetColorB">RlezGetColorB</a>関数、<a href="#RlezGetColorA">RlezGetColorA</a>関数で取得できます。つまり、<a href="#RlezColor">RlezColor</a>関数の設定が書き換えられます。</p>
+<hr>
+<div id="RlezSetPixel"></div>
+<h3 id="rlezsetpixel">RlezSetPixel</h3>
+<pre class="hljs"><code><div>void RlezSetPixel(int x,int y);
+</div></code></pre>
+<p><code>x</code>:ピクセル情報のデータのピクセルのX座標</p>
+<p><code>y</code>:ピクセル情報のデータのピクセルのY座標</p>
+<p><a href="#RlezLoadPixels">RlezLoadPixels</a>関数で取得したピクセル情報のデータの指定した座標のピクセルの色を、現在<a href="#RlezColor">RlezColor</a>関数で設定されている色に書き換えます。ピクセル情報を書き換えたら、<a href="#RlezUpdatePixels">RlezUpdatePixels</a>関数を実行するまで元のテクスチャにピクセル情報は反映されません。</p>
+<hr>
+<div id="RlezUpdatePixels"></div>
+<h3 id="rlezupdatepixels">RlezUpdatePixels</h3>
+<pre class="hljs"><code><div>void RlezUpdatePixels(void);
+</div></code></pre>
+<p><a href="#RlezLoadPixels">RlezLoadPixels</a>関数で取得したピクセル情報のデータを<a href="#RlezRestorePixels">RlezRestorePixels</a>関数等で書き換えた後にこの関数を実行することで、元のテクスチャにピクセル情報を反映させます。</p>
+<hr>
+<div id="RlezSavePixels"></div>
+<h3 id="rlezsavepixels">RlezSavePixels</h3>
+<pre class="hljs"><code><div>void RlezSavePixels(const char *path);
+</div></code></pre>
+<p><code>path</code>:保存先の画像ファイルのパスの文字列</p>
+<p><a href="#RlezLoadPixels">RlezLoadPixels</a>関数で取得したピクセル情報のデータを指定した画像ファイルのパスに保存します。<code>path</code>引数には「<code>&quot;image.png&quot;</code>」のように拡張子まで入力してください。</p>
+<hr>
+<div id="RlezUnloadPixels"></div>
+<h3 id="rlezunloadpixels">RlezUnloadPixels</h3>
+<pre class="hljs"><code><div>void RlezUnloadPixels(void);
+</div></code></pre>
+<p><a href="#RlezLoadPixels">RlezLoadPixels</a>関数で取得したピクセル情報のデータを破棄します。<a href="#RlezLoadPixels">RlezLoadPixels</a>関数でピクセル情報を取得した後、必要がなくなったらこの関数を実行してください。</p>
+<hr>
+<div id="RlezBackground"></div>
+<h3 id="rlezbackground">RlezBackground</h3>
+<pre class="hljs"><code><div>void RlezBackground(int r,int g,int b,int a);
+</div></code></pre>
+<p><code>r</code>:赤色の値(0～255)</p>
+<p><code>g</code>:緑色の値(0～255)</p>
+<p><code>b</code>:青色の値(0～255)</p>
+<p><code>a</code>:透明度の値(0～255)</p>
+<p>現在の描画先のピクセル情報を全て削除し、指定された色で全体を塗りつぶします。</p>
+<hr>
+<div id="RlezBeginShape"></div>
+<h3 id="rlezbeginshape">RlezBeginShape</h3>
+<pre class="hljs"><code><div>void RlezBeginShape(const char *mode,int auto_normal,int resource);
+</div></code></pre>
+<p><code>mode</code>:描画する形状の名前</p>
+<p><code>auto_normal</code>:法線ベクトルを自動設定するか(0だと手動、0以外だと自動)</p>
+<p><code>resource</code>:形状のテクスチャにするテクスチャのリソースID(0未満だと無効化)</p>
+<p>形状の描画を開始します。形状の描画の手順は以下の通りです。</p>
+<ol>
+<li><a href="#RlezBeginShape">RlezBeginShape</a>関数で形状の描画を開始する。</li>
+<li><a href="#RlezVertex">RlezVertex</a>関数を任意回数実行し、形状の頂点情報を設定する。</li>
+<li><a href="#RlezEndShape">RlezEndShape</a>関数を実行して形状の描画を行うか、<a href="#RlezEndMesh">RlezEndMesh</a>関数を実行して形状からメッシュを取得して完了。</li>
+</ol>
+<p><code>mode</code>引数で設定できる形状の名前は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;TRIANGLES&quot;(1-&gt;2-&gt;3,4-&gt;5-&gt;6,7-&gt;8-&gt;9,...)
+&quot;TRIANGLE_FAN&quot;(1-&gt;2-&gt;3,1-&gt;3-&gt;4,1-&gt;4-&gt;5,...)
+&quot;TRIANGLE_STRIP&quot;(1-&gt;2-&gt;3,2-&gt;3-&gt;4,3-&gt;4-&gt;5,...)
+&quot;LINES&quot;(1-&gt;2,3-&gt;4,5-&gt;6,...)
+&quot;LINE_LOOP&quot;(1-&gt;2,2-&gt;3,3-&gt;4,...,N-&gt;1)
+&quot;LINE_STRIP&quot;(1-&gt;2,2-&gt;3,3-&gt;4,...)
+</div></code></pre>
+<p>上記の形状の名前の右に記述されている数列は、例えば「<code>1-&gt;2-&gt;3</code>」は「1回目、2回目、3回目の<a href="#RlezVertex">RlezVertex</a>関数で設定した3つの頂点を繋いだ三角形を描画する」ということを表し、「<code>1-&gt;2</code>」は「1回目、2回目の<a href="#RlezVertex">RlezVertex</a>関数で設定した2つの頂点を繋いだ線を描画する」ということを表します。<code>auto_normal</code>引数を0以外にすると、<a href="#RlezVertex">RlezVertex</a>関数を呼び出す際に自動で法線ベクトルを計算するようになります。この状態の場合、<a href="#RlezVertex">RlezVertex</a>関数の法線ベクトルを設定する引数は無視されます。形状にテクスチャを貼る場合、<code>resource</code>引数にはテクスチャのリソースIDを設定してください。もしテクスチャを貼らない場合は、「<code>-1</code>」のように0未満の値を設定してください。</p>
+<hr>
+<div id="RlezVertex"></div>
+<h3 id="rlezvertex">RlezVertex</h3>
+<pre class="hljs"><code><div>void RlezVertex(double x,double y,double z,double u,double v,int r,int g,int b,int a,double nx,double ny,double nz);
+</div></code></pre>
+<p><code>x</code>,<code>y</code>,<code>z</code>:追加する頂点の座標</p>
+<p><code>u</code>,<code>v</code>:追加するテクスチャ座標(ピクセル単位)</p>
+<p><code>r</code>,<code>g</code>,<code>b</code>,<code>a</code>:追加する頂点の色(それぞれ0～255)</p>
+<p><code>nx</code>,<code>ny</code>,<code>nz</code>:追加する頂点の法線ベクトル</p>
+<p><a href="#RlezBeginShape">RlezBeginShape</a>関数で形状の描画を開始後にこの関数を任意回数実行することで、形状の頂点情報を設定します。形状にテクスチャを貼り付ける設定をした場合、テクスチャ座標の値を入力する際はピクセル単位で入力することにご注意ください。つまり<code>u</code>引数はテクスチャ内のX座標、<code>v</code>引数はテクスチャ内のY座標を入力することになります。<a href="#RlezBeginShape">RlezBeginShape</a>関数を実行した際に法線ベクトルを自動計算する設定を行った場合は、<code>nx</code>引数と<code>ny</code>引数と<code>nz</code>引数に入力した値は無視されます。</p>
+<hr>
+<div id="RlezEndShape"></div>
+<h3 id="rlezendshape">RlezEndShape</h3>
+<pre class="hljs"><code><div>void RlezEndShape();
+</div></code></pre>
+<p><a href="#RlezBeginShape">RlezBeginShape</a>関数と<a href="#RlezVertex">RlezVertex</a>関数で形状の設定を行った後、この関数で形状の描画を実際に行います。</p>
+<hr>
+<div id="RlezEndMesh"></div>
+<h3 id="rlezendmesh">RlezEndMesh</h3>
+<pre class="hljs"><code><div>int RlezEndMesh();
+</div></code></pre>
+<p><code>(return)</code>:メッシュのリソースID</p>
+<p><a href="#RlezBeginShape">RlezBeginShape</a>関数と<a href="#RlezVertex">RlezVertex</a>関数で形状の設定を行った後、この関数で形状のメッシュを取得します。</p>
+<hr>
+<div id="RlezSetMeshTexture"></div>
+<h3 id="rlezsetmeshtexture">RlezSetMeshTexture</h3>
+<pre class="hljs"><code><div>void RlezSetMeshTexture(int mesh,int texture);
+</div></code></pre>
+<p><code>mesh</code>:メッシュのリソースID</p>
+<p><code>texture</code>:メッシュに貼り付けるテクスチャのリソースID</p>
+<p><a href="#RlezEndMesh">RlezEndMesh</a>関数で作成したメッシュのテクスチャを書き換えます。</p>
+<hr>
+<div id="RlezLoadModel"></div>
+<h3 id="rlezloadmodel">RlezLoadModel</h3>
+<pre class="hljs"><code><div>int RlezLoadModel(const char *path,int load_animation);
+</div></code></pre>
+<p><code>path</code>:読み込む3Dモデルファイルのパスの文字列</p>
+<p><code>load_animation</code>:3Dモデルのアニメーションも読み込むかの設定(0だと読み込まない、0以外だと読み込む)</p>
+<p><code>(return)</code>:3DモデルのリソースID</p>
+<p>指定した3Dモデルファイルから3DモデルのリソースIDを作成します。</p>
+<hr>
+<div id="RlezFromMeshToModel"></div>
+<h3 id="rlezfrommeshtomodel">RlezFromMeshToModel</h3>
+<pre class="hljs"><code><div>void RlezFromMeshToModel(int mesh);
+</div></code></pre>
+<p><code>mesh</code>:メッシュのリソースID</p>
+<p>指定したメッシュから3Dモデルに変換します。この関数を実行後、<code>mesh</code>引数で指定したメッシュのリソースIDは、3DモデルのリソースIDに変わります。</p>
+<hr>
+<div id="RlezSetModelTexture"></div>
+<h3 id="rlezsetmodeltexture">RlezSetModelTexture</h3>
+<pre class="hljs"><code><div>void RlezSetModelTexture(int model,int material_index,const char *map_name,int texture);
+</div></code></pre>
+<p><code>model</code>:3DモデルのリソースID</p>
+<p><code>material_index</code>:3Dモデル内にあるマテリアルの書き換える対象とするインデックス値</p>
+<p><code>map_name</code>:マテリアルマップ名の文字列</p>
+<p><code>texture</code>:テクスチャのリソースID</p>
+<p>指定した3Dモデルのテクスチャを書き換えます。<code>map_name</code>引数で使用できるマテリアルマップ名は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;MATERIAL_MAP_ALBEDO&quot;
+&quot;MATERIAL_MAP_METALNESS&quot;
+&quot;MATERIAL_MAP_NORMAL&quot;
+&quot;MATERIAL_MAP_ROUGHNESS&quot;
+&quot;MATERIAL_MAP_OCCLUSION&quot;
+&quot;MATERIAL_MAP_EMISSION&quot;
+&quot;MATERIAL_MAP_HEIGHT&quot;
+&quot;MATERIAL_MAP_CUBEMAP&quot;
+&quot;MATERIAL_MAP_IRRADIANCE&quot;
+&quot;MATERIAL_MAP_PREFILTER&quot;
+&quot;MATERIAL_MAP_BRDF&quot;
+&quot;MATERIAL_MAP_DIFFUSE&quot;
+&quot;MATERIAL_MAP_SPECULAR&quot;
+</div></code></pre>
+<p>各マテリアルマップ名の意味はraylibの「<code>raylib.h</code>」ファイル内をご覧ください。</p>
+<hr>
+<div id="RlezGetAnimationCount"></div>
+<h3 id="rlezgetanimationcount">RlezGetAnimationCount</h3>
+<pre class="hljs"><code><div>int RlezGetAnimationCount(int model);
+</div></code></pre>
+<p><code>model</code>:3DモデルのリソースID</p>
+<p><code>(return)</code>:3Dモデル内のアニメーションの数</p>
+<p>指定した3Dモデル内に存在するアニメーションの数を取得します。</p>
+<hr>
+<div id="RlezGetAnimationId"></div>
+<h3 id="rlezgetanimationid">RlezGetAnimationId</h3>
+<pre class="hljs"><code><div>int RlezGetAnimationId(int model,const char *name);
+</div></code></pre>
+<p><code>model</code>:3DモデルのリソースID</p>
+<p><code>name</code>:3Dモデル内のアニメーション名</p>
+<p><code>(return)</code>:3Dモデルのアニメーションのインデックス値</p>
+<p>指定した3Dモデル内のアニメーション名からアニメーションのインデックス値を取得します。見つからなかった場合は<code>(return)</code>に<code>-1</code>が入ります。</p>
+<hr>
+<div id="RlezGetAnimationFrames"></div>
+<h3 id="rlezgetanimationframes">RlezGetAnimationFrames</h3>
+<pre class="hljs"><code><div>int RlezGetAnimationFrames(int model,int id);
+</div></code></pre>
+<p><code>model</code>:3DモデルのリソースID</p>
+<p><code>id</code>:3Dモデルのアニメーションのインデックス値</p>
+<p><code>(return)</code>:3Dモデルのキーフレーム数</p>
+<p>指定した3Dモデルのアニメーションのキーフレーム数を取得します。</p>
+<hr>
+<div id="RlezSetModelAnimation"></div>
+<h3 id="rlezsetmodelanimation">RlezSetModelAnimation</h3>
+<pre class="hljs"><code><div>void RlezSetModelAnimation(int model,int id,double frame);
+</div></code></pre>
+<p><code>model</code>:3DモデルのリソースID</p>
+<p><code>id</code>:3Dモデルのアニメーションのインデックス値</p>
+<p><code>frame</code>:3Dモデルのフレーム値</p>
+<p>指定した3Dモデルにアニメーションを適用します。</p>
+<hr>
+<div id="RlezSetModelAnimationBlend"></div>
+<h3 id="rlezsetmodelanimationblend">RlezSetModelAnimationBlend</h3>
+<pre class="hljs"><code><div>void RlezSetModelAnimationBlend(int model,int a_id,double a_frame,int b_id,double b_frame,double blend);
+</div></code></pre>
+<p><code>model</code>:3DモデルのリソースID</p>
+<p><code>a_id</code>:1つめのアニメーションのインデックス値</p>
+<p><code>a_frame</code>:1つめのアニメーションのフレーム値</p>
+<p><code>b_id</code>:2つめのアニメーションのインデックス値</p>
+<p><code>b_frame</code>:2つめのアニメーションのフレーム値</p>
+<p><code>blend</code>:アニメーションのブレンド値(0.0～1.0)</p>
+<p>指定した3Dモデルの2つのアニメーションをブレンドして適用します。<code>blend</code>引数の値が<code>0.0</code>の場合は1つめのアニメーションが適用され、<code>1.0</code>の場合は2つめのアニメーションが適用され、<code>0.5</code>の場合は1つめのアニメーションと2つめのアニメーションの間のアニメーションが適用されます。</p>
+<hr>
+<div id="RlezColor"></div>
+<h3 id="rlezcolor">RlezColor</h3>
+<pre class="hljs"><code><div>void RlezColor(int r,int g,int b,int a);
+</div></code></pre>
+<p><code>r</code>:赤色の値(0～255)</p>
+<p><code>g</code>:緑色の値(0～255)</p>
+<p><code>b</code>:青色の値(0～255)</p>
+<p><code>a</code>:アルファ値(0～255)</p>
+<p>描画系関数の描画色を設定します。現在設定されている描画色を取得する場合は、<a href="#RlezGetColorR">RlezGetColorR</a>関数、<a href="#RlezGetColorG">RlezGetColorG</a>関数、<a href="#RlezGetColorB">RlezGetColorB</a>関数、<a href="#RlezGetColorA">RlezGetColorA</a>関数を使います。</p>
+<hr>
+<div id="RlezGetColorR"></div>
+<h3 id="rlezgetcolorr">RlezGetColorR</h3>
+<pre class="hljs"><code><div>int RlezGetColorR(void);
+</div></code></pre>
+<p><code>(return)</code>:現在の描画色の赤色の値</p>
+<p><a href="#RlezColor">RlezColor</a>関数で現在設定されている描画色の赤色の値を取得します。</p>
+<hr>
+<div id="RlezGetColorG"></div>
+<h3 id="rlezgetcolorg">RlezGetColorG</h3>
+<pre class="hljs"><code><div>int RlezGetColorG(void);
+</div></code></pre>
+<p><code>(return)</code>:現在の描画色の緑色の値</p>
+<p><a href="#RlezColor">RlezColor</a>関数で現在設定されている描画色の緑色の値を取得します。</p>
+<hr>
+<div id="RlezGetColorB"></div>
+<h3 id="rlezgetcolorb">RlezGetColorB</h3>
+<pre class="hljs"><code><div>int RlezGetColorB(void);
+</div></code></pre>
+<p><code>(return)</code>:現在の描画色の青色の値</p>
+<p><a href="#RlezColor">RlezColor</a>関数で現在設定されている描画色の青色の値を取得します。</p>
+<hr>
+<div id="RlezGetColorA"></div>
+<h3 id="rlezgetcolora">RlezGetColorA</h3>
+<pre class="hljs"><code><div>int RlezGetColorA(void);
+</div></code></pre>
+<p><code>(return)</code>:現在の描画色のアルファ値</p>
+<p><a href="#RlezColor">RlezColor</a>関数で現在設定されている描画色のアルファ値を取得します。</p>
+<hr>
+<div id="RlezDrawMesh"></div>
+<h3 id="rlezdrawmesh">RlezDrawMesh</h3>
+<pre class="hljs"><code><div>void RlezDrawMesh(int mesh);
+</div></code></pre>
+<p><code>mesh</code>:描画するメッシュのリソースID</p>
+<p>現在の原点の位置に指定したメッシュを描画します。</p>
+<hr>
+<div id="RlezDrawModel"></div>
+<h3 id="rlezdrawmodel">RlezDrawModel</h3>
+<pre class="hljs"><code><div>void RlezDrawModel(int model);
+</div></code></pre>
+<p><code>model</code>:描画する3DモデルのリソースID</p>
+<p>現在の原点の位置に指定した3Dモデルを描画します。</p>
+<hr>
+<div id="RlezDrawText"></div>
+<h3 id="rlezdrawtext">RlezDrawText</h3>
+<pre class="hljs"><code><div>void RlezDrawText(int font,const char *text,double x,double y,double size,double spacing);
+</div></code></pre>
+<p><code>font</code>:フォントのリソースID(0未満だとraylibのデフォルトフォントを使用)</p>
+<p><code>text</code>:描画する文字列</p>
+<p><code>x</code>,<code>y</code>:描画する位置</p>
+<p><code>size</code>:描画サイズ</p>
+<p><code>spacing</code>:文字間の距離</p>
+<p>指定したフォントを使用して文字列を描画します。<code>font</code>引数を<code>-1</code>等の0未満の値にするとraylibのデフォルトフォントを使用します。</p>
+<hr>
+<div id="RlezDrawLine"></div>
+<h3 id="rlezdrawline">RlezDrawLine</h3>
+<pre class="hljs"><code><div>void RlezDrawLine(double x1,double y1,double z1,double x2,double y2,double z2);
+</div></code></pre>
+<p><code>x1</code>,<code>y1</code>,<code>z1</code>:線の始点の座標</p>
+<p><code>x2</code>,<code>y2</code>,<code>z2</code>:線の終点の座標</p>
+<p>線を描画します。</p>
+<hr>
+<div id="RlezDrawRect"></div>
+<h3 id="rlezdrawrect">RlezDrawRect</h3>
+<pre class="hljs"><code><div>void RlezDrawRect(double x,double y,double width,double height,int fill);
+</div></code></pre>
+<p><code>x</code>,<code>y</code>:長方形の描画開始座標</p>
+<p><code>width</code>,<code>height</code>:長方形の横幅と縦幅のサイズ</p>
+<p><code>fill</code>:0だと線で描画、それ以外だと塗りつぶして描画</p>
+<p>長方形を描画します。</p>
+<hr>
+<div id="RlezDrawEllipse"></div>
+<h3 id="rlezdrawellipse">RlezDrawEllipse</h3>
+<pre class="hljs"><code><div>void RlezDrawEllipse(double x,double y,double width,double height,int fill);
+</div></code></pre>
+<p><code>x</code>,<code>y</code>:楕円の中心座標</p>
+<p><code>width</code>,<code>height</code>:楕円の横幅と縦幅のサイズ</p>
+<p><code>fill</code>:0だと線で描画、それ以外だと塗りつぶして描画</p>
+<p>楕円を描画します。</p>
+<hr>
+<div id="RlezDrawBox"></div>
+<h3 id="rlezdrawbox">RlezDrawBox</h3>
+<pre class="hljs"><code><div>void RlezDrawBox(double x,double y,double z,double width,double height,double depth,int fill);
+</div></code></pre>
+<p><code>x</code>,<code>y</code>,<code>z</code>:直方体の中心座標</p>
+<p><code>width</code>,<code>height</code>,<code>depth</code>:直方体の横幅と高さと奥行きのサイズ</p>
+<p>直方体を描画します。</p>
+<hr>
+<div id="RlezDrawSphere"></div>
+<h3 id="rlezdrawsphere">RlezDrawSphere</h3>
+<pre class="hljs"><code><div>void RlezDrawSphere(double x,double y,double z,double size,int rings,int slices,int fill);
+</div></code></pre>
+<p><code>x</code>,<code>y</code>,<code>z</code>:球の中心座標</p>
+<p><code>size</code>:球の直径のサイズ</p>
+<p><code>slices</code>:球の表面の分割数</p>
+<p><code>fill</code>:0だと線で描画、それ以外だと塗りつぶして描画</p>
+<p>球を描画します。</p>
+<hr>
+<div id="RlezDrawCylinder"></div>
+<h3 id="rlezdrawcylinder">RlezDrawCylinder</h3>
+<pre class="hljs"><code><div>void RlezDrawCylinder(double x1,double y1,double z1,double x2,double y2,double z2,double size1,double size2,int sides,int fill);
+</div></code></pre>
+<p><code>x1</code>,<code>y1</code>,<code>z1</code>:円柱の始点の座標</p>
+<p><code>x2</code>,<code>y2</code>,<code>z2</code>:円柱の終点の座標</p>
+<p><code>size1</code>:円柱の始点のサイズ</p>
+<p><code>size2</code>:円柱の終点のサイズ</p>
+<p><code>sides</code>:円柱の分割数</p>
+<p><code>fill</code>:0だと線で描画、それ以外だと塗りつぶして描画</p>
+<p>円柱を描画します。</p>
+<hr>
+<div id="RlezDrawCapsule"></div>
+<h3 id="rlezdrawcapsule">RlezDrawCapsule</h3>
+<pre class="hljs"><code><div>void RlezDrawCapsule(double x1,double y1,double z1,double x2,double y2,double z2,double size,int slices,int rings,int fill);
+</div></code></pre>
+<p><code>x1</code>,<code>y1</code>,<code>z1</code>:カプセルの始点の座標</p>
+<p><code>x2</code>,<code>y2</code>,<code>z2</code>:カプセルの終点の座標</p>
+<p><code>size</code>:カプセルの太さ</p>
+<p><code>slices</code>:カプセルの円柱部分の分割数</p>
+<p><code>rings</code>:カプセルの半球部分の分割数</p>
+<p><code>fill</code>:0だと線で描画、それ以外だと塗りつぶして描画</p>
+<p>カプセルを描画します。</p>
+<hr>
+<div id="RlezDrawTexture"></div>
+<h3 id="rlezdrawtexture">RlezDrawTexture</h3>
+<pre class="hljs"><code><div>void RlezDrawTexture(int texture,int src_x,int src_y,int src_w,int src_h,double dest_x,double dest_y,double dest_w,double dest_h);
+</div></code></pre>
+<p><code>texture</code>:テクスチャのリソースID</p>
+<p><code>src_x</code>,<code>src_y</code>:描画元のテクスチャの読み込み開始座標</p>
+<p><code>src_w</code>,<code>src_h</code>:描画元のテクスチャを読み込む横幅と縦幅のサイズ</p>
+<p><code>dest_x</code>,<code>dest_y</code>:描画開始座標</p>
+<p><code>dest_w</code>,<code>dest_h</code>:描画する横幅と縦幅のサイズ</p>
+<p>テクスチャを長方形に貼り付けて描画します。</p>
+<hr>
+<div id="RlezLoadShaderFromMemory"></div>
+<h3 id="rlezloadshaderfrommemory">RlezLoadShaderFromMemory</h3>
+<pre class="hljs"><code><div>int RlezLoadShaderFromMemory(const char *vertex_code,const char *fragment_code);
+</div></code></pre>
+<p><code>vertex_code</code>:頂点シェーダーのコードの文字列</p>
+<p><code>fragment_code</code>:フラグメントシェーダーのコードの文字列</p>
+<p><code>(return)</code>:シェーダーのリソースID</p>
+<p>シェーダーをメモリ上のコードの文字列から作成します。</p>
+<hr>
+<div id="RlezLoadShader"></div>
+<h3 id="rlezloadshader">RlezLoadShader</h3>
+<pre class="hljs"><code><div>int RlezLoadShader(const char *vertex_code_path,const char *fragment_code_path);
+</div></code></pre>
+<p><code>vertex_code_path</code>:頂点シェーダーのコードが記述されたファイルのパスの文字列</p>
+<p><code>fragment_code_path</code>:フラグメントシェーダーのコードが記述されたファイルのパスの文字列</p>
+<p><code>(return)</code>:シェーダーのリソースID</p>
+<p>シェーダーをファイルから作成します。</p>
+<hr>
+<div id="RlezLoadSoundFromMemory"></div>
+<h3 id="rlezloadsoundfrommemory">RlezLoadSoundFromMemory</h3>
+<pre class="hljs"><code><div>int RlezLoadSoundFromMemory(const char *file_type,void *sound_data,int sound_data_size,int is_music,double music_update_time,int music_update_samples);
+</div></code></pre>
+<p><code>file_type</code>:サウンドファイルの拡張子の文字列(例えば<code>&quot;.wav&quot;</code>)(ドットを含めてください)</p>
+<p><code>sound_data</code>:サウンドファイルのバイナリデータが入った変数のポインタ</p>
+<p><code>sound_data_size</code>:サウンドファイルのバイナリデータのサイズ</p>
+<p><code>is_music</code>:0だとサウンドを効果音として扱い、それ以外だと音楽(BGM)として扱う</p>
+<p><code>music_update_time</code>:サウンドを音楽として扱う際、サウンド情報を更新する時間の間隔(秒単位)</p>
+<p><code>music_update_samples</code>:サウンドを音楽として扱う際、サウンド情報を1回更新するときに読み込むサンプル数</p>
+<p><code>(return)</code>:サウンドのリソースID</p>
+<p>サウンドをメモリ上のバイナリデータから作成します。<code>is_music</code>引数でサウンドを「効果音」として扱うか、「音楽」として扱うかでrlez.dllのサウンド関連の関数で使用できる関数が異なります。「効果音」として扱うと、サウンドファイルのデータを全てメモリ上にデコードします。「音楽」として扱うと、再生中に随時サウンドファイルのデータを部分的にデコードしながら再生します。「音楽」として扱う場合、<code>music_update_time</code>引数でサウンド情報を更新するタイミングを設定し、<code>music_update_samples</code>引数でサウンド情報を1回更新するときに読み込むサンプル数を設定できます。よくわからなければ、<code>music_update_time</code>引数の値は<code>1.0/60.0</code>にしたり、<code>music_update_samples</code>引数の値は<code>4096</code>にすると良いでしょう。もしサウンドを再生中音が途切れてしまったりしたら、この2つの引数を調整してみると良いでしょう。</p>
+<hr>
+<div id="RlezLoadSound"></div>
+<h3 id="rlezloadsound">RlezLoadSound</h3>
+<pre class="hljs"><code><div>int RlezLoadSound(const char *path,int is_music,double music_update_time,int music_update_samples);
+</div></code></pre>
+<p><code>path</code>:サウンドファイルのパスの文字列</p>
+<p><code>is_music</code>:0だとサウンドを効果音として扱い、それ以外だと音楽(BGM)として扱う</p>
+<p><code>music_update_time</code>:サウンドを音楽として扱う際、サウンド情報を更新する時間の間隔(秒単位)</p>
+<p><code>music_update_samples</code>:サウンドを音楽として扱う際、サウンド情報を1回更新するときに読み込むサンプル数</p>
+<p><code>(return)</code>:サウンドのリソースID</p>
+<p>サウンドをファイルから作成します。<code>is_music</code>引数以降の引数については<a href="#RlezLoadSoundFromMemory">RlezLoadSoundFromMemory</a>関数の説明をご覧ください。</p>
+<hr>
+<div id="RlezStopSound"></div>
+<h3 id="rlezstopsound">RlezStopSound</h3>
+<pre class="hljs"><code><div>void RlezStopSound(int sound);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p>サウンドの再生を停止します。</p>
+<hr>
+<div id="RlezPauseSound"></div>
+<h3 id="rlezpausesound">RlezPauseSound</h3>
+<pre class="hljs"><code><div>void RlezPauseSound(int sound);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p>サウンドの再生を一時停止します。一時停止したサウンドは、<a href="#RlezResumeSound">RlezResumeSound</a>関数で再開できます。</p>
+<hr>
+<div id="RlezResumeSound"></div>
+<h3 id="rlezresumesound">RlezResumeSound</h3>
+<pre class="hljs"><code><div>void RlezResumeSound(int sound);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p><a href="#RlezPauseSound">RlezPauseSound</a>関数で一時停止したサウンドの再生を再開します。</p>
+<hr>
+<div id="RlezPlaySound"></div>
+<h3 id="rlezplaysound">RlezPlaySound</h3>
+<pre class="hljs"><code><div>void RlezPlaySound(int sound,int music_loop);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p><code>music_loop</code>:0だとループ再生を行わない、0以外だとループ再生を行う</p>
+<p>サウンドの再生を行います。<code>music_loop</code>引数の設定は、<a href="#RlezLoadSoundFromMemory">RlezLoadSoundFromMemory</a>関数や<a href="#RlezLoadSound">RlezLoadSound</a>関数でサウンドを作成した際にサウンドが「音楽」として扱われている場合のみ有効です。</p>
+<hr>
+<div id="RlezGetSoundStatus"></div>
+<h3 id="rlezgetsoundstatus">RlezGetSoundStatus</h3>
+<pre class="hljs"><code><div>int RlezGetSoundStatus(int sound);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p><code>(return)</code>:1だと再生中、0だと再生されていない</p>
+<p>指定したサウンドが現在再生中かを取得します。</p>
+<hr>
+<div id="RlezGetSoundTime"></div>
+<h3 id="rlezgetsoundtime">RlezGetSoundTime</h3>
+<pre class="hljs"><code><div>double RlezGetSoundTime(int sound);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p><code>(return)</code>:現在の再生位置(秒単位)</p>
+<p>指定したサウンドの現在の再生位置を取得します。この関数は、<a href="#RlezLoadSoundFromMemory">RlezLoadSoundFromMemory</a>関数や<a href="#RlezLoadSound">RlezLoadSound</a>関数でサウンドを作成した際にサウンドが「音楽」として扱われている場合のみ有効です。</p>
+<hr>
+<div id="RlezSetSoundTime"></div>
+<h3 id="rlezsetsoundtime">RlezSetSoundTime</h3>
+<pre class="hljs"><code><div>void RlezSetSoundTime(int sound,double set_time);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p>指定したサウンドの現在の再生位置を設定します。この関数は、<a href="#RlezLoadSoundFromMemory">RlezLoadSoundFromMemory</a>関数や<a href="#RlezLoadSound">RlezLoadSound</a>関数でサウンドを作成した際にサウンドが「音楽」として扱われている場合のみ有効です。</p>
+<hr>
+<div id="RlezGetSoundLength"></div>
+<h3 id="rlezgetsoundlength">RlezGetSoundLength</h3>
+<pre class="hljs"><code><div>double RlezGetSoundLength(int sound);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p>指定したサウンドの現在の総再生時間を取得します。この関数は、<a href="#RlezLoadSoundFromMemory">RlezLoadSoundFromMemory</a>関数や<a href="#RlezLoadSound">RlezLoadSound</a>関数でサウンドを作成した際にサウンドが「音楽」として扱われている場合のみ有効です。</p>
+<hr>
+<div id="RlezSetSoundPitch"></div>
+<h3 id="rlezsetsoundpitch">RlezSetSoundPitch</h3>
+<pre class="hljs"><code><div>void RlezSetSoundPitch(int sound,double pitch);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p><code>pitch</code>:再生スピード(1.0=通常速度)</p>
+<p>サウンドの再生スピードを設定します。</p>
+<hr>
+<div id="RlezSetSoundVolume"></div>
+<h3 id="rlezsetsoundvolume">RlezSetSoundVolume</h3>
+<pre class="hljs"><code><div>void RlezSetSoundVolume(int sound,double volume);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p><code>volume</code>:音量(0.0～1.0)</p>
+<p>サウンドの音量を設定します。</p>
+<hr>
+<div id="RlezSetSoundPan"></div>
+<h3 id="rlezsetsoundpan">RlezSetSoundPan</h3>
+<pre class="hljs"><code><div>void RlezSetSoundPan(int sound,double pan);
+</div></code></pre>
+<p><code>sound</code>:サウンドのリソースID</p>
+<p><code>pan</code>:パンニングの値(-1.0～1.0)</p>
+<p>サウンドのパンニング(定位)を設定します。</p>
+<hr>
+<div id="RlezGetKey"></div>
+<h3 id="rlezgetkey">RlezGetKey</h3>
+<pre class="hljs"><code><div>int RlezGetKey(const char *name);
+</div></code></pre>
+<p><code>name</code>:キーボードのキーの名前の文字列</p>
+<p><code>(return)</code>:0だと押されていない、1だと押されている</p>
+<p>指定したキーボードのキーが現在押されているかを取得します。<code>name</code>引数で指定できるキーボードのキーの名前は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;KEY_NULL&quot;
+&quot;KEY_APOSTROPHE&quot;
+&quot;KEY_COMMA&quot;
+&quot;KEY_MINUS&quot;
+&quot;KEY_PERIOD&quot;
+&quot;KEY_SLASH&quot;
+&quot;KEY_ZERO&quot;
+&quot;KEY_ONE&quot;
+&quot;KEY_TWO&quot;
+&quot;KEY_THREE&quot;
+&quot;KEY_FOUR&quot;
+&quot;KEY_FIVE&quot;
+&quot;KEY_SIX&quot;
+&quot;KEY_SEVEN&quot;
+&quot;KEY_EIGHT&quot;
+&quot;KEY_NINE&quot;
+&quot;KEY_SEMICOLON&quot;
+&quot;KEY_EQUAL&quot;
+&quot;KEY_A&quot;
+&quot;KEY_B&quot;
+&quot;KEY_C&quot;
+&quot;KEY_D&quot;
+&quot;KEY_E&quot;
+&quot;KEY_F&quot;
+&quot;KEY_G&quot;
+&quot;KEY_H&quot;
+&quot;KEY_I&quot;
+&quot;KEY_J&quot;
+&quot;KEY_K&quot;
+&quot;KEY_L&quot;
+&quot;KEY_M&quot;
+&quot;KEY_N&quot;
+&quot;KEY_O&quot;
+&quot;KEY_P&quot;
+&quot;KEY_Q&quot;
+&quot;KEY_R&quot;
+&quot;KEY_S&quot;
+&quot;KEY_T&quot;
+&quot;KEY_U&quot;
+&quot;KEY_V&quot;
+&quot;KEY_W&quot;
+&quot;KEY_X&quot;
+&quot;KEY_Y&quot;
+&quot;KEY_Z&quot;
+&quot;KEY_LEFT_BRACKET&quot;
+&quot;KEY_BACKSLASH&quot;
+&quot;KEY_RIGHT_BRACKET&quot;
+&quot;KEY_GRAVE&quot;
+&quot;KEY_SPACE&quot;
+&quot;KEY_ESCAPE&quot;
+&quot;KEY_ENTER&quot;
+&quot;KEY_TAB&quot;
+&quot;KEY_BACKSPACE&quot;
+&quot;KEY_INSERT&quot;
+&quot;KEY_DELETE&quot;
+&quot;KEY_RIGHT&quot;
+&quot;KEY_LEFT&quot;
+&quot;KEY_DOWN&quot;
+&quot;KEY_UP&quot;
+&quot;KEY_PAGE_UP&quot;
+&quot;KEY_PAGE_DOWN&quot;
+&quot;KEY_HOME&quot;
+&quot;KEY_END&quot;
+&quot;KEY_CAPS_LOCK&quot;
+&quot;KEY_SCROLL_LOCK&quot;
+&quot;KEY_NUM_LOCK&quot;
+&quot;KEY_PRINT_SCREEN&quot;
+&quot;KEY_PAUSE&quot;
+&quot;KEY_F1&quot;
+&quot;KEY_F2&quot;
+&quot;KEY_F3&quot;
+&quot;KEY_F4&quot;
+&quot;KEY_F5&quot;
+&quot;KEY_F6&quot;
+&quot;KEY_F7&quot;
+&quot;KEY_F8&quot;
+&quot;KEY_F9&quot;
+&quot;KEY_F10&quot;
+&quot;KEY_F11&quot;
+&quot;KEY_F12&quot;
+&quot;KEY_LEFT_SHIFT&quot;
+&quot;KEY_LEFT_CONTROL&quot;
+&quot;KEY_LEFT_ALT&quot;
+&quot;KEY_LEFT_SUPER&quot;
+&quot;KEY_RIGHT_SHIFT&quot;
+&quot;KEY_RIGHT_CONTROL&quot;
+&quot;KEY_RIGHT_ALT&quot;
+&quot;KEY_RIGHT_SUPER&quot;
+&quot;KEY_KB_MENU&quot;
+&quot;KEY_KP_0&quot;
+&quot;KEY_KP_1&quot;
+&quot;KEY_KP_2&quot;
+&quot;KEY_KP_3&quot;
+&quot;KEY_KP_4&quot;
+&quot;KEY_KP_5&quot;
+&quot;KEY_KP_6&quot;
+&quot;KEY_KP_7&quot;
+&quot;KEY_KP_8&quot;
+&quot;KEY_KP_9&quot;
+&quot;KEY_KP_DECIMAL&quot;
+&quot;KEY_KP_DIVIDE&quot;
+&quot;KEY_KP_MULTIPLY&quot;
+&quot;KEY_KP_SUBTRACT&quot;
+&quot;KEY_KP_ADD&quot;
+&quot;KEY_KP_ENTER&quot;
+&quot;KEY_KP_EQUAL&quot;
+</div></code></pre>
+<hr>
+<div id="RlezGetMouseButton"></div>
+<h3 id="rlezgetmousebutton">RlezGetMouseButton</h3>
+<pre class="hljs"><code><div>int RlezGetMouseButton(const char *name);
+</div></code></pre>
+<p><code>name</code>:マウスのボタンの名前の文字列</p>
+<p><code>(return)</code>:0だと押されていない、1だと押されている</p>
+<p>指定したマウスのボタンが現在押されているかを取得します。<code>name</code>引数で指定できるマウスのボタンの名前は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;MOUSE_BUTTON_LEFT&quot;
+&quot;MOUSE_BUTTON_RIGHT&quot;
+&quot;MOUSE_BUTTON_MIDDLE&quot;
+&quot;MOUSE_BUTTON_SIDE&quot;
+&quot;MOUSE_BUTTON_EXTRA&quot;
+&quot;MOUSE_BUTTON_FORWARD&quot;
+&quot;MOUSE_BUTTON_BACK&quot;
+</div></code></pre>
+<hr>
+<div id="RlezGetMouseX"></div>
+<h3 id="rlezgetmousex">RlezGetMouseX</h3>
+<pre class="hljs"><code><div>int RlezGetMouseX(void);
+</div></code></pre>
+<p><code>(return)</code>:マウスカーソルのX座標</p>
+<p>現在のraylibのウィンドウ内のマウスカーソルのX座標を取得します。</p>
+<hr>
+<div id="RlezGetMouseY"></div>
+<h3 id="rlezgetmousey">RlezGetMouseY</h3>
+<pre class="hljs"><code><div>int RlezGetMouseY(void);
+</div></code></pre>
+<p><code>(return)</code>:マウスカーソルのY座標</p>
+<p>現在のraylibのウィンドウ内のマウスカーソルのY座標を取得します。</p>
+<hr>
+<div id="RlezSetMousePosition"></div>
+<h3 id="rlezsetmouseposition">RlezSetMousePosition</h3>
+<pre class="hljs"><code><div>void RlezSetMousePosition(int x,int y);
+</div></code></pre>
+<p><code>x</code>:マウスカーソルの移動先のX座標</p>
+<p><code>y</code>:マウスカーソルの移動先のY座標</p>
+<p>raylibのウィンドウの左上を基準にマウスカーソルの座標を移動させます。</p>
+<hr>
+<div id="RlezSetMouseVisible"></div>
+<h3 id="rlezsetmousevisible">RlezSetMouseVisible</h3>
+<pre class="hljs"><code><div>void RlezSetMouseVisible(int visible);
+</div></code></pre>
+<p><code>visible</code>:0だとマウスカーソルを非表示、0以外だとマウスカーソルを表示</p>
+<p>raylibのウィンドウ内でマウスカーソルを表示するか非表示にするかを設定します。</p>
+<hr>
+<div id="RlezCheckMouseInWindow"></div>
+<h3 id="rlezcheckmouseinwindow">RlezCheckMouseInWindow</h3>
+<pre class="hljs"><code><div>int RlezCheckMouseInWindow(void);
+</div></code></pre>
+<p><code>(return)</code>:0だとウィンドウ外、1だとウィンドウ内</p>
+<p>raylibのウィンドウ内にマウスカーソルがあるかを取得します。</p>
+<hr>
+<div id="RlezGetMouseWheelX"></div>
+<h3 id="rlezgetmousewheelx">RlezGetMouseWheelX</h3>
+<pre class="hljs"><code><div>double RlezGetMouseWheelX(void);
+</div></code></pre>
+<p><code>(return)</code>:マウスホイールのX値</p>
+<p>マウスホイールのX値を取得します。</p>
+<hr>
+<div id="RlezGetMouseWheelY"></div>
+<h3 id="rlezgetmousewheely">RlezGetMouseWheelY</h3>
+<pre class="hljs"><code><div>double RlezGetMouseWheelY(void);
+</div></code></pre>
+<p><code>(return)</code>:マウスホイールのY値</p>
+<p>マウスホイールのY値を取得します。</p>
+<hr>
+<div id="RlezCheckGamepad"></div>
+<h3 id="rlezcheckgamepad">RlezCheckGamepad</h3>
+<pre class="hljs"><code><div>int RlezCheckGamepad(int gamepad);
+</div></code></pre>
+<p><code>gamepad</code>:ゲームパッドのインデックス値</p>
+<p><code>(return)</code>:0だと接続されていない、1だと接続されている</p>
+<p>指定したゲームパッドが現在接続されているかを取得します。</p>
+<hr>
+<div id="RlezGetGamepadButton"></div>
+<h3 id="rlezgetgamepadbutton">RlezGetGamepadButton</h3>
+<pre class="hljs"><code><div>int RlezGetGamepadButton(int gamepad,const char *button);
+</div></code></pre>
+<p><code>gamepad</code>:ゲームパッドのインデックス値</p>
+<p><code>button</code>:ゲームパッドのボタンの名前の文字列</p>
+<p><code>(return)</code>:0だと押されていない、1だと押されている</p>
+<p>指定したゲームパッドのボタンが押されているかを取得します。<code>button</code>引数で指定できるボタンの名前は以下の通りです。</p>
+<pre class="hljs"><code><div>&quot;GAMEPAD_BUTTON_UNKNOWN&quot;
+&quot;GAMEPAD_BUTTON_LEFT_FACE_UP&quot;
+&quot;GAMEPAD_BUTTON_LEFT_FACE_RIGHT&quot;
+&quot;GAMEPAD_BUTTON_LEFT_FACE_DOWN&quot;
+&quot;GAMEPAD_BUTTON_LEFT_FACE_LEFT&quot;
+&quot;GAMEPAD_BUTTON_RIGHT_FACE_UP&quot;
+&quot;GAMEPAD_BUTTON_RIGHT_FACE_RIGHT&quot;
+&quot;GAMEPAD_BUTTON_RIGHT_FACE_DOWN&quot;
+&quot;GAMEPAD_BUTTON_RIGHT_FACE_LEFT&quot;
+&quot;GAMEPAD_BUTTON_LEFT_TRIGGER_1&quot;
+&quot;GAMEPAD_BUTTON_LEFT_TRIGGER_2&quot;
+&quot;GAMEPAD_BUTTON_RIGHT_TRIGGER_1&quot;
+&quot;GAMEPAD_BUTTON_RIGHT_TRIGGER_2&quot;
+&quot;GAMEPAD_BUTTON_MIDDLE_LEFT&quot;
+&quot;GAMEPAD_BUTTON_MIDDLE&quot;
+&quot;GAMEPAD_BUTTON_MIDDLE_RIGHT&quot;
+&quot;GAMEPAD_BUTTON_LEFT_THUMB&quot;
+&quot;GAMEPAD_BUTTON_RIGHT_THUMB&quot;
+</div></code></pre>
+<hr>
+<div id="RlezGetAxisCount"></div>
+<h3 id="rlezgetaxiscount">RlezGetAxisCount</h3>
+<pre class="hljs"><code><div>int RlezGetAxisCount(int gamepad);
+</div></code></pre>
+<p><code>gamepad</code>:ゲームパッドのインデックス値</p>
+<p><code>(return)</code>:ゲームパッドの軸の数</p>
+<p>指定したゲームパッドのスティック等の軸の数を取得します。</p>
+<hr>
+<div id="RlezGetGamepadAxis"></div>
+<h3 id="rlezgetgamepadaxis">RlezGetGamepadAxis</h3>
+<pre class="hljs"><code><div>double RlezGetGamepadAxis(int gamepad,int axis);
+</div></code></pre>
+<p><code>gamepad</code>:ゲームパッドのインデックス値</p>
+<p><code>axis</code>:ゲームパッドの軸のインデックス値</p>
+<p><code>(return)</code>:ゲームパッドの軸の値(-1.0～1.0)</p>
+<p>指定したゲームパッドのスティック等の軸の値を取得します。</p>
+<hr>
+<div id="RlezSetGamepadVibration"></div>
+<h3 id="rlezsetgamepadvibration">RlezSetGamepadVibration</h3>
+<pre class="hljs"><code><div>void RlezSetGamepadVibration(int gamepad,double left,double right,double duration);
+</div></code></pre>
+<p><code>gamepad</code>:ゲームパッドのインデックス値</p>
+<p><code>left</code>:左側のモーターの振動の強さ(0.0～1.0)</p>
+<p><code>right</code>:右側のモーターの振動の強さ(0.0～1.0)</p>
+<p><code>duration</code>:振動の長さ(秒単位)</p>
+<p>指定したゲームパッドを振動させます。</p>
+<hr>
+
+</body>
+</html>

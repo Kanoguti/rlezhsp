@@ -1,0 +1,5 @@
+.vscode
+hsptmp
+obj
+packfile
+*.ax

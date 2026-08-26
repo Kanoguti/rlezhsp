@@ -1,0 +1,435 @@
+#module
+
+#defcfunc pascal_to_snake str p_text, local temp_text,local temp_return,local temp_alphabet,local temp_numbers,local temp_char,local temp_flag,local temp_array,local temp_count,local temp_alphabet_check
+temp_text=p_text
+strrep temp_text," ",""
+strrep temp_text,"\t",""
+temp_return=""
+temp_alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+temp_numbers="0123456789"
+sdim temp_array
+dim temp_count
+dim temp_alphabet_check
+repeat strlen(temp_text)
+    temp_char=strmid(temp_text,cnt,1)
+    temp_flag=0
+    repeat strlen(temp_alphabet)
+        if temp_char==strmid(temp_alphabet,cnt,1):{
+            temp_flag=1
+            break
+        }
+    loop
+    repeat strlen(temp_numbers)
+        if temp_char==strmid(temp_numbers,cnt,1):{
+            temp_flag=2
+            break
+        }
+    loop
+    temp_char=getpath(temp_char,16)
+    switch temp_flag
+        case 0
+            temp_array(temp_count)+=""+ temp_char +""
+            temp_alphabet_check=0
+        swbreak
+        case 1
+            switch temp_alphabet_check
+                case 0
+                    if strlen(temp_array(temp_count))>0:{
+                        temp_count++
+                        temp_array(temp_count)=""+ temp_char +""
+                    } else {
+                        temp_array(temp_count)+=""+ temp_char +""
+                    }
+                swbreak
+                case 1
+                    temp_array(temp_count)+=""+ temp_char +""
+                    temp_alphabet_check=2
+                swbreak
+                case 2
+                    if strlen(temp_array(temp_count))>0:{
+                        temp_count++
+                        temp_array(temp_count)=""+ temp_char +""
+                    } else {
+                        temp_array(temp_count)+=""+ temp_char +""
+                    }
+                    temp_alphabet_check=0
+                swbreak
+            swend
+        swbreak
+        case 2
+            switch temp_alphabet_check
+                case 0
+                    if strlen(temp_array(temp_count))>0:{
+                        temp_count++
+                        temp_array(temp_count)=""+ temp_char +""
+                    } else {
+                        temp_array(temp_count)+=""+ temp_char +""
+                    }
+                swbreak
+                case 1
+                    temp_array(temp_count)+=""+ temp_char +""
+                swbreak
+                case 2
+                    if strlen(temp_array(temp_count))>0:{
+                        temp_count++
+                        temp_array(temp_count)=""+ temp_char +""
+                    } else {
+                        temp_array(temp_count)+=""+ temp_char +""
+                    }
+                swbreak
+            swend
+            temp_alphabet_check=1
+        swbreak
+    swend
+loop
+if strlen(temp_array(temp_count))>0:{
+    temp_count++
+}
+repeat temp_count
+    temp_return+=""+ temp_array(cnt) +""
+    if cnt<temp_count-1:{
+        temp_return+="_"
+    }
+loop
+return temp_return
+
+#defcfunc trimming str p_text, local temp,local temp_text,local temp_index
+temp_text=p_text
+
+temp_index=0,strlen(temp_text)-1
+repeat strlen(temp_text)
+    temp=strmid(temp_text,temp_index(0),1)
+    if temp!=" " && temp!="\t":break
+    temp_index(0)++
+loop
+repeat strlen(temp_text)
+    temp=strmid(temp_text,temp_index(1),1)
+    if temp!=" " && temp!="\t":break
+    temp_index(1)--
+loop
+if temp_index(0)<=temp_index(1):{
+    temp_text=strmid(temp_text,temp_index(0),temp_index(1)-temp_index(0)+1)
+} else {
+    temp_text=""
+}
+return temp_text
+
+#deffunc separate_type_and_name str p_text,var p_return_type,var p_return_name, local temp,local temp_text,local temp_index,local temp_split
+p_return_type=""
+p_return_name=""
+
+temp_text=p_text
+strrep temp_text,"\t"," "
+strrep temp_text,"*"," * "
+while
+    strrep temp_text,"  "," "
+    if instr(temp_text,0,"  ")==-1:_break
+wend
+temp_text=trimming(temp_text)
+sdim temp_split
+split temp_text," ",temp_split
+if length(temp_split)<=1:{
+    p_return_type=temp_split(0)
+} else {
+    repeat length(temp_split)-1
+        p_return_type+=""+ temp_split(cnt) +""
+        if cnt<length(temp_split)-1-1:{
+            p_return_type+=" "
+        }
+    loop
+    strrep p_return_type," *","*"
+    p_return_name=""+ temp_split(length(temp_split)-1) +""
+}
+p_return_type=trimming(p_return_type)
+p_return_name=trimming(p_return_name)
+return
+
+#defcfunc convert_to_hsp_type str p_c_type, local temp_return
+switch p_c_type
+    case "void":temp_return="void":swbreak
+    case "int":temp_return="int":swbreak
+    case "double":temp_return="double":swbreak
+    case "const char*":temp_return="str":swbreak
+    default:temp_return="var":swbreak
+swend
+return temp_return
+
+#global
+
+sdim export_list
+exist "export_list.h"
+if strsize==-1:stop
+notesel export_list
+noteload "export_list.h"
+noteunsel
+
+sdim export_text
+
+notesel export_text
+
+noteadd "#ifndef rlezhsp"
+noteadd ""
+noteadd "#module rlezhsp"
+noteadd ""
+noteadd "#uselib \"rlez.dll\""
+noteadd ""
+
+sdim export_list_lines
+split export_list,"\n",export_list_lines
+repeat length(export_list_lines)
+    export_list_lines(cnt)=trimming(export_list_lines(cnt))
+    sdim comment
+    sdim return_type
+    sdim function_name
+    sdim parameters
+    sdim parameters_array
+    dim parameters_count
+    sdim parameters_type
+    sdim parameters_name
+    if instr(export_list_lines(cnt),0,"//")!=-1:{
+        temp=instr(export_list_lines(cnt),0,"//")
+        comment=strmid(export_list_lines(cnt),temp+2,strlen(export_list_lines(cnt))-(temp+2))
+        export_list_lines(cnt)=strmid(export_list_lines(cnt),0,temp)
+    }
+    comment=trimming(comment)
+    export_list_lines(cnt)=trimming(export_list_lines(cnt))
+    
+    brackets=instr(export_list_lines(cnt),0,"("),instr(export_list_lines(cnt),0,")")
+    if brackets(0)!=-1 && brackets(1)!=-1 && brackets(0)<brackets(1):{
+        separate_type_and_name strmid(export_list_lines(cnt),0,brackets(0)),return_type,function_name
+        parameters=trimming(strmid(export_list_lines(cnt),brackets(0)+1,brackets(1)-brackets(0)-1))
+        if parameters=="":parameters="void"
+        if parameters!="void":{
+            split parameters,",",parameters_array
+            parameters_count=int(stat)
+            repeat parameters_count
+                parameters_type(cnt)=""
+                parameters_name(cnt)=""
+                separate_type_and_name parameters_array(cnt),parameters_type(cnt),parameters_name(cnt)
+            loop
+        }
+    }
+
+    if return_type!="" && function_name!="":{
+        temp_text=""
+        temp_text+="//"+ return_type +" "+ function_name +"("
+        if parameters_count>0:{
+            repeat parameters_count
+                temp_text+=""+ parameters_type(cnt) +" "+ parameters_name(cnt) +""
+                if cnt<parameters_count-1:temp_text+=","
+            loop
+        } else {
+            temp_text+="void"
+        }
+        temp_text+=");"
+        temp_text+="\n"
+        switch comment
+            default
+            switch convert_to_hsp_type(return_type)
+                case "int"
+                    temp_text+="#cfunc global _"
+                swbreak
+                case "double"
+                case "var"
+                case "void"
+                default
+                    temp_text+="#func global _"
+                swbreak
+            swend
+            temp_text+=""+ pascal_to_snake(function_name) +" \""+ function_name +"\""
+            if parameters_count>0:{
+                temp_text+=" "
+                repeat parameters_count
+                    temp_text+=""+ convert_to_hsp_type(parameters_type(cnt)) +""
+                    if cnt<parameters_count-1:temp_text+=","
+                loop
+            }
+
+            temp_text+="\n"
+            switch convert_to_hsp_type(return_type)
+                case "void"
+                    temp_text+="#deffunc "
+                swbreak
+                default
+                    temp_text+="#defcfunc "
+                swbreak
+            swend
+            temp_text+=""+ pascal_to_snake(function_name) +" "
+            if parameters_count>0:{
+                repeat parameters_count
+                    temp_text+=""+ convert_to_hsp_type(parameters_type(cnt)) +" p_"+ parameters_name(cnt) +""
+                    if cnt<parameters_count-1:temp_text+=","
+                loop
+            }
+            switch convert_to_hsp_type(return_type)
+                case "void"
+                swbreak
+                default
+                    if parameters_count>0:{
+                        temp_text+=", "
+                    }
+                    temp_text+="local temp_return"
+                swbreak
+            swend
+            switch convert_to_hsp_type(return_type)
+                case "double"
+                    temp_text+="\n"
+                    temp_text+="temp_return=double(0)"
+                swbreak
+                case "var"
+                    temp_text+="\n"
+                    temp_text+="#ifndef __hsp64__@"
+                    temp_text+="\n"
+                    temp_text+="temp_return=int(0)"
+                    temp_text+="\n"
+                    temp_text+="#else"
+                    temp_text+="\n"
+                    temp_text+="temp_return=int64(0)"
+                    temp_text+="\n"
+                    temp_text+="#endif"
+                swbreak
+            swend
+            temp_text+="\n"
+            switch convert_to_hsp_type(return_type)
+                case "int"
+                    temp_text+="temp_return=int("
+                swbreak
+            swend
+            temp_text+="_"+ pascal_to_snake(function_name) +""
+            switch convert_to_hsp_type(return_type)
+                case "int"
+                    temp_text+="("
+                swbreak
+            swend
+            if parameters_count>0:{
+                switch convert_to_hsp_type(return_type)
+                    case "int"
+                    swbreak
+                    default
+                        temp_text+=" "
+                    swbreak
+                swend
+                repeat parameters_count
+                    temp_text+="p_"+ parameters_name(cnt) +""
+                    if cnt<parameters_count-1:temp_text+=","
+                loop
+            }
+            switch convert_to_hsp_type(return_type)
+                case "int"
+                    temp_text+="))"
+                swbreak
+            swend
+            temp_text+="\n"
+            switch convert_to_hsp_type(return_type)
+                case "double"
+                    temp_text+="rlez_return_double temp_return"
+                    temp_text+="\n"
+                swbreak
+                case "var"
+                    temp_text+="rlez_return_pointer temp_return"
+                    temp_text+="\n"
+                swbreak
+            swend
+            switch convert_to_hsp_type(return_type)
+                case "void"
+                    temp_text+="return"
+                swbreak
+                default
+                    temp_text+="return temp_return"
+                swbreak
+            swend
+            swbreak
+        swend
+        noteadd temp_text
+        noteadd ""
+    }
+loop
+
+noteadd ""
+
+noteadd {"
+#deffunc local rlez_return_double var p_var
+p_var=0.0
+rlez_get_return_data p_var
+return
+"}
+
+noteadd {"
+#deffunc local rlez_return_pointer var p_var
+#ifndef __hsp64__@
+p_var=int(0)
+#else
+p_var=int64(0)
+#endif
+rlez_get_return_data p_var
+return
+"}
+
+noteadd ""
+noteadd "#global"
+noteadd ""
+noteadd "#module"
+noteadd ""
+
+noteadd {"
+#deffunc rlez_load_file_from_hsp str p_file,var p_data, local temp_size
+exist ""+ p_file +""
+temp_size=strsize
+if temp_size!=-1:{
+    p_data=""
+    memexpand p_data,temp_size
+    memset p_data,0,varsize(p_data),0
+    bload ""+ p_file +"",p_data,temp_size,-1
+}
+return temp_size
+"}
+
+noteadd {"
+#defcfunc rlez_load_texture_from_hsp str p1, local temp_return,local temp_data,local temp_size
+temp_return=-1
+sdim temp_data
+rlez_load_file_from_hsp p1,temp_data
+temp_size=stat
+if temp_size!=-1:{
+    temp_return=rlez_load_texture_from_memory(getpath(p1,2+16),temp_data,temp_size)
+}
+return temp_return
+"}
+
+noteadd {"
+#defcfunc rlez_load_font_from_hsp str p1,int p2,str p3,int p4,int p5, local temp_return,local temp_data,local temp_size
+temp_return=-1
+sdim temp_data
+rlez_load_file_from_hsp p1,temp_data
+temp_size=stat
+if temp_size!=-1:{
+    temp_return=rlez_load_font_from_memory(temp_data,temp_size,p2,p3,p4,p5)
+}
+return temp_return
+"}
+
+noteadd {"
+#defcfunc rlez_load_sound_from_hsp str p1,int p2,double p3,int p4, local temp_return,local temp_data,local temp_size
+temp_return=-1
+sdim temp_data
+rlez_load_file_from_hsp p1,temp_data
+temp_size=stat
+if temp_size!=-1:{
+    temp_return=rlez_load_sound_from_memory(getpath(p1,2+16),temp_data,temp_size,p2,p3,p4)
+}
+return temp_return
+"}
+
+noteadd "#global"
+noteadd ""
+noteadd "rlez_init"
+noteadd ""
+noteadd "#endif"
+
+notesave "rlez.hsp"
+
+noteunsel
+
+mesbox export_text,ginfo_sx,ginfo_sy,4,0
+
+stop

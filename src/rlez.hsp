@@ -1,0 +1,936 @@
+#ifndef rlezhsp
+
+#module rlezhsp
+
+#uselib "rlez.dll"
+
+//void RlezInit(void);
+#func global _rlez_init "RlezInit"
+#deffunc rlez_init 
+_rlez_init
+return
+
+//void RlezEnd(void);
+#func global _rlez_end "RlezEnd"
+#deffunc rlez_end 
+_rlez_end
+return
+
+//int RlezGetReturnSize(void);
+#cfunc global _rlez_get_return_size "RlezGetReturnSize"
+#defcfunc rlez_get_return_size local temp_return
+temp_return=int(_rlez_get_return_size())
+return temp_return
+
+//int RlezGetReturnTypeNameSize(void);
+#cfunc global _rlez_get_return_type_name_size "RlezGetReturnTypeNameSize"
+#defcfunc rlez_get_return_type_name_size local temp_return
+temp_return=int(_rlez_get_return_type_name_size())
+return temp_return
+
+//void RlezGetReturnType(void* p);
+#func global _rlez_get_return_type "RlezGetReturnType" var
+#deffunc rlez_get_return_type var p_p
+_rlez_get_return_type p_p
+return
+
+//void RlezGetReturnData(void* p);
+#func global _rlez_get_return_data "RlezGetReturnData" var
+#deffunc rlez_get_return_data var p_p
+_rlez_get_return_data p_p
+return
+
+//void RlezGroup(int id,const char* name);
+#func global _rlez_group "RlezGroup" int,str
+#deffunc rlez_group int p_id,str p_name
+_rlez_group p_id,p_name
+return
+
+//void RlezDelete(int id);
+#func global _rlez_delete "RlezDelete" int
+#deffunc rlez_delete int p_id
+_rlez_delete p_id
+return
+
+//void RlezDeleteGroup(const char* name);
+#func global _rlez_delete_group "RlezDeleteGroup" str
+#deffunc rlez_delete_group str p_name
+_rlez_delete_group p_name
+return
+
+//void RlezDeleteAll(void);
+#func global _rlez_delete_all "RlezDeleteAll"
+#deffunc rlez_delete_all 
+_rlez_delete_all
+return
+
+//void RlezLoadTempDir(char* return_pointer);
+#func global _rlez_load_temp_dir "RlezLoadTempDir" var
+#deffunc rlez_load_temp_dir var p_return_pointer
+_rlez_load_temp_dir p_return_pointer
+return
+
+//void RlezDeleteDir(const char* path);
+#func global _rlez_delete_dir "RlezDeleteDir" str
+#deffunc rlez_delete_dir str p_path
+_rlez_delete_dir p_path
+return
+
+//void RlezOpenWindow(int width,int height);
+#func global _rlez_open_window "RlezOpenWindow" int,int
+#deffunc rlez_open_window int p_width,int p_height
+_rlez_open_window p_width,p_height
+return
+
+//void RlezSetWindowFocus(void);
+#func global _rlez_set_window_focus "RlezSetWindowFocus"
+#deffunc rlez_set_window_focus 
+_rlez_set_window_focus
+return
+
+//int RlezCheckWindowFocus(void);
+#cfunc global _rlez_check_window_focus "RlezCheckWindowFocus"
+#defcfunc rlez_check_window_focus local temp_return
+temp_return=int(_rlez_check_window_focus())
+return temp_return
+
+//void RlezSetWindowSize(int width,int height);
+#func global _rlez_set_window_size "RlezSetWindowSize" int,int
+#deffunc rlez_set_window_size int p_width,int p_height
+_rlez_set_window_size p_width,p_height
+return
+
+//void RlezSetWindowPosition(int x,int y);
+#func global _rlez_set_window_position "RlezSetWindowPosition" int,int
+#deffunc rlez_set_window_position int p_x,int p_y
+_rlez_set_window_position p_x,p_y
+return
+
+//int RlezGetWindowX(void);
+#cfunc global _rlez_get_window_x "RlezGetWindowX"
+#defcfunc rlez_get_window_x local temp_return
+temp_return=int(_rlez_get_window_x())
+return temp_return
+
+//int RlezGetWindowY(void);
+#cfunc global _rlez_get_window_y "RlezGetWindowY"
+#defcfunc rlez_get_window_y local temp_return
+temp_return=int(_rlez_get_window_y())
+return temp_return
+
+//void* RlezGetWindowHandle(void);
+#func global _rlez_get_window_handle "RlezGetWindowHandle"
+#defcfunc rlez_get_window_handle local temp_return
+#ifndef __hsp64__@
+temp_return=int(0)
+#else
+temp_return=int64(0)
+#endif
+_rlez_get_window_handle
+rlez_return_pointer temp_return
+return temp_return
+
+//void RlezSetWindowIcon(int texture);
+#func global _rlez_set_window_icon "RlezSetWindowIcon" int
+#deffunc rlez_set_window_icon int p_texture
+_rlez_set_window_icon p_texture
+return
+
+//int RlezGetWindowWidth(void);
+#cfunc global _rlez_get_window_width "RlezGetWindowWidth"
+#defcfunc rlez_get_window_width local temp_return
+temp_return=int(_rlez_get_window_width())
+return temp_return
+
+//int RlezGetWindowHeight(void);
+#cfunc global _rlez_get_window_height "RlezGetWindowHeight"
+#defcfunc rlez_get_window_height local temp_return
+temp_return=int(_rlez_get_window_height())
+return temp_return
+
+//int RlezGetWidth(int resource);
+#cfunc global _rlez_get_width "RlezGetWidth" int
+#defcfunc rlez_get_width int p_resource, local temp_return
+temp_return=int(_rlez_get_width(p_resource))
+return temp_return
+
+//int RlezGetHeight(int resource);
+#cfunc global _rlez_get_height "RlezGetHeight" int
+#defcfunc rlez_get_height int p_resource, local temp_return
+temp_return=int(_rlez_get_height(p_resource))
+return temp_return
+
+//int RlezCheckWindowState(const char* flag);
+#cfunc global _rlez_check_window_state "RlezCheckWindowState" str
+#defcfunc rlez_check_window_state str p_flag, local temp_return
+temp_return=int(_rlez_check_window_state(p_flag))
+return temp_return
+
+//void RlezSetWindowState(const char* flag,int value);
+#func global _rlez_set_window_state "RlezSetWindowState" str,int
+#deffunc rlez_set_window_state str p_flag,int p_value
+_rlez_set_window_state p_flag,p_value
+return
+
+//void RlezSetWindowTitle(const char* title);
+#func global _rlez_set_window_title "RlezSetWindowTitle" str
+#deffunc rlez_set_window_title str p_title
+_rlez_set_window_title p_title
+return
+
+//int RlezCheckWindowClose(void);
+#cfunc global _rlez_check_window_close "RlezCheckWindowClose"
+#defcfunc rlez_check_window_close local temp_return
+temp_return=int(_rlez_check_window_close())
+return temp_return
+
+//int RlezGetFrameRate(void);
+#cfunc global _rlez_get_frame_rate "RlezGetFrameRate"
+#defcfunc rlez_get_frame_rate local temp_return
+temp_return=int(_rlez_get_frame_rate())
+return temp_return
+
+//void RlezSetFrameRate(int fps);
+#func global _rlez_set_frame_rate "RlezSetFrameRate" int
+#deffunc rlez_set_frame_rate int p_fps
+_rlez_set_frame_rate p_fps
+return
+
+//int RlezGetDisplayCount(void);
+#cfunc global _rlez_get_display_count "RlezGetDisplayCount"
+#defcfunc rlez_get_display_count local temp_return
+temp_return=int(_rlez_get_display_count())
+return temp_return
+
+//int RlezGetCurrentDisplay(void);
+#cfunc global _rlez_get_current_display "RlezGetCurrentDisplay"
+#defcfunc rlez_get_current_display local temp_return
+temp_return=int(_rlez_get_current_display())
+return temp_return
+
+//int RlezGetDisplayX(int display);
+#cfunc global _rlez_get_display_x "RlezGetDisplayX" int
+#defcfunc rlez_get_display_x int p_display, local temp_return
+temp_return=int(_rlez_get_display_x(p_display))
+return temp_return
+
+//int RlezGetDisplayY(int display);
+#cfunc global _rlez_get_display_y "RlezGetDisplayY" int
+#defcfunc rlez_get_display_y int p_display, local temp_return
+temp_return=int(_rlez_get_display_y(p_display))
+return temp_return
+
+//int RlezGetDisplayWidth(int display);
+#cfunc global _rlez_get_display_width "RlezGetDisplayWidth" int
+#defcfunc rlez_get_display_width int p_display, local temp_return
+temp_return=int(_rlez_get_display_width(p_display))
+return temp_return
+
+//int RlezGetDisplayHeight(int display);
+#cfunc global _rlez_get_display_height "RlezGetDisplayHeight" int
+#defcfunc rlez_get_display_height int p_display, local temp_return
+temp_return=int(_rlez_get_display_height(p_display))
+return temp_return
+
+//void RlezGetBackend(char* return_pointer);
+#func global _rlez_get_backend "RlezGetBackend" var
+#deffunc rlez_get_backend var p_return_pointer
+_rlez_get_backend p_return_pointer
+return
+
+//double RlezGetTime(void);
+#func global _rlez_get_time "RlezGetTime"
+#defcfunc rlez_get_time local temp_return
+temp_return=double(0)
+_rlez_get_time
+rlez_return_double temp_return
+return temp_return
+
+//void RlezBeginDraw(int resource);
+#func global _rlez_begin_draw "RlezBeginDraw" int
+#deffunc rlez_begin_draw int p_resource
+_rlez_begin_draw p_resource
+return
+
+//void RlezBeginWindow(void);
+#func global _rlez_begin_window "RlezBeginWindow"
+#deffunc rlez_begin_window 
+_rlez_begin_window
+return
+
+//void RlezEndDraw(void);
+#func global _rlez_end_draw "RlezEndDraw"
+#deffunc rlez_end_draw 
+_rlez_end_draw
+return
+
+//void RlezBegin2D(double offset_x,double offset_y,double target_x,double target_y,double rotation,double zoom);
+#func global _rlez_begin_2d "RlezBegin2D" double,double,double,double,double,double
+#deffunc rlez_begin_2d double p_offset_x,double p_offset_y,double p_target_x,double p_target_y,double p_rotation,double p_zoom
+_rlez_begin_2d p_offset_x,p_offset_y,p_target_x,p_target_y,p_rotation,p_zoom
+return
+
+//void RlezEnd2D(void);
+#func global _rlez_end_2d "RlezEnd2D"
+#deffunc rlez_end_2d 
+_rlez_end_2d
+return
+
+//void RlezBegin3D(double position_x,double position_y,double position_z,double target_x,double target_y,double target_z,double up_x,double up_y,double up_z,double fovy,int projection);
+#func global _rlez_begin_3d "RlezBegin3D" double,double,double,double,double,double,double,double,double,double,int
+#deffunc rlez_begin_3d double p_position_x,double p_position_y,double p_position_z,double p_target_x,double p_target_y,double p_target_z,double p_up_x,double p_up_y,double p_up_z,double p_fovy,int p_projection
+_rlez_begin_3d p_position_x,p_position_y,p_position_z,p_target_x,p_target_y,p_target_z,p_up_x,p_up_y,p_up_z,p_fovy,p_projection
+return
+
+//void RlezEnd3D(void);
+#func global _rlez_end_3d "RlezEnd3D"
+#deffunc rlez_end_3d 
+_rlez_end_3d
+return
+
+//void RlezBeginBlend(const char* mode);
+#func global _rlez_begin_blend "RlezBeginBlend" str
+#deffunc rlez_begin_blend str p_mode
+_rlez_begin_blend p_mode
+return
+
+//void RlezBeginBlendCustom(const char* src_factor,const char* dest_factor,const char* equation);
+#func global _rlez_begin_blend_custom "RlezBeginBlendCustom" str,str,str
+#deffunc rlez_begin_blend_custom str p_src_factor,str p_dest_factor,str p_equation
+_rlez_begin_blend_custom p_src_factor,p_dest_factor,p_equation
+return
+
+//void RlezBeginBlendCustomSeparate(const char* src_rgb,const char* dest_rgb,const char* src_alpha,const char* dest_alpha,const char* eq_rgb,const char* eq_alpha);
+#func global _rlez_begin_blend_custom_separate "RlezBeginBlendCustomSeparate" str,str,str,str,str,str
+#deffunc rlez_begin_blend_custom_separate str p_src_rgb,str p_dest_rgb,str p_src_alpha,str p_dest_alpha,str p_eq_rgb,str p_eq_alpha
+_rlez_begin_blend_custom_separate p_src_rgb,p_dest_rgb,p_src_alpha,p_dest_alpha,p_eq_rgb,p_eq_alpha
+return
+
+//void RlezEndBlend(void);
+#func global _rlez_end_blend "RlezEndBlend"
+#deffunc rlez_end_blend 
+_rlez_end_blend
+return
+
+//void RlezBeginShader(int resource);
+#func global _rlez_begin_shader "RlezBeginShader" int
+#deffunc rlez_begin_shader int p_resource
+_rlez_begin_shader p_resource
+return
+
+//void RlezEndShader(void);
+#func global _rlez_end_shader "RlezEndShader"
+#deffunc rlez_end_shader 
+_rlez_end_shader
+return
+
+//void RlezPerspective(double fovy,double aspect,double near,double far);
+#func global _rlez_perspective "RlezPerspective" double,double,double,double
+#deffunc rlez_perspective double p_fovy,double p_aspect,double p_near,double p_far
+_rlez_perspective p_fovy,p_aspect,p_near,p_far
+return
+
+//void RlezFrustum(double left,double right,double bottom,double top,double near,double far);
+#func global _rlez_frustum "RlezFrustum" double,double,double,double,double,double
+#deffunc rlez_frustum double p_left,double p_right,double p_bottom,double p_top,double p_near,double p_far
+_rlez_frustum p_left,p_right,p_bottom,p_top,p_near,p_far
+return
+
+//void RlezOrtho(double left,double right,double bottom,double top,double near,double far);
+#func global _rlez_ortho "RlezOrtho" double,double,double,double,double,double
+#deffunc rlez_ortho double p_left,double p_right,double p_bottom,double p_top,double p_near,double p_far
+_rlez_ortho p_left,p_right,p_bottom,p_top,p_near,p_far
+return
+
+//void RlezPushMatrix(void);
+#func global _rlez_push_matrix "RlezPushMatrix"
+#deffunc rlez_push_matrix 
+_rlez_push_matrix
+return
+
+//void RlezPopMatrix(void);
+#func global _rlez_pop_matrix "RlezPopMatrix"
+#deffunc rlez_pop_matrix 
+_rlez_pop_matrix
+return
+
+//void RlezTranslate(double x,double y,double z);
+#func global _rlez_translate "RlezTranslate" double,double,double
+#deffunc rlez_translate double p_x,double p_y,double p_z
+_rlez_translate p_x,p_y,p_z
+return
+
+//void RlezScale(double x,double y,double z);
+#func global _rlez_scale "RlezScale" double,double,double
+#deffunc rlez_scale double p_x,double p_y,double p_z
+_rlez_scale p_x,p_y,p_z
+return
+
+//void RlezRotateAxis(double angle,double x,double y,double z);
+#func global _rlez_rotate_axis "RlezRotateAxis" double,double,double,double
+#deffunc rlez_rotate_axis double p_angle,double p_x,double p_y,double p_z
+_rlez_rotate_axis p_angle,p_x,p_y,p_z
+return
+
+//void RlezRotateX(double angle);
+#func global _rlez_rotate_x "RlezRotateX" double
+#deffunc rlez_rotate_x double p_angle
+_rlez_rotate_x p_angle
+return
+
+//void RlezRotateY(double angle);
+#func global _rlez_rotate_y "RlezRotateY" double
+#deffunc rlez_rotate_y double p_angle
+_rlez_rotate_y p_angle
+return
+
+//void RlezRotateZ(double angle);
+#func global _rlez_rotate_z "RlezRotateZ" double
+#deffunc rlez_rotate_z double p_angle
+_rlez_rotate_z p_angle
+return
+
+//void RlezRotate(double angle);
+#func global _rlez_rotate "RlezRotate" double
+#deffunc rlez_rotate double p_angle
+_rlez_rotate p_angle
+return
+
+//void RlezLocalToWorld(double sx,double sy,double sz,double* dx,double* dy,double* dz);
+#func global _rlez_local_to_world "RlezLocalToWorld" double,double,double,var,var,var
+#deffunc rlez_local_to_world double p_sx,double p_sy,double p_sz,var p_dx,var p_dy,var p_dz
+_rlez_local_to_world p_sx,p_sy,p_sz,p_dx,p_dy,p_dz
+return
+
+//void RlezWorldToLocal(double sx,double sy,double sz,double* dx,double* dy,double* dz);
+#func global _rlez_world_to_local "RlezWorldToLocal" double,double,double,var,var,var
+#deffunc rlez_world_to_local double p_sx,double p_sy,double p_sz,var p_dx,var p_dy,var p_dz
+_rlez_world_to_local p_sx,p_sy,p_sz,p_dx,p_dy,p_dz
+return
+
+//void RlezWorldToScreen(double screen_x,double screen_y,double screen_w,double screen_h,double sx,double sy,double sz,double* dx,double* dy,double* dz,double* dw);
+#func global _rlez_world_to_screen "RlezWorldToScreen" double,double,double,double,double,double,double,var,var,var,var
+#deffunc rlez_world_to_screen double p_screen_x,double p_screen_y,double p_screen_w,double p_screen_h,double p_sx,double p_sy,double p_sz,var p_dx,var p_dy,var p_dz,var p_dw
+_rlez_world_to_screen p_screen_x,p_screen_y,p_screen_w,p_screen_h,p_sx,p_sy,p_sz,p_dx,p_dy,p_dz,p_dw
+return
+
+//int RlezLoadRenderTexture(int width,int height);
+#cfunc global _rlez_load_render_texture "RlezLoadRenderTexture" int,int
+#defcfunc rlez_load_render_texture int p_width,int p_height, local temp_return
+temp_return=int(_rlez_load_render_texture(p_width,p_height))
+return temp_return
+
+//int RlezLoadTexture(const char* path);
+#cfunc global _rlez_load_texture "RlezLoadTexture" str
+#defcfunc rlez_load_texture str p_path, local temp_return
+temp_return=int(_rlez_load_texture(p_path))
+return temp_return
+
+//int RlezLoadTextureFromMemory(const char* file_type,void* data,int size);
+#cfunc global _rlez_load_texture_from_memory "RlezLoadTextureFromMemory" str,var,int
+#defcfunc rlez_load_texture_from_memory str p_file_type,var p_data,int p_size, local temp_return
+temp_return=int(_rlez_load_texture_from_memory(p_file_type,p_data,p_size))
+return temp_return
+
+//void RlezSetTextureFilter(int texture,const char* filter_type);
+#func global _rlez_set_texture_filter "RlezSetTextureFilter" int,str
+#deffunc rlez_set_texture_filter int p_texture,str p_filter_type
+_rlez_set_texture_filter p_texture,p_filter_type
+return
+
+//void RlezSetTextureMipmaps(int texture);
+#func global _rlez_set_texture_mipmaps "RlezSetTextureMipmaps" int
+#deffunc rlez_set_texture_mipmaps int p_texture
+_rlez_set_texture_mipmaps p_texture
+return
+
+//int RlezLoadFont(const char* path,int font_size,const char* target_string,int target_image_width,int target_image_height);
+#cfunc global _rlez_load_font "RlezLoadFont" str,int,str,int,int
+#defcfunc rlez_load_font str p_path,int p_font_size,str p_target_string,int p_target_image_width,int p_target_image_height, local temp_return
+temp_return=int(_rlez_load_font(p_path,p_font_size,p_target_string,p_target_image_width,p_target_image_height))
+return temp_return
+
+//int RlezLoadFontFromMemory(void* font_data,int font_data_size,int font_size,const char* target_string,int target_image_width,int target_image_height);
+#cfunc global _rlez_load_font_from_memory "RlezLoadFontFromMemory" var,int,int,str,int,int
+#defcfunc rlez_load_font_from_memory var p_font_data,int p_font_data_size,int p_font_size,str p_target_string,int p_target_image_width,int p_target_image_height, local temp_return
+temp_return=int(_rlez_load_font_from_memory(p_font_data,p_font_data_size,p_font_size,p_target_string,p_target_image_width,p_target_image_height))
+return temp_return
+
+//void RlezLoadPixels(int texture,const char* format);
+#func global _rlez_load_pixels "RlezLoadPixels" int,str
+#deffunc rlez_load_pixels int p_texture,str p_format
+_rlez_load_pixels p_texture,p_format
+return
+
+//void RlezCopyPixels(int src_offset,int src_length,void* dest_pointer,int dest_offset);
+#func global _rlez_copy_pixels "RlezCopyPixels" int,int,var,int
+#deffunc rlez_copy_pixels int p_src_offset,int p_src_length,var p_dest_pointer,int p_dest_offset
+_rlez_copy_pixels p_src_offset,p_src_length,p_dest_pointer,p_dest_offset
+return
+
+//void RlezRestorePixels(void* src_pointer,int src_offset,int src_length,int dest_offset);
+#func global _rlez_restore_pixels "RlezRestorePixels" var,int,int,int
+#deffunc rlez_restore_pixels var p_src_pointer,int p_src_offset,int p_src_length,int p_dest_offset
+_rlez_restore_pixels p_src_pointer,p_src_offset,p_src_length,p_dest_offset
+return
+
+//void RlezGetPixel(int x,int y);
+#func global _rlez_get_pixel "RlezGetPixel" int,int
+#deffunc rlez_get_pixel int p_x,int p_y
+_rlez_get_pixel p_x,p_y
+return
+
+//void RlezSetPixel(int x,int y);
+#func global _rlez_set_pixel "RlezSetPixel" int,int
+#deffunc rlez_set_pixel int p_x,int p_y
+_rlez_set_pixel p_x,p_y
+return
+
+//void RlezUpdatePixels(void);
+#func global _rlez_update_pixels "RlezUpdatePixels"
+#deffunc rlez_update_pixels 
+_rlez_update_pixels
+return
+
+//void RlezSavePixels(const char* path);
+#func global _rlez_save_pixels "RlezSavePixels" str
+#deffunc rlez_save_pixels str p_path
+_rlez_save_pixels p_path
+return
+
+//void RlezUnloadPixels(void);
+#func global _rlez_unload_pixels "RlezUnloadPixels"
+#deffunc rlez_unload_pixels 
+_rlez_unload_pixels
+return
+
+//void RlezBackground(int r,int g,int b,int a);
+#func global _rlez_background "RlezBackground" int,int,int,int
+#deffunc rlez_background int p_r,int p_g,int p_b,int p_a
+_rlez_background p_r,p_g,p_b,p_a
+return
+
+//void RlezBeginShape(const char* mode,int auto_normal,int resource);
+#func global _rlez_begin_shape "RlezBeginShape" str,int,int
+#deffunc rlez_begin_shape str p_mode,int p_auto_normal,int p_resource
+_rlez_begin_shape p_mode,p_auto_normal,p_resource
+return
+
+//void RlezVertex(double x,double y,double z,double u,double v,int r,int g,int b,int a,double nx,double ny,double nz);
+#func global _rlez_vertex "RlezVertex" double,double,double,double,double,int,int,int,int,double,double,double
+#deffunc rlez_vertex double p_x,double p_y,double p_z,double p_u,double p_v,int p_r,int p_g,int p_b,int p_a,double p_nx,double p_ny,double p_nz
+_rlez_vertex p_x,p_y,p_z,p_u,p_v,p_r,p_g,p_b,p_a,p_nx,p_ny,p_nz
+return
+
+//void RlezEndShape(void);
+#func global _rlez_end_shape "RlezEndShape"
+#deffunc rlez_end_shape 
+_rlez_end_shape
+return
+
+//int RlezEndMesh(void);
+#cfunc global _rlez_end_mesh "RlezEndMesh"
+#defcfunc rlez_end_mesh local temp_return
+temp_return=int(_rlez_end_mesh())
+return temp_return
+
+//void RlezSetMeshTexture(int mesh,int texture);
+#func global _rlez_set_mesh_texture "RlezSetMeshTexture" int,int
+#deffunc rlez_set_mesh_texture int p_mesh,int p_texture
+_rlez_set_mesh_texture p_mesh,p_texture
+return
+
+//int RlezLoadModel(const char* path,int load_animation);
+#cfunc global _rlez_load_model "RlezLoadModel" str,int
+#defcfunc rlez_load_model str p_path,int p_load_animation, local temp_return
+temp_return=int(_rlez_load_model(p_path,p_load_animation))
+return temp_return
+
+//void RlezFromMeshToModel(int mesh);
+#func global _rlez_from_mesh_to_model "RlezFromMeshToModel" int
+#deffunc rlez_from_mesh_to_model int p_mesh
+_rlez_from_mesh_to_model p_mesh
+return
+
+//void RlezSetModelTexture(int model,int material_index,const char* map_name,int texture);
+#func global _rlez_set_model_texture "RlezSetModelTexture" int,int,str,int
+#deffunc rlez_set_model_texture int p_model,int p_material_index,str p_map_name,int p_texture
+_rlez_set_model_texture p_model,p_material_index,p_map_name,p_texture
+return
+
+//int RlezGetAnimationCount(int model);
+#cfunc global _rlez_get_animation_count "RlezGetAnimationCount" int
+#defcfunc rlez_get_animation_count int p_model, local temp_return
+temp_return=int(_rlez_get_animation_count(p_model))
+return temp_return
+
+//int RlezGetAnimationId(int model,const char* name);
+#cfunc global _rlez_get_animation_id "RlezGetAnimationId" int,str
+#defcfunc rlez_get_animation_id int p_model,str p_name, local temp_return
+temp_return=int(_rlez_get_animation_id(p_model,p_name))
+return temp_return
+
+//int RlezGetAnimationFrames(int model,int id);
+#cfunc global _rlez_get_animation_frames "RlezGetAnimationFrames" int,int
+#defcfunc rlez_get_animation_frames int p_model,int p_id, local temp_return
+temp_return=int(_rlez_get_animation_frames(p_model,p_id))
+return temp_return
+
+//void RlezSetModelAnimation(int model,int id,double frame);
+#func global _rlez_set_model_animation "RlezSetModelAnimation" int,int,double
+#deffunc rlez_set_model_animation int p_model,int p_id,double p_frame
+_rlez_set_model_animation p_model,p_id,p_frame
+return
+
+//void RlezSetModelAnimationBlend(int model,int a_id,double a_frame,int b_id,double b_frame,double blend);
+#func global _rlez_set_model_animation_blend "RlezSetModelAnimationBlend" int,int,double,int,double,double
+#deffunc rlez_set_model_animation_blend int p_model,int p_a_id,double p_a_frame,int p_b_id,double p_b_frame,double p_blend
+_rlez_set_model_animation_blend p_model,p_a_id,p_a_frame,p_b_id,p_b_frame,p_blend
+return
+
+//void RlezColor(int r,int g,int b,int a);
+#func global _rlez_color "RlezColor" int,int,int,int
+#deffunc rlez_color int p_r,int p_g,int p_b,int p_a
+_rlez_color p_r,p_g,p_b,p_a
+return
+
+//int RlezGetColorR(void);
+#cfunc global _rlez_get_color_r "RlezGetColorR"
+#defcfunc rlez_get_color_r local temp_return
+temp_return=int(_rlez_get_color_r())
+return temp_return
+
+//int RlezGetColorG(void);
+#cfunc global _rlez_get_color_g "RlezGetColorG"
+#defcfunc rlez_get_color_g local temp_return
+temp_return=int(_rlez_get_color_g())
+return temp_return
+
+//int RlezGetColorB(void);
+#cfunc global _rlez_get_color_b "RlezGetColorB"
+#defcfunc rlez_get_color_b local temp_return
+temp_return=int(_rlez_get_color_b())
+return temp_return
+
+//int RlezGetColorA(void);
+#cfunc global _rlez_get_color_a "RlezGetColorA"
+#defcfunc rlez_get_color_a local temp_return
+temp_return=int(_rlez_get_color_a())
+return temp_return
+
+//void RlezDrawMesh(int mesh);
+#func global _rlez_draw_mesh "RlezDrawMesh" int
+#deffunc rlez_draw_mesh int p_mesh
+_rlez_draw_mesh p_mesh
+return
+
+//void RlezDrawModel(int model);
+#func global _rlez_draw_model "RlezDrawModel" int
+#deffunc rlez_draw_model int p_model
+_rlez_draw_model p_model
+return
+
+//void RlezDrawText(int font,const char* text,double x,double y,double size,double spacing);
+#func global _rlez_draw_text "RlezDrawText" int,str,double,double,double,double
+#deffunc rlez_draw_text int p_font,str p_text,double p_x,double p_y,double p_size,double p_spacing
+_rlez_draw_text p_font,p_text,p_x,p_y,p_size,p_spacing
+return
+
+//void RlezDrawLine(double x1,double y1,double z1,double x2,double y2,double z2);
+#func global _rlez_draw_line "RlezDrawLine" double,double,double,double,double,double
+#deffunc rlez_draw_line double p_x1,double p_y1,double p_z1,double p_x2,double p_y2,double p_z2
+_rlez_draw_line p_x1,p_y1,p_z1,p_x2,p_y2,p_z2
+return
+
+//void RlezDrawRect(double x,double y,double width,double height,int fill);
+#func global _rlez_draw_rect "RlezDrawRect" double,double,double,double,int
+#deffunc rlez_draw_rect double p_x,double p_y,double p_width,double p_height,int p_fill
+_rlez_draw_rect p_x,p_y,p_width,p_height,p_fill
+return
+
+//void RlezDrawEllipse(double x,double y,double width,double height,int fill);
+#func global _rlez_draw_ellipse "RlezDrawEllipse" double,double,double,double,int
+#deffunc rlez_draw_ellipse double p_x,double p_y,double p_width,double p_height,int p_fill
+_rlez_draw_ellipse p_x,p_y,p_width,p_height,p_fill
+return
+
+//void RlezDrawBox(double x,double y,double z,double width,double height,double depth,int fill);
+#func global _rlez_draw_box "RlezDrawBox" double,double,double,double,double,double,int
+#deffunc rlez_draw_box double p_x,double p_y,double p_z,double p_width,double p_height,double p_depth,int p_fill
+_rlez_draw_box p_x,p_y,p_z,p_width,p_height,p_depth,p_fill
+return
+
+//void RlezDrawSphere(double x,double y,double z,double size,int rings,int slices,int fill);
+#func global _rlez_draw_sphere "RlezDrawSphere" double,double,double,double,int,int,int
+#deffunc rlez_draw_sphere double p_x,double p_y,double p_z,double p_size,int p_rings,int p_slices,int p_fill
+_rlez_draw_sphere p_x,p_y,p_z,p_size,p_rings,p_slices,p_fill
+return
+
+//void RlezDrawCylinder(double x1,double y1,double z1,double x2,double y2,double z2,double size1,double size2,int sides,int fill);
+#func global _rlez_draw_cylinder "RlezDrawCylinder" double,double,double,double,double,double,double,double,int,int
+#deffunc rlez_draw_cylinder double p_x1,double p_y1,double p_z1,double p_x2,double p_y2,double p_z2,double p_size1,double p_size2,int p_sides,int p_fill
+_rlez_draw_cylinder p_x1,p_y1,p_z1,p_x2,p_y2,p_z2,p_size1,p_size2,p_sides,p_fill
+return
+
+//void RlezDrawCapsule(double x1,double y1,double z1,double x2,double y2,double z2,double size,int slices,int rings,int fill);
+#func global _rlez_draw_capsule "RlezDrawCapsule" double,double,double,double,double,double,double,int,int,int
+#deffunc rlez_draw_capsule double p_x1,double p_y1,double p_z1,double p_x2,double p_y2,double p_z2,double p_size,int p_slices,int p_rings,int p_fill
+_rlez_draw_capsule p_x1,p_y1,p_z1,p_x2,p_y2,p_z2,p_size,p_slices,p_rings,p_fill
+return
+
+//void RlezDrawTexture(int texture,int src_x,int src_y,int src_w,int src_h,double dest_x,double dest_y,double dest_w,double dest_h);
+#func global _rlez_draw_texture "RlezDrawTexture" int,int,int,int,int,double,double,double,double
+#deffunc rlez_draw_texture int p_texture,int p_src_x,int p_src_y,int p_src_w,int p_src_h,double p_dest_x,double p_dest_y,double p_dest_w,double p_dest_h
+_rlez_draw_texture p_texture,p_src_x,p_src_y,p_src_w,p_src_h,p_dest_x,p_dest_y,p_dest_w,p_dest_h
+return
+
+//int RlezLoadShaderFromMemory(const char* vertex_code,const char* fragment_code);
+#cfunc global _rlez_load_shader_from_memory "RlezLoadShaderFromMemory" str,str
+#defcfunc rlez_load_shader_from_memory str p_vertex_code,str p_fragment_code, local temp_return
+temp_return=int(_rlez_load_shader_from_memory(p_vertex_code,p_fragment_code))
+return temp_return
+
+//int RlezLoadShader(const char* vertex_code_path,const char* fragment_code_path);
+#cfunc global _rlez_load_shader "RlezLoadShader" str,str
+#defcfunc rlez_load_shader str p_vertex_code_path,str p_fragment_code_path, local temp_return
+temp_return=int(_rlez_load_shader(p_vertex_code_path,p_fragment_code_path))
+return temp_return
+
+//int RlezLoadSoundFromMemory(const char* file_type,void* sound_data,int sound_data_size,int is_music,double music_update_time,int music_update_samples);
+#cfunc global _rlez_load_sound_from_memory "RlezLoadSoundFromMemory" str,var,int,int,double,int
+#defcfunc rlez_load_sound_from_memory str p_file_type,var p_sound_data,int p_sound_data_size,int p_is_music,double p_music_update_time,int p_music_update_samples, local temp_return
+temp_return=int(_rlez_load_sound_from_memory(p_file_type,p_sound_data,p_sound_data_size,p_is_music,p_music_update_time,p_music_update_samples))
+return temp_return
+
+//int RlezLoadSound(const char* path,int is_music,double music_update_time,int music_update_samples);
+#cfunc global _rlez_load_sound "RlezLoadSound" str,int,double,int
+#defcfunc rlez_load_sound str p_path,int p_is_music,double p_music_update_time,int p_music_update_samples, local temp_return
+temp_return=int(_rlez_load_sound(p_path,p_is_music,p_music_update_time,p_music_update_samples))
+return temp_return
+
+//void RlezStopSound(int sound);
+#func global _rlez_stop_sound "RlezStopSound" int
+#deffunc rlez_stop_sound int p_sound
+_rlez_stop_sound p_sound
+return
+
+//void RlezPauseSound(int sound);
+#func global _rlez_pause_sound "RlezPauseSound" int
+#deffunc rlez_pause_sound int p_sound
+_rlez_pause_sound p_sound
+return
+
+//void RlezResumeSound(int sound);
+#func global _rlez_resume_sound "RlezResumeSound" int
+#deffunc rlez_resume_sound int p_sound
+_rlez_resume_sound p_sound
+return
+
+//void RlezPlaySound(int sound,int music_loop);
+#func global _rlez_play_sound "RlezPlaySound" int,int
+#deffunc rlez_play_sound int p_sound,int p_music_loop
+_rlez_play_sound p_sound,p_music_loop
+return
+
+//int RlezGetSoundStatus(int sound);
+#cfunc global _rlez_get_sound_status "RlezGetSoundStatus" int
+#defcfunc rlez_get_sound_status int p_sound, local temp_return
+temp_return=int(_rlez_get_sound_status(p_sound))
+return temp_return
+
+//double RlezGetSoundTime(int sound);
+#func global _rlez_get_sound_time "RlezGetSoundTime" int
+#defcfunc rlez_get_sound_time int p_sound, local temp_return
+temp_return=double(0)
+_rlez_get_sound_time p_sound
+rlez_return_double temp_return
+return temp_return
+
+//void RlezSetSoundTime(int sound,double set_time);
+#func global _rlez_set_sound_time "RlezSetSoundTime" int,double
+#deffunc rlez_set_sound_time int p_sound,double p_set_time
+_rlez_set_sound_time p_sound,p_set_time
+return
+
+//double RlezGetSoundLength(int sound);
+#func global _rlez_get_sound_length "RlezGetSoundLength" int
+#defcfunc rlez_get_sound_length int p_sound, local temp_return
+temp_return=double(0)
+_rlez_get_sound_length p_sound
+rlez_return_double temp_return
+return temp_return
+
+//void RlezSetSoundPitch(int sound,double pitch);
+#func global _rlez_set_sound_pitch "RlezSetSoundPitch" int,double
+#deffunc rlez_set_sound_pitch int p_sound,double p_pitch
+_rlez_set_sound_pitch p_sound,p_pitch
+return
+
+//void RlezSetSoundVolume(int sound,double volume);
+#func global _rlez_set_sound_volume "RlezSetSoundVolume" int,double
+#deffunc rlez_set_sound_volume int p_sound,double p_volume
+_rlez_set_sound_volume p_sound,p_volume
+return
+
+//void RlezSetSoundPan(int sound,double pan);
+#func global _rlez_set_sound_pan "RlezSetSoundPan" int,double
+#deffunc rlez_set_sound_pan int p_sound,double p_pan
+_rlez_set_sound_pan p_sound,p_pan
+return
+
+//int RlezGetKey(const char* name);
+#cfunc global _rlez_get_key "RlezGetKey" str
+#defcfunc rlez_get_key str p_name, local temp_return
+temp_return=int(_rlez_get_key(p_name))
+return temp_return
+
+//int RlezGetMouseButton(const char* name);
+#cfunc global _rlez_get_mouse_button "RlezGetMouseButton" str
+#defcfunc rlez_get_mouse_button str p_name, local temp_return
+temp_return=int(_rlez_get_mouse_button(p_name))
+return temp_return
+
+//int RlezGetMouseX(void);
+#cfunc global _rlez_get_mouse_x "RlezGetMouseX"
+#defcfunc rlez_get_mouse_x local temp_return
+temp_return=int(_rlez_get_mouse_x())
+return temp_return
+
+//int RlezGetMouseY(void);
+#cfunc global _rlez_get_mouse_y "RlezGetMouseY"
+#defcfunc rlez_get_mouse_y local temp_return
+temp_return=int(_rlez_get_mouse_y())
+return temp_return
+
+//void RlezSetMousePosition(int x,int y);
+#func global _rlez_set_mouse_position "RlezSetMousePosition" int,int
+#deffunc rlez_set_mouse_position int p_x,int p_y
+_rlez_set_mouse_position p_x,p_y
+return
+
+//void RlezSetMouseVisible(int visible);
+#func global _rlez_set_mouse_visible "RlezSetMouseVisible" int
+#deffunc rlez_set_mouse_visible int p_visible
+_rlez_set_mouse_visible p_visible
+return
+
+//int RlezCheckMouseInWindow(void);
+#cfunc global _rlez_check_mouse_in_window "RlezCheckMouseInWindow"
+#defcfunc rlez_check_mouse_in_window local temp_return
+temp_return=int(_rlez_check_mouse_in_window())
+return temp_return
+
+//double RlezGetMouseWheelX(void);
+#func global _rlez_get_mouse_wheel_x "RlezGetMouseWheelX"
+#defcfunc rlez_get_mouse_wheel_x local temp_return
+temp_return=double(0)
+_rlez_get_mouse_wheel_x
+rlez_return_double temp_return
+return temp_return
+
+//double RlezGetMouseWheelY(void);
+#func global _rlez_get_mouse_wheel_y "RlezGetMouseWheelY"
+#defcfunc rlez_get_mouse_wheel_y local temp_return
+temp_return=double(0)
+_rlez_get_mouse_wheel_y
+rlez_return_double temp_return
+return temp_return
+
+//int RlezCheckGamepad(int gamepad);
+#cfunc global _rlez_check_gamepad "RlezCheckGamepad" int
+#defcfunc rlez_check_gamepad int p_gamepad, local temp_return
+temp_return=int(_rlez_check_gamepad(p_gamepad))
+return temp_return
+
+//int RlezGetGamepadButton(int gamepad,const char* button);
+#cfunc global _rlez_get_gamepad_button "RlezGetGamepadButton" int,str
+#defcfunc rlez_get_gamepad_button int p_gamepad,str p_button, local temp_return
+temp_return=int(_rlez_get_gamepad_button(p_gamepad,p_button))
+return temp_return
+
+//int RlezGetAxisCount(int gamepad);
+#cfunc global _rlez_get_axis_count "RlezGetAxisCount" int
+#defcfunc rlez_get_axis_count int p_gamepad, local temp_return
+temp_return=int(_rlez_get_axis_count(p_gamepad))
+return temp_return
+
+//double RlezGetGamepadAxis(int gamepad,int axis);
+#func global _rlez_get_gamepad_axis "RlezGetGamepadAxis" int,int
+#defcfunc rlez_get_gamepad_axis int p_gamepad,int p_axis, local temp_return
+temp_return=double(0)
+_rlez_get_gamepad_axis p_gamepad,p_axis
+rlez_return_double temp_return
+return temp_return
+
+//void RlezSetGamepadVibration(int gamepad,double left,double right,double duration);
+#func global _rlez_set_gamepad_vibration "RlezSetGamepadVibration" int,double,double,double
+#deffunc rlez_set_gamepad_vibration int p_gamepad,double p_left,double p_right,double p_duration
+_rlez_set_gamepad_vibration p_gamepad,p_left,p_right,p_duration
+return
+
+
+#deffunc local rlez_return_double var p_var
+p_var=0.0
+rlez_get_return_data p_var
+return
+
+#deffunc local rlez_return_pointer var p_var
+#ifndef __hsp64__@
+p_var=int(0)
+#else
+p_var=int64(0)
+#endif
+rlez_get_return_data p_var
+return
+
+
+#global
+
+#module
+
+#deffunc rlez_load_file_from_hsp str p_file,var p_data, local temp_size
+exist ""+ p_file +""
+temp_size=strsize
+if temp_size!=-1:{
+p_data=""
+memexpand p_data,temp_size
+memset p_data,0,varsize(p_data),0
+bload ""+ p_file +"",p_data,temp_size,-1
+}
+return temp_size
+
+#defcfunc rlez_load_texture_from_hsp str p1, local temp_return,local temp_data,local temp_size
+temp_return=-1
+sdim temp_data
+rlez_load_file_from_hsp p1,temp_data
+temp_size=stat
+if temp_size!=-1:{
+temp_return=rlez_load_texture_from_memory(getpath(p1,2+16),temp_data,temp_size)
+}
+return temp_return
+
+#defcfunc rlez_load_font_from_hsp str p1,int p2,str p3,int p4,int p5, local temp_return,local temp_data,local temp_size
+temp_return=-1
+sdim temp_data
+rlez_load_file_from_hsp p1,temp_data
+temp_size=stat
+if temp_size!=-1:{
+temp_return=rlez_load_font_from_memory(temp_data,temp_size,p2,p3,p4,p5)
+}
+return temp_return
+
+#defcfunc rlez_load_sound_from_hsp str p1,int p2,double p3,int p4, local temp_return,local temp_data,local temp_size
+temp_return=-1
+sdim temp_data
+rlez_load_file_from_hsp p1,temp_data
+temp_size=stat
+if temp_size!=-1:{
+temp_return=rlez_load_sound_from_memory(getpath(p1,2+16),temp_data,temp_size,p2,p3,p4)
+}
+return temp_return
+
+#global
+
+rlez_init
+
+#endif
