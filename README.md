@@ -83,7 +83,7 @@ make build_angle
 
 ANGLEバックエンドを用いた`rlez.dll`をWindowsで使用する場合、`libEGL.dll`ファイルと`libGLESv2.dll`ファイルが最低限必要で、環境によっては`d3dcompiler_47.dll`ファイルも必要です。ANGLEのWindowsの64bit版バイナリは、例えば以下のURLからダウンロード可能です。
 
-`https://packages.msys2.org/packages/mingw-w64-ucrt-x86_64-angleproject`
+`https://github.com/mmozeiko/build-angle`
 
 全てのバックエンドの`rlez.dll`を一括で作成する場合は、以下のコマンドを実行してください。
 
