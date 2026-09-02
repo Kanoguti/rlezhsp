@@ -126,6 +126,15 @@ void RlezDrawTexture(int texture,int src_x,int src_y,int src_w,int src_h,double 
 
 int RlezLoadShaderFromMemory(const char *vertex_code,const char *fragment_code);
 int RlezLoadShader(const char *vertex_code_path,const char *fragment_code_path);
+int RlezGetShaderLocation(int shader,const char *uniform_name);
+void RlezSetShaderValueFloatArray(int shader,int location,double *value_double_array, const char *value_type,int count);
+void RlezSetShaderValueFloat(int shader,int location,double value_double);
+void RlezSetShaderValueIntArray(int shader,int location,int *value_int_array,const char *value_type,int count);
+void RlezSetShaderValueInt(int shader,int location,int value_int);
+void RlezSetShaderValueAnyArray(int shader,int location,void *value_any_array,const char *value_type,int count);
+void RlezSetShaderValueAny(int shader,int location,void *value_any, const char *value_type);
+void RlezSetShaderValueMatrix(int shader,int location,double *value_matrix);
+void RlezSetShaderValueTexture(int shader,int location,int value_texture);
 
 int RlezLoadSoundFromMemory(const char *file_type,void *sound_data,int sound_data_size,int is_music,double music_update_time,int music_update_samples);
 int RlezLoadSound(const char *path,int is_music,double music_update_time,int music_update_samples);

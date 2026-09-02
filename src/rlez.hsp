@@ -696,6 +696,60 @@ return temp_return
 temp_return=int(_rlez_load_shader(p_vertex_code_path,p_fragment_code_path))
 return temp_return
 
+//int RlezGetShaderLocation(int shader,const char* uniform_name);
+#cfunc global _rlez_get_shader_location "RlezGetShaderLocation" int,str
+#defcfunc rlez_get_shader_location int p_shader,str p_uniform_name, local temp_return
+temp_return=int(_rlez_get_shader_location(p_shader,p_uniform_name))
+return temp_return
+
+//void RlezSetShaderValueFloatArray(int shader,int location,double* value_double_array,const char* value_type,int count);
+#func global _rlez_set_shader_value_float_array "RlezSetShaderValueFloatArray" int,int,var,str,int
+#deffunc rlez_set_shader_value_float_array int p_shader,int p_location,var p_value_double_array,str p_value_type,int p_count
+_rlez_set_shader_value_float_array p_shader,p_location,p_value_double_array,p_value_type,p_count
+return
+
+//void RlezSetShaderValueFloat(int shader,int location,double value_double);
+#func global _rlez_set_shader_value_float "RlezSetShaderValueFloat" int,int,double
+#deffunc rlez_set_shader_value_float int p_shader,int p_location,double p_value_double
+_rlez_set_shader_value_float p_shader,p_location,p_value_double
+return
+
+//void RlezSetShaderValueIntArray(int shader,int location,int* value_int_array,const char* value_type,int count);
+#func global _rlez_set_shader_value_int_array "RlezSetShaderValueIntArray" int,int,var,str,int
+#deffunc rlez_set_shader_value_int_array int p_shader,int p_location,var p_value_int_array,str p_value_type,int p_count
+_rlez_set_shader_value_int_array p_shader,p_location,p_value_int_array,p_value_type,p_count
+return
+
+//void RlezSetShaderValueInt(int shader,int location,int value_int);
+#func global _rlez_set_shader_value_int "RlezSetShaderValueInt" int,int,int
+#deffunc rlez_set_shader_value_int int p_shader,int p_location,int p_value_int
+_rlez_set_shader_value_int p_shader,p_location,p_value_int
+return
+
+//void RlezSetShaderValueAnyArray(int shader,int location,void* value_any_array,const char* value_type,int count);
+#func global _rlez_set_shader_value_any_array "RlezSetShaderValueAnyArray" int,int,var,str,int
+#deffunc rlez_set_shader_value_any_array int p_shader,int p_location,var p_value_any_array,str p_value_type,int p_count
+_rlez_set_shader_value_any_array p_shader,p_location,p_value_any_array,p_value_type,p_count
+return
+
+//void RlezSetShaderValueAny(int shader,int location,void* value_any,const char* value_type);
+#func global _rlez_set_shader_value_any "RlezSetShaderValueAny" int,int,var,str
+#deffunc rlez_set_shader_value_any int p_shader,int p_location,var p_value_any,str p_value_type
+_rlez_set_shader_value_any p_shader,p_location,p_value_any,p_value_type
+return
+
+//void RlezSetShaderValueMatrix(int shader,int location,double* value_matrix);
+#func global _rlez_set_shader_value_matrix "RlezSetShaderValueMatrix" int,int,var
+#deffunc rlez_set_shader_value_matrix int p_shader,int p_location,var p_value_matrix
+_rlez_set_shader_value_matrix p_shader,p_location,p_value_matrix
+return
+
+//void RlezSetShaderValueTexture(int shader,int location,int value_texture);
+#func global _rlez_set_shader_value_texture "RlezSetShaderValueTexture" int,int,int
+#deffunc rlez_set_shader_value_texture int p_shader,int p_location,int p_value_texture
+_rlez_set_shader_value_texture p_shader,p_location,p_value_texture
+return
+
 //int RlezLoadSoundFromMemory(const char* file_type,void* sound_data,int sound_data_size,int is_music,double music_update_time,int music_update_samples);
 #cfunc global _rlez_load_sound_from_memory "RlezLoadSoundFromMemory" str,var,int,int,double,int
 #defcfunc rlez_load_sound_from_memory str p_file_type,var p_sound_data,int p_sound_data_size,int p_is_music,double p_music_update_time,int p_music_update_samples, local temp_return

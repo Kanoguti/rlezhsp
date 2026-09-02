@@ -214,6 +214,15 @@ x=rlez_get_mouse_x()
 | :---: | :---: |
 | [RlezLoadShaderFromMemory](#RlezLoadShaderFromMemory) | シェーダーをメモリ上の文字列から作成 |
 | [RlezLoadShader](#RlezLoadShader) | シェーダーをファイルから作成 |
+| [RlezGetShaderLocation](#RlezGetShaderLocation) | シェーダー内の変数のロケーションIDを取得 |
+| [RlezSetShaderValueFloatArray](#RlezSetShaderValueFloatArray) | シェーダー内のfloat型のユニフォーム変数の値をまとめて設定 |
+| [RlezSetShaderValueFloat](#RlezSetShaderValueFloat) | シェーダー内のfloat型のユニフォーム変数の値を設定 |
+| [RlezSetShaderValueIntArray](#RlezSetShaderValueIntArray) | シェーダー内のint型のユニフォーム変数の値をまとめて設定 |
+| [RlezSetShaderValueInt](#RlezSetShaderValueInt) | シェーダー内のint型のユニフォーム変数の値を設定 |
+| [RlezSetShaderValueAnyArray](#RlezSetShaderValueAnyArray) | シェーダー内の任意の型のユニフォーム変数の値をまとめて設定 |
+| [RlezSetShaderValueAny](#RlezSetShaderValueAny) | シェーダー内の任意の型のユニフォーム変数の値を設定 |
+| [RlezSetShaderValueMatrix](#RlezSetShaderValueMatrix) | シェーダー内の行列のユニフォーム変数の値を設定 |
+| [RlezSetShaderValueTexture](#RlezSetShaderValueTexture) | シェーダー内のテクスチャのユニフォーム変数の値を設定 |
 | | |
 
 ### サウンド関連
@@ -2176,6 +2185,203 @@ int RlezLoadShader(const char *vertex_code_path,const char *fragment_code_path);
 `(return)`:シェーダーのリソースID
 
 シェーダーをファイルから作成します。
+
+---
+
+<div id="RlezGetShaderLocation"></div>
+
+### RlezGetShaderLocation
+
+```
+int RlezGetShaderLocation(int shader, const char *uniform_name);
+```
+
+`shader`:シェーダーのリソースID
+
+`uniform_name`:シェーダー内の変数名の文字列
+
+`(return)`:変数のロケーションID
+
+指定したシェーダー内の変数名からロケーションIDを取得します。
+
+---
+
+<div id="RlezSetShaderValueFloatArray"></div>
+
+### RlezSetShaderValueFloatArray
+
+```
+void RlezSetShaderValueFloatArray(int shader, int location,double *value_double_array, const char *value_type,int count);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_double_array`:書き換えるデータの変数のポインタ
+
+`value_type`:書き換えるデータのタイプ名
+
+`count`:書き換えるデータの個数
+
+指定したシェーダー内のfloat型のユニフォーム変数の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。`value_double_array`引数で指定したdouble型の配列変数データは、float型に変換されてユニフォーム変数に設定されます。`value_type`引数で指定できるタイプ名は以下の通りです。
+
+```
+"SHADER_UNIFORM_FLOAT"
+"SHADER_UNIFORM_VEC2"
+"SHADER_UNIFORM_VEC3"
+"SHADER_UNIFORM_VEC4"
+"SHADER_UNIFORM_INT"
+"SHADER_UNIFORM_IVEC2"
+"SHADER_UNIFORM_IVEC3"
+"SHADER_UNIFORM_IVEC4"
+"SHADER_UNIFORM_UINT"
+"SHADER_UNIFORM_UIVEC2"
+"SHADER_UNIFORM_UIVEC3"
+"SHADER_UNIFORM_UIVEC4"
+```
+
+---
+
+<div id="RlezSetShaderValueFloat"></div>
+
+### RlezSetShaderValueFloat
+
+```
+void RlezSetShaderValueFloat(int shader,int location,double value_double);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_double`:書き換える値
+
+指定したシェーダー内の1個分のfloat型のユニフォーム変数の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。`value_double`引数で指定したdouble型のデータは、float型に変換されてユニフォーム変数に設定されます。
+
+---
+
+<div id="RlezSetShaderValueIntArray"></div>
+
+### RlezSetShaderValueIntArray
+
+```
+void RlezSetShaderValueIntArray(int shader,int location,int *value_int_array,const char *value_type,int count);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_int_array`:書き換えるデータの変数のポインタ
+
+`value_type`:書き換えるデータのタイプ名
+
+`count`:書き換えるデータの個数
+
+指定したシェーダー内のint型のユニフォーム変数の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。`value_type`引数で指定できるタイプ名については[RlezSetShaderValueFloatArray](#RlezSetShaderValueFloatArray)関数の説明をご覧ください。
+
+---
+
+<div id="RlezSetShaderValueInt"></div>
+
+### RlezSetShaderValueInt
+
+```
+void RlezSetShaderValueInt(int shader,int location,int value_int);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_int`:書き換える値
+
+指定したシェーダー内の1個分のint型のユニフォーム変数の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。
+
+---
+
+<div id="RlezSetShaderValueAnyArray"></div>
+
+### RlezSetShaderValueAnyArray
+
+```
+void RlezSetShaderValueAnyArray(int shader,int location,void *value_any_array,const char *value_type,int count);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_any_array`:書き換えるデータの変数のポインタ
+
+`value_type`:書き換えるデータのタイプ名
+
+`count`:書き換えるデータの個数
+
+指定したシェーダー内の任意の型のユニフォーム変数の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。`value_any_array`引数で指定された変数の中身は一切変換されないことにご注意ください。`value_type`引数で指定できるタイプ名については[RlezSetShaderValueFloatArray](#RlezSetShaderValueFloatArray)関数の説明をご覧ください。
+
+---
+
+<div id="RlezSetShaderValueAny"></div>
+
+### RlezSetShaderValueAny
+
+```
+void RlezSetShaderValueAny(int shader,int location,void *value_any, const char *value_type);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_any`:書き換える値
+
+`value_type`:書き換えるデータのタイプ名
+
+指定したシェーダー内の1個分の任意の型のユニフォーム変数の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。`value_any`引数で指定された変数の中身は一切変換されないことにご注意ください。
+
+---
+
+<div id="RlezSetShaderValueMatrix"></div>
+
+### RlezSetShaderValueMatrix
+
+```
+void RlezSetShaderValueMatrix(int shader,int location,double *value_matrix);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_matrix`:16個分のdouble型の配列変数のポインタ
+
+指定したシェーダー内の行列のユニフォーム変数(mat4型)の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。raylibでは行列は以下のように定義されています。
+
+<img src="images/matrix_1.svg" width="30%"></img>
+
+`value_matrix`引数で指定するdouble型の配列変数のインデックスは以下のようになります。
+
+<img src="images/matrix_2.svg" width="30%"></img>
+
+---
+
+<div id="RlezSetShaderValueTexture"></div>
+
+### RlezSetShaderValueTexture
+
+```
+void RlezSetShaderValueTexture(int shader,int location,int value_texture);
+```
+
+`shader`:シェーダーのリソースID
+
+`location`:ユニフォーム変数のロケーションID
+
+`value_texture`:テクスチャのリソースID
+
+指定したシェーダー内のテクスチャのユニフォーム変数(sampler2D型)の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。
 
 ---
 

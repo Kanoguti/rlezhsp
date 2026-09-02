@@ -196,6 +196,15 @@ extern void RlezDrawCapsule(GoFloat64 x1, GoFloat64 y1, GoFloat64 z1, GoFloat64 
 extern void RlezDrawTexture(GoInt32 texture, GoInt32 src_x, GoInt32 src_y, GoInt32 src_w, GoInt32 src_h, GoFloat64 dest_x, GoFloat64 dest_y, GoFloat64 dest_w, GoFloat64 dest_h);
 extern GoInt32 RlezLoadShaderFromMemory(GoUintptr vertex_code, GoUintptr fragment_code);
 extern GoInt32 RlezLoadShader(GoUintptr vertex_code_path, GoUintptr fragment_code_path);
+extern GoInt32 RlezGetShaderLocation(GoInt32 shader, GoUintptr uniform_name);
+extern void RlezSetShaderValueFloatArray(GoInt32 shader, GoInt32 location, GoUintptr value_double_array, GoUintptr value_type, GoInt32 count);
+extern void RlezSetShaderValueFloat(GoInt32 shader, GoInt32 location, GoFloat64 value_double);
+extern void RlezSetShaderValueIntArray(GoInt32 shader, GoInt32 location, GoUintptr value_int_array, GoUintptr value_type, GoInt32 count);
+extern void RlezSetShaderValueInt(GoInt32 shader, GoInt32 location, GoInt32 value_int);
+extern void RlezSetShaderValueAnyArray(GoInt32 shader, GoInt32 location, GoUintptr value_any_array, GoUintptr value_type, GoInt32 count);
+extern void RlezSetShaderValueAny(GoInt32 shader, GoInt32 location, GoUintptr value_any, GoUintptr value_type);
+extern void RlezSetShaderValueMatrix(GoInt32 shader, GoInt32 location, GoUintptr value_matrix);
+extern void RlezSetShaderValueTexture(GoInt32 shader, GoInt32 location, GoInt32 value_texture);
 extern GoInt32 RlezLoadSoundFromMemory(GoUintptr file_type, GoUintptr sound_data, GoInt32 sound_data_size, GoInt32 is_music, GoFloat64 music_update_time, GoInt32 music_update_samples);
 extern GoInt32 RlezLoadSound(GoUintptr path, GoInt32 is_music, GoFloat64 music_update_time, GoInt32 music_update_samples);
 extern void RlezStopSound(GoInt32 sound);

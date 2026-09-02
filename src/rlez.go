@@ -704,6 +704,53 @@ func getTextureFilter(name string) rl.TextureFilterMode {
 	return return_data
 }
 
+func getUniformDataType(name string) (rl.ShaderUniformDataType, int32) {
+	return_data := rl.ShaderUniformFloat
+	return_data_count := int32(1)
+	switch name {
+	case "SHADER_UNIFORM_FLOAT":
+		return_data = rl.ShaderUniformFloat
+		return_data_count = 1
+	case "SHADER_UNIFORM_VEC2":
+		return_data = rl.ShaderUniformVec2
+		return_data_count = 2
+	case "SHADER_UNIFORM_VEC3":
+		return_data = rl.ShaderUniformVec3
+		return_data_count = 3
+	case "SHADER_UNIFORM_VEC4":
+		return_data = rl.ShaderUniformVec4
+		return_data_count = 4
+	case "SHADER_UNIFORM_INT":
+		return_data = rl.ShaderUniformInt
+		return_data_count = 1
+	case "SHADER_UNIFORM_IVEC2":
+		return_data = rl.ShaderUniformIvec2
+		return_data_count = 2
+	case "SHADER_UNIFORM_IVEC3":
+		return_data = rl.ShaderUniformIvec3
+		return_data_count = 3
+	case "SHADER_UNIFORM_IVEC4":
+		return_data = rl.ShaderUniformIvec4
+		return_data_count = 4
+	case "SHADER_UNIFORM_UINT":
+		return_data = rl.ShaderUniformUint
+		return_data_count = 1
+	case "SHADER_UNIFORM_UIVEC2":
+		return_data = rl.ShaderUniformUivec2
+		return_data_count = 2
+	case "SHADER_UNIFORM_UIVEC3":
+		return_data = rl.ShaderUniformUivec3
+		return_data_count = 3
+	case "SHADER_UNIFORM_UIVEC4":
+		return_data = rl.ShaderUniformUivec4
+		return_data_count = 4
+		//case "SHADER_UNIFORM_SAMPLER2D":
+		//	return_data = rl.ShaderUniformSampler2d
+		//	return_data_count = 1
+	}
+	return return_data, return_data_count
+}
+
 func memcopy(dest unsafe.Pointer, src unsafe.Pointer, size int) {
 	copy(unsafe.Slice((*byte)(dest), size), unsafe.Slice((*byte)(src), size))
 }
@@ -731,6 +778,36 @@ func halfToFloat(x uint16) float32 {
 	memcopy(unsafe.Pointer(&uni_fm), unsafe.Pointer(&uni_ui), 4)
 	result = uni_fm
 	return result
+}
+
+func doubleToMatrix(double_array []float64) rl.Matrix {
+	return_data := rl.Matrix{}
+	return_data.M0 = float32(double_array[0])
+	return_data.M4 = float32(double_array[1])
+	return_data.M8 = float32(double_array[2])
+	return_data.M12 = float32(double_array[3])
+	return_data.M1 = float32(double_array[4])
+	return_data.M5 = float32(double_array[5])
+	return_data.M9 = float32(double_array[6])
+	return_data.M13 = float32(double_array[7])
+	return_data.M2 = float32(double_array[8])
+	return_data.M6 = float32(double_array[9])
+	return_data.M10 = float32(double_array[10])
+	return_data.M14 = float32(double_array[11])
+	return_data.M3 = float32(double_array[12])
+	return_data.M7 = float32(double_array[13])
+	return_data.M11 = float32(double_array[14])
+	return_data.M15 = float32(double_array[15])
+	return return_data
+}
+
+func matrixToDouble(matrix rl.Matrix) []float64 {
+	return_data := make([]float64, 16)
+	get_float32 := rl.MatrixToFloatV(matrix)
+	for cnt := 0; cnt < 16; cnt++ {
+		return_data[cnt] = float64(get_float32[cnt])
+	}
+	return return_data
 }
 
 //export RlezInit
@@ -1837,9 +1914,7 @@ func RlezCopyPixels(src_offset, src_length int32, dest_pointer uintptr, dest_off
 		get_image := system.pixels.(*rl.Image)
 		src := unsafe.Slice((*byte)(unsafe.Pointer((uintptr(get_image.Data) + uintptr(src_offset)))), src_length)
 		dest := unsafe.Slice((*byte)(unsafe.Pointer(dest_pointer+uintptr(dest_offset))), src_length)
-		for cnt := int32(0); cnt < src_length; cnt++ {
-			dest[cnt] = src[cnt]
-		}
+		copy(dest, src)
 	}
 }
 
@@ -1849,9 +1924,7 @@ func RlezRestorePixels(src_pointer uintptr, src_offset, src_length int32, dest_o
 		get_image := system.pixels.(*rl.Image)
 		src := unsafe.Slice((*byte)(unsafe.Pointer(src_pointer+uintptr(src_offset))), src_length)
 		dest := unsafe.Slice((*byte)(unsafe.Pointer((uintptr(get_image.Data) + uintptr(dest_offset)))), src_length)
-		for cnt := int32(0); cnt < src_length; cnt++ {
-			dest[cnt] = src[cnt]
-		}
+		copy(dest, src)
 	}
 }
 
@@ -2594,6 +2667,134 @@ func RlezLoadShader(vertex_code_path uintptr, fragment_code_path uintptr) int32 
 		}
 	}
 	return return_data
+}
+
+//export RlezGetShaderLocation
+func RlezGetShaderLocation(shader int32, uniform_name uintptr) int32 {
+	return_data := int32(-1)
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" {
+				get_shader := (*rl.Shader)(system.resource[shader].data)
+				return_data = rl.GetShaderLocation(*get_shader, toString(uniform_name))
+			}
+		}
+	}
+	return return_data
+}
+
+//export RlezSetShaderValueFloatArray
+func RlezSetShaderValueFloatArray(shader int32, location int32, value_double_array, value_type uintptr, count int32) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" && count > 0 {
+				get_shader := (*rl.Shader)(system.resource[shader].data)
+				get_value_type, get_value_count := getUniformDataType(toString(value_type))
+				get_value := unsafe.Slice((*float64)(unsafe.Pointer(value_double_array)), count*get_value_count)
+				get_value32 := make([]float32, count*get_value_count)
+				for cnt := int32(0); cnt < count*get_value_count; cnt++ {
+					get_value32[cnt] = float32(get_value[cnt])
+				}
+				rl.SetShaderValueV(*get_shader, location, get_value32, get_value_type, count)
+			}
+		}
+	}
+}
+
+//export RlezSetShaderValueFloat
+func RlezSetShaderValueFloat(shader int32, location int32, value_double float64) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" {
+				get_double := value_double
+				get_type := fromString("SHADER_UNIFORM_FLOAT")
+				RlezSetShaderValueFloatArray(shader, location, uintptr(unsafe.Pointer(&get_double)), get_type.string_uintptr, 1)
+			}
+		}
+	}
+}
+
+//export RlezSetShaderValueIntArray
+func RlezSetShaderValueIntArray(shader int32, location int32, value_int_array, value_type uintptr, count int32) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" && count > 0 {
+				get_shader := (*rl.Shader)(system.resource[shader].data)
+				get_value_type, get_value_count := getUniformDataType(toString(value_type))
+				get_value := unsafe.Slice((*int32)(unsafe.Pointer(value_int_array)), count*get_value_count)
+				get_value_float := make([]float32, count*get_value_count)
+				for cnt := int32(0); cnt < count*get_value_count; cnt++ {
+					get_value_float[cnt] = math.Float32frombits(uint32(get_value[cnt]))
+				}
+				rl.SetShaderValueV(*get_shader, location, get_value_float, get_value_type, count)
+			}
+		}
+	}
+}
+
+//export RlezSetShaderValueInt
+func RlezSetShaderValueInt(shader int32, location int32, value_int int32) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" {
+				get_int := value_int
+				get_type := fromString("SHADER_UNIFORM_INT")
+				RlezSetShaderValueIntArray(shader, location, uintptr(unsafe.Pointer(&get_int)), get_type.string_uintptr, 1)
+			}
+		}
+	}
+}
+
+//export RlezSetShaderValueAnyArray
+func RlezSetShaderValueAnyArray(shader int32, location int32, value_any_array, value_type uintptr, count int32) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" && count > 0 {
+				get_shader := (*rl.Shader)(system.resource[shader].data)
+				get_value_type, _ := getUniformDataType(toString(value_type))
+				get_value := *(*[]float32)(unsafe.Pointer(value_any_array))
+				rl.SetShaderValueV(*get_shader, location, get_value, get_value_type, count)
+			}
+		}
+	}
+}
+
+//export RlezSetShaderValueAny
+func RlezSetShaderValueAny(shader int32, location int32, value_any, value_type uintptr) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" {
+				RlezSetShaderValueAnyArray(shader, location, value_any, value_type, 1)
+			}
+		}
+	}
+}
+
+//export RlezSetShaderValueMatrix
+func RlezSetShaderValueMatrix(shader int32, location int32, value_matrix uintptr) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" {
+				get_shader := (*rl.Shader)(system.resource[shader].data)
+				get_value := unsafe.Slice((*float64)(unsafe.Pointer(value_matrix)), 16)
+				get_matrix := doubleToMatrix(get_value)
+				rl.SetShaderValueMatrix(*get_shader, location, get_matrix)
+			}
+		}
+	}
+}
+
+//export RlezSetShaderValueTexture
+func RlezSetShaderValueTexture(shader int32, location int32, value_texture int32) {
+	if system.window_status == true {
+		if checkResource(shader) == true {
+			if system.resource[shader].type_name == "Shader" {
+				get_shader := (*rl.Shader)(system.resource[shader].data)
+				get_texture := getTexture(value_texture)
+				rl.SetShaderValueTexture(*get_shader, location, *get_texture)
+			}
+		}
+	}
 }
 
 //export RlezLoadSoundFromMemory
