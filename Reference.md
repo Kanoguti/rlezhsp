@@ -2359,11 +2359,11 @@ void RlezSetShaderValueMatrix(int shader,int location,double *value_matrix);
 
 指定したシェーダー内の行列のユニフォーム変数(mat4型)の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。raylibでは行列は以下のように定義されています。
 
-<img src="images/matrix_1.svg" width="30%"></img>
+<img src="data/matrix_1.svg" width="30%"></img>
 
 `value_matrix`引数で指定するdouble型の配列変数のインデックスは以下のようになります。
 
-<img src="images/matrix_2.svg" width="30%"></img>
+<img src="data/matrix_2.svg" width="30%"></img>
 
 ---
 
