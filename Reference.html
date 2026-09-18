@@ -486,6 +486,10 @@ x=rlez_get_mouse_x()
 <td style="text-align:center">メモリ上のフォントファイルからフォントデータを作成</td>
 </tr>
 <tr>
+<td style="text-align:center"><a href="#RlezGetTextWidth">RlezGetTextWidth</a></td>
+<td style="text-align:center">文字列の横幅の描画サイズを取得</td>
+</tr>
+<tr>
 <td style="text-align:center"></td>
 <td style="text-align:center"></td>
 </tr>
@@ -1442,6 +1446,17 @@ x=rlez_get_mouse_x()
 <p><code>target_image_width</code>,<code>target_image_height</code>:内部で生成されるフォントテクスチャの目標サイズの横幅と縦幅</p>
 <p><code>(return)</code>:フォントデータのリソースID</p>
 <p>メモリ上のフォントファイルのバイナリデータからフォントデータを作成します。<code>font_size</code>引数と<code>target_string</code>引数と<code>target_image_width</code>引数と<code>target_image_height</code>引数に関しては<a href="#RlezLoadFont">RlezLoadFont</a>関数と同じです。フォントデータを作成する過程については<a href="#RlezLoadFont">RlezLoadFont</a>関数の説明をご覧ください。</p>
+<hr>
+<div id="RlezGetTextWidth"></div>
+<h3 id="rlezgettextwidth">RlezGetTextWidth </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>double RlezGetTextWidth(int font,const char *text,double x,double y,double size,double spacing);
+</code></pre><p><code>font</code>:フォントのリソースID(0未満だとraylibのデフォルトフォントを使用)</p>
+<p><code>text</code>:描画する文字列</p>
+<p><code>x</code>,<code>y</code>:描画する位置</p>
+<p><code>size</code>:描画サイズ</p>
+<p><code>spacing</code>:文字間の距離</p>
+<p><code>(return)</code>:文字列の横幅の描画サイズ</p>
+<p>文字列の横幅の描画サイズを取得します。</p>
 <hr>
 <div id="RlezLoadPixels"></div>
 <h3 id="rlezloadpixels">RlezLoadPixels </h3>

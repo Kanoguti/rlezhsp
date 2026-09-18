@@ -156,6 +156,7 @@ x=rlez_get_mouse_x()
 | :---: | :---: |
 | [RlezLoadFont](#RlezLoadFont) | フォントファイルからフォントデータを作成 |
 | [RlezLoadFontFromMemory](#RlezLoadFontFromMemory) | メモリ上のフォントファイルからフォントデータを作成 |
+| [RlezGetTextWidth](#RlezGetTextWidth) | 文字列の横幅の描画サイズを取得 |
 | | |
 
 ### ピクセル操作関連
@@ -1450,6 +1451,30 @@ int RlezLoadFontFromMemory(void *font_data,int font_data_size,int font_size,cons
 `(return)`:フォントデータのリソースID
 
 メモリ上のフォントファイルのバイナリデータからフォントデータを作成します。`font_size`引数と`target_string`引数と`target_image_width`引数と`target_image_height`引数に関しては[RlezLoadFont](#RlezLoadFont)関数と同じです。フォントデータを作成する過程については[RlezLoadFont](#RlezLoadFont)関数の説明をご覧ください。
+
+---
+
+<div id="RlezGetTextWidth"></div>
+
+### RlezGetTextWidth
+
+```
+double RlezGetTextWidth(int font,const char *text,double x,double y,double size,double spacing);
+```
+
+`font`:フォントのリソースID(0未満だとraylibのデフォルトフォントを使用)
+
+`text`:描画する文字列
+
+`x`,`y`:描画する位置
+
+`size`:描画サイズ
+
+`spacing`:文字間の距離
+
+`(return)`:文字列の横幅の描画サイズ
+
+文字列の横幅の描画サイズを取得します。
 
 ---
 

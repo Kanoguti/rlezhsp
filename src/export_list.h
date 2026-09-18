@@ -83,6 +83,7 @@ void RlezSetTextureMipmaps(int texture);
 
 int RlezLoadFont(const char *path,int font_size,const char *target_string,int target_image_width,int target_image_height);
 int RlezLoadFontFromMemory(void *font_data,int font_data_size,int font_size,const char *target_string,int target_image_width,int target_image_height);
+double RlezGetTextWidth(int font,const char *text,double x,double y,double size,double spacing);
 
 void RlezLoadPixels(int texture,const char *format);
 void RlezCopyPixels(int src_offset,int src_length,void *dest_pointer,int dest_offset);

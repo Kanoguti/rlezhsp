@@ -1865,6 +1865,78 @@ func RlezLoadFontFromMemory(font_data uintptr, font_data_size int32, font_size i
 	return return_data
 }
 
+func drawText(draw_switch bool, font int32, text uintptr, x, y float64, size, spacing float64) rl.Vector2 {
+	return_data := rl.Vector2{}
+	if system.window_status == true {
+		check_font := false
+		if checkResource(font) == true {
+			if system.resource[font].type_name == "RLEZFont" {
+				check_font = true
+			}
+		}
+		position := rl.Vector2{}
+		position.X = float32(x)
+		position.Y = float32(y)
+		get_font := rl.Font{}
+		if check_font == false {
+			get_font = rl.GetFontDefault()
+			if draw_switch == true {
+				rl.DrawTextEx(get_font, toString(text), position, float32(size), float32(spacing), system.color)
+			}
+			return_data = rl.MeasureTextEx(get_font, toString(text), float32(size), float32(spacing))
+		} else {
+			get_codepoints := []rune(toString(text))
+			get_fonts := (*RLEZFont)(system.resource[font].data).Fonts
+			get_fonts_chars := [][]rl.GlyphInfo{}
+			for cnt_font := 0; cnt_font < len(get_fonts); cnt_font++ {
+				get_fonts_chars = append(get_fonts_chars, unsafe.Slice(get_fonts[cnt_font].Chars, get_fonts[cnt_font].CharsCount))
+			}
+			for cnt := 0; cnt < len(get_codepoints); cnt++ {
+				flag := false
+				for cnt_font := 0; cnt_font < len(get_fonts); cnt_font++ {
+					get_font = get_fonts[cnt_font]
+					for cnt_glyph := 0; cnt_glyph < int(get_font.CharsCount); cnt_glyph++ {
+						if get_fonts_chars[cnt_font][cnt_glyph].Value == get_codepoints[cnt] {
+							flag = true
+							break
+						}
+					}
+					if flag == true {
+						break
+					}
+				}
+				if flag == true {
+					if draw_switch == true {
+						rl.DrawTextCodepoint(get_font, get_codepoints[cnt], position, float32(size), system.color)
+					}
+					get_char_size := rl.MeasureTextEx(get_font, string(get_codepoints[cnt]), float32(size), float32(0.0))
+					position.X += get_char_size.X
+				} else {
+					if get_codepoints[cnt] == 32 {
+						position.X += float32(size / 2.0)
+					}
+				}
+				if cnt < len(get_codepoints)-1 {
+					position.X += float32(spacing)
+				}
+			}
+			return_data.X = position.X - float32(x)
+			return_data.Y = float32(size)
+		}
+	}
+	return return_data
+}
+
+//export RlezGetTextWidth
+func RlezGetTextWidth(font int32, text uintptr, x, y float64, size, spacing float64) float64 {
+	return_data := float64(0)
+	if system.window_status == true {
+		return_data = (float64)(drawText(false, font, text, x, y, size, spacing).X)
+	}
+	setReturnData(return_data, reflect.TypeFor[float64]())
+	return return_data
+}
+
 //export RlezLoadPixels
 func RlezLoadPixels(texture int32, format uintptr) {
 	if system.window_status == true {
@@ -2476,54 +2548,7 @@ func RlezDrawModel(model int32) {
 //export RlezDrawText
 func RlezDrawText(font int32, text uintptr, x, y float64, size, spacing float64) {
 	if system.window_status == true {
-		check_font := false
-		if checkResource(font) == true {
-			if system.resource[font].type_name == "RLEZFont" {
-				check_font = true
-			}
-		}
-		position := rl.Vector2{}
-		position.X = float32(x)
-		position.Y = float32(y)
-		get_font := rl.Font{}
-		if check_font == false {
-			get_font = rl.GetFontDefault()
-			rl.DrawTextEx(get_font, toString(text), position, float32(size), float32(spacing), system.color)
-		} else {
-			get_codepoints := []rune(toString(text))
-			get_fonts := (*RLEZFont)(system.resource[font].data).Fonts
-			get_fonts_chars := [][]rl.GlyphInfo{}
-			for cnt_font := 0; cnt_font < len(get_fonts); cnt_font++ {
-				get_fonts_chars = append(get_fonts_chars, unsafe.Slice(get_fonts[cnt_font].Chars, get_fonts[cnt_font].CharsCount))
-			}
-			for cnt := 0; cnt < len(get_codepoints); cnt++ {
-				flag := false
-				for cnt_font := 0; cnt_font < len(get_fonts); cnt_font++ {
-					get_font = get_fonts[cnt_font]
-					for cnt_glyph := 0; cnt_glyph < int(get_font.CharsCount); cnt_glyph++ {
-						if get_fonts_chars[cnt_font][cnt_glyph].Value == get_codepoints[cnt] {
-							flag = true
-							break
-						}
-					}
-					if flag == true {
-						break
-					}
-				}
-				if flag == true {
-					rl.DrawTextCodepoint(get_font, get_codepoints[cnt], position, float32(size), system.color)
-					get_char_size := rl.MeasureTextEx(get_font, string(get_codepoints[cnt]), float32(size), float32(0.0))
-					position.X += get_char_size.X
-				} else {
-					if get_codepoints[cnt] == 32 {
-						position.X += float32(size / 2.0)
-					}
-				}
-				if cnt < len(get_codepoints)-1 {
-					position.X += float32(spacing)
-				}
-			}
-		}
+		drawText(true, font, text, x, y, size, spacing)
 	}
 }
 

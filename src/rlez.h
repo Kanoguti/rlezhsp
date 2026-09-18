@@ -156,6 +156,7 @@ extern void RlezSetTextureFilter(GoInt32 texture, GoUintptr filter_type);
 extern void RlezSetTextureMipmaps(GoInt32 texture);
 extern GoInt32 RlezLoadFont(GoUintptr path, GoInt32 font_size, GoUintptr target_string, GoInt32 target_image_width, GoInt32 target_image_height);
 extern GoInt32 RlezLoadFontFromMemory(GoUintptr font_data, GoInt32 font_data_size, GoInt32 font_size, GoUintptr target_string, GoInt32 target_image_width, GoInt32 target_image_height);
+extern GoFloat64 RlezGetTextWidth(GoInt32 font, GoUintptr text, GoFloat64 x, GoFloat64 y, GoFloat64 size, GoFloat64 spacing);
 extern void RlezLoadPixels(GoInt32 texture, GoUintptr format);
 extern void RlezCopyPixels(GoInt32 src_offset, GoInt32 src_length, GoUintptr dest_pointer, GoInt32 dest_offset);
 extern void RlezRestorePixels(GoUintptr src_pointer, GoInt32 src_offset, GoInt32 src_length, GoInt32 dest_offset);
