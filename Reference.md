@@ -1459,7 +1459,7 @@ int RlezLoadFontFromMemory(void *font_data,int font_data_size,int font_size,cons
 ### RlezGetTextWidth
 
 ```
-double RlezGetTextWidth(int font,const char *text,double x,double y,double size,double spacing);
+double RlezGetTextWidth(int font,const char *text,double size,double spacing);
 ```
 
 `font`:フォントのリソースID(0未満だとraylibのデフォルトフォントを使用)
