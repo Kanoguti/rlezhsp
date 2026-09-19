@@ -1466,8 +1466,6 @@ double RlezGetTextWidth(int font,const char *text,double x,double y,double size,
 
 `text`:描画する文字列
 
-`x`,`y`:描画する位置
-
 `size`:描画サイズ
 
 `spacing`:文字間の距離

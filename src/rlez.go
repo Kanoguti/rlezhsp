@@ -1928,10 +1928,10 @@ func drawText(draw_switch bool, font int32, text uintptr, x, y float64, size, sp
 }
 
 //export RlezGetTextWidth
-func RlezGetTextWidth(font int32, text uintptr, x, y float64, size, spacing float64) float64 {
+func RlezGetTextWidth(font int32, text uintptr, size, spacing float64) float64 {
 	return_data := float64(0)
 	if system.window_status == true {
-		return_data = (float64)(drawText(false, font, text, x, y, size, spacing).X)
+		return_data = (float64)(drawText(false, font, text, float64(0), float64(0), size, spacing).X)
 	}
 	setReturnData(return_data, reflect.TypeFor[float64]())
 	return return_data

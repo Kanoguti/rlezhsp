@@ -456,11 +456,11 @@ return temp_return
 temp_return=int(_rlez_load_font_from_memory(p_font_data,p_font_data_size,p_font_size,p_target_string,p_target_image_width,p_target_image_height))
 return temp_return
 
-//double RlezGetTextWidth(int font,const char* text,double x,double y,double size,double spacing);
-#func global _rlez_get_text_width "RlezGetTextWidth" int,str,double,double,double,double
-#defcfunc rlez_get_text_width int p_font,str p_text,double p_x,double p_y,double p_size,double p_spacing, local temp_return
+//double RlezGetTextWidth(int font,const char* text,double size,double spacing);
+#func global _rlez_get_text_width "RlezGetTextWidth" int,str,double,double
+#defcfunc rlez_get_text_width int p_font,str p_text,double p_size,double p_spacing, local temp_return
 temp_return=double(0)
-_rlez_get_text_width p_font,p_text,p_x,p_y,p_size,p_spacing
+_rlez_get_text_width p_font,p_text,p_size,p_spacing
 rlez_return_double temp_return
 return temp_return
 
