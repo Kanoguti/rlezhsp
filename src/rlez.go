@@ -2660,11 +2660,14 @@ func RlezDrawCapsule(x1, y1, z1 float64, x2, y2, z2 float64, size float64, slice
 func RlezDrawTexture(texture int32, src_x, src_y, src_w, src_h int32, dest_x, dest_y, dest_w, dest_h float64) {
 	if system.window_status == true {
 		if checkResource(texture) == true {
-			v_scale := float32(1.0)
+			get_texture := *getTexture(texture)
+			src_rect := rl.Rectangle{X: float32(src_x), Y: float32(src_y), Width: float32(src_w), Height: float32(src_h)}
 			if system.resource[texture].type_name == "RenderTexture2D" {
-				v_scale = float32(-1.0)
+				src_rect.Y = float32(get_texture.Height) - src_rect.Y
+				src_rect.Height *= -1.0
 			}
-			rl.DrawTexturePro(*getTexture(texture), rl.Rectangle{X: float32(src_x), Y: v_scale * float32(src_y), Width: float32(src_w), Height: v_scale * float32(src_h)}, rl.Rectangle{X: float32(dest_x), Y: float32(dest_y), Width: float32(dest_w), Height: float32(dest_h)}, rl.Vector2{X: float32(0), Y: float32(0)}, float32(0), system.color)
+			dest_rect := rl.Rectangle{X: float32(dest_x), Y: float32(dest_y), Width: float32(dest_w), Height: float32(dest_h)}
+			rl.DrawTexturePro(get_texture, src_rect, dest_rect, rl.Vector2{X: float32(0), Y: float32(0)}, float32(0), system.color)
 		}
 	}
 }
