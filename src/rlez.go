@@ -2662,12 +2662,25 @@ func RlezDrawTexture(texture int32, src_x, src_y, src_w, src_h int32, dest_x, de
 		if checkResource(texture) == true {
 			get_texture := *getTexture(texture)
 			src_rect := rl.Rectangle{X: float32(src_x), Y: float32(src_y), Width: float32(src_w), Height: float32(src_h)}
+			src_size := [2]float32{float32(get_texture.Width), float32(get_texture.Height)}
 			if system.resource[texture].type_name == "RenderTexture2D" {
-				src_rect.Y = float32(get_texture.Height) - src_rect.Y
-				src_rect.Height *= -1.0
+				src_rect.Y = src_size[1] - src_rect.Y
+				src_rect.Height = -src_rect.Height
 			}
 			dest_rect := rl.Rectangle{X: float32(dest_x), Y: float32(dest_y), Width: float32(dest_w), Height: float32(dest_h)}
-			rl.DrawTexturePro(get_texture, src_rect, dest_rect, rl.Vector2{X: float32(0), Y: float32(0)}, float32(0), system.color)
+			rl.SetTexture(get_texture.ID)
+			rl.Begin(rl.Quads)
+			rl.Color4ub(system.color.R, system.color.G, system.color.B, system.color.A)
+			rl.TexCoord2f((src_rect.X)/src_size[0], (src_rect.Y)/src_size[1])
+			rl.Vertex2f(dest_rect.X, dest_rect.Y)
+			rl.TexCoord2f((src_rect.X+src_rect.Width)/src_size[0], (src_rect.Y)/src_size[1])
+			rl.Vertex2f(dest_rect.X+dest_rect.Width, dest_rect.Y)
+			rl.TexCoord2f((src_rect.X+src_rect.Width)/src_size[0], (src_rect.Y+src_rect.Height)/src_size[1])
+			rl.Vertex2f(dest_rect.X+dest_rect.Width, dest_rect.Y+dest_rect.Height)
+			rl.TexCoord2f((src_rect.X)/src_size[0], (src_rect.Y+src_rect.Height)/src_size[1])
+			rl.Vertex2f(dest_rect.X, dest_rect.Y+dest_rect.Height)
+			rl.End()
+			rl.SetTexture(0)
 		}
 	}
 }
