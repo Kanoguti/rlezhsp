@@ -94,7 +94,7 @@ extern void RlezDeleteGroup(GoUintptr name);
 extern void RlezDeleteAll(void);
 extern void RlezLoadTempDir(GoUintptr return_pointer);
 extern void RlezDeleteDir(GoUintptr path);
-extern void RlezOpenWindow(GoInt32 width, GoInt32 height);
+extern void RlezOpenWindow(GoInt32 width, GoInt32 height, GoInt32 option);
 extern void RlezSetWindowFocus(void);
 extern GoInt32 RlezCheckWindowFocus(void);
 extern void RlezSetWindowSize(GoInt32 width, GoInt32 height);
@@ -206,6 +206,8 @@ extern void RlezSetShaderValueAnyArray(GoInt32 shader, GoInt32 location, GoUintp
 extern void RlezSetShaderValueAny(GoInt32 shader, GoInt32 location, GoUintptr value_any, GoUintptr value_type);
 extern void RlezSetShaderValueMatrix(GoInt32 shader, GoInt32 location, GoUintptr value_matrix);
 extern void RlezSetShaderValueTexture(GoInt32 shader, GoInt32 location, GoInt32 value_texture);
+extern void RlezSetMasterVolume(GoFloat64 volume);
+extern GoFloat64 RlezGetMasterVolume(void);
 extern GoInt32 RlezLoadSoundFromMemory(GoUintptr file_type, GoUintptr sound_data, GoInt32 sound_data_size, GoInt32 is_music, GoFloat64 music_update_time, GoInt32 music_update_samples);
 extern GoInt32 RlezLoadSound(GoUintptr path, GoInt32 is_music, GoFloat64 music_update_time, GoInt32 music_update_samples);
 extern void RlezStopSound(GoInt32 sound);

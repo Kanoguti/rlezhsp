@@ -230,6 +230,8 @@ x=rlez_get_mouse_x()
 
 | | |
 | :---: | :---: |
+| [RlezSetMasterVolume](#RlezSetMasterVolume) | マスター音量を設定 |
+| [RlezGetMasterVolume](#RlezGetMasterVolume) | マスター音量を取得 |
 | [RlezLoadSoundFromMemory](#RlezLoadSoundFromMemory) | サウンドをメモリ上のバイナリデータから作成 |
 | [RlezLoadSound](#RlezLoadSound) | サウンドをファイルから作成 |
 | [RlezStopSound](#RlezStopSound) | サウンドを停止 |
@@ -389,14 +391,20 @@ void RlezDeleteDir(const char *path);
 ### RlezOpenWindow
 
 ```
-void RlezOpenWindow(int width,int height);
+void RlezOpenWindow(int width,int height,int option);
 ```
 
 `width`:作成するウィンドウの横幅のサイズ
 
 `height`:作成するウィンドウの縦幅のサイズ
 
-raylibのウィンドウを指定したサイズで作成します。`width`引数または`height`引数を0以下にすると、メインディスプレイのサイズに設定されます。
+`option`:オプション値
+
+raylibのウィンドウを指定したサイズで作成します。`width`引数または`height`引数を0以下にすると、メインディスプレイのサイズに設定されます。`option`引数に0以外の値を入力すると、以下の項目が設定されます。
+
+```
+option値に+1を足す:サウンド機能を無効化する
+```
 
 ---
 
@@ -2405,6 +2413,34 @@ void RlezSetShaderValueTexture(int shader,int location,int value_texture);
 `value_texture`:テクスチャのリソースID
 
 指定したシェーダー内のテクスチャのユニフォーム変数(sampler2D型)の値を設定します。`location`引数で指定するロケーションIDは[RlezGetShaderLocation](#RlezGetShaderLocation)関数で取得できます。
+
+---
+
+<div id="RlezSetMasterVolume"></div>
+
+### RlezSetMasterVolume
+
+```
+void RlezSetMasterVolume(double volume);
+```
+
+`volume`:設定するマスター音量の値(デフォルト値は1.0)
+
+マスター音量(全てのサウンドの基準となる音量)の値を設定します。
+
+---
+
+<div id="RlezGetMasterVolume"></div>
+
+### RlezGetMasterVolume
+
+```
+double RlezGetMasterVolume(void);
+```
+
+`(return)`:現在のマスター音量の値
+
+現在のマスター音量(全てのサウンドの基準となる音量)の値を取得します。
 
 ---
 

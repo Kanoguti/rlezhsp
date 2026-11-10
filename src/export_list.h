@@ -14,7 +14,7 @@ void RlezDeleteAll(void);
 void RlezLoadTempDir(char *return_pointer);
 void RlezDeleteDir(const char *path);
 
-void RlezOpenWindow(int width,int height);
+void RlezOpenWindow(int width,int height,int option);
 void RlezSetWindowFocus(void);
 int RlezCheckWindowFocus(void);
 void RlezSetWindowSize(int width,int height);
@@ -137,6 +137,8 @@ void RlezSetShaderValueAny(int shader,int location,void *value_any, const char *
 void RlezSetShaderValueMatrix(int shader,int location,double *value_matrix);
 void RlezSetShaderValueTexture(int shader,int location,int value_texture);
 
+void RlezSetMasterVolume(double volume);
+double RlezGetMasterVolume(void);
 int RlezLoadSoundFromMemory(const char *file_type,void *sound_data,int sound_data_size,int is_music,double music_update_time,int music_update_samples);
 int RlezLoadSound(const char *path,int is_music,double music_update_time,int music_update_samples);
 void RlezStopSound(int sound);

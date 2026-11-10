@@ -844,7 +844,9 @@ func RlezEnd() {
 
 		rl.CloseWindow()
 
-		rl.CloseAudioDevice()
+		if rl.IsAudioDeviceReady() == true {
+			rl.CloseAudioDevice()
+		}
 
 		RlezInit()
 	}
@@ -1124,13 +1126,17 @@ func RlezDeleteDir(path uintptr) {
 }
 
 //export RlezOpenWindow
-func RlezOpenWindow(width, height int32) {
+func RlezOpenWindow(width, height int32, option int32) {
 	if system.window_status == false {
 		system.window_status = true
 
 		runtime.LockOSThread()
 
-		rl.InitAudioDevice()
+		if option&1 != 1 {
+			if rl.IsAudioDeviceReady() == false {
+				rl.InitAudioDevice()
+			}
+		}
 
 		set_width := width
 		set_height := height
@@ -2838,10 +2844,27 @@ func RlezSetShaderValueTexture(shader int32, location int32, value_texture int32
 	}
 }
 
+//export RlezSetMasterVolume
+func RlezSetMasterVolume(volume float64) {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
+		rl.SetMasterVolume(float32(volume))
+	}
+}
+
+//export RlezGetMasterVolume
+func RlezGetMasterVolume() float64 {
+	return_data := float64(0)
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
+		return_data = float64(rl.GetMasterVolume())
+	}
+	setReturnData(return_data, reflect.TypeFor[float64]())
+	return return_data
+}
+
 //export RlezLoadSoundFromMemory
 func RlezLoadSoundFromMemory(file_type uintptr, sound_data uintptr, sound_data_size int32, is_music int32, music_update_time float64, music_update_samples int32) int32 {
 	return_data := int32(-1)
-	if system.window_status == true && sound_data_size > 0 {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true && sound_data_size > 0 {
 		return_sound := RLEZSound{}
 		return_sound.MusicBytes = make([]byte, sound_data_size)
 		copy(return_sound.MusicBytes, unsafe.Slice((*byte)(unsafe.Pointer(sound_data)), sound_data_size))
@@ -2930,7 +2953,7 @@ func RlezLoadSoundFromMemory(file_type uintptr, sound_data uintptr, sound_data_s
 //export RlezLoadSound
 func RlezLoadSound(path uintptr, is_music int32, music_update_time float64, music_update_samples int32) int32 {
 	return_data := int32(-1)
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		get_path := toString(path)
 		file, err := os.ReadFile(get_path)
 		if err == nil {
@@ -2944,7 +2967,7 @@ func RlezLoadSound(path uintptr, is_music int32, music_update_time float64, musi
 
 //export RlezStopSound
 func RlezStopSound(sound int32) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -2961,7 +2984,7 @@ func RlezStopSound(sound int32) {
 
 //export RlezPauseSound
 func RlezPauseSound(sound int32) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -2978,7 +3001,7 @@ func RlezPauseSound(sound int32) {
 
 //export RlezResumeSound
 func RlezResumeSound(sound int32) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -2995,7 +3018,7 @@ func RlezResumeSound(sound int32) {
 
 //export RlezPlaySound
 func RlezPlaySound(sound int32, music_loop int32) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -3024,7 +3047,7 @@ func RlezPlaySound(sound int32, music_loop int32) {
 //export RlezGetSoundStatus
 func RlezGetSoundStatus(sound int32) int32 {
 	return_data := int32(0)
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -3049,7 +3072,7 @@ func RlezGetSoundStatus(sound int32) int32 {
 //export RlezGetSoundTime
 func RlezGetSoundTime(sound int32) float64 {
 	return_data := float64(0)
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -3066,7 +3089,7 @@ func RlezGetSoundTime(sound int32) float64 {
 
 //export RlezSetSoundTime
 func RlezSetSoundTime(sound int32, set_time float64) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -3107,7 +3130,7 @@ func RlezSetSoundTime(sound int32, set_time float64) {
 //export RlezGetSoundLength
 func RlezGetSoundLength(sound int32) float64 {
 	return_data := float64(0)
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -3123,7 +3146,7 @@ func RlezGetSoundLength(sound int32) float64 {
 
 //export RlezSetSoundPitch
 func RlezSetSoundPitch(sound int32, pitch float64) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -3140,7 +3163,7 @@ func RlezSetSoundPitch(sound int32, pitch float64) {
 
 //export RlezSetSoundVolume
 func RlezSetSoundVolume(sound int32, volume float64) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
@@ -3157,7 +3180,7 @@ func RlezSetSoundVolume(sound int32, volume float64) {
 
 //export RlezSetSoundPan
 func RlezSetSoundPan(sound int32, pan float64) {
-	if system.window_status == true {
+	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
 			if system.resource[sound].type_name == "RLEZSound" {
 				get_sound := (*RLEZSound)(system.resource[sound].data)

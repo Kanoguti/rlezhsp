@@ -76,10 +76,10 @@ return
 _rlez_delete_dir p_path
 return
 
-//void RlezOpenWindow(int width,int height);
-#func global _rlez_open_window "RlezOpenWindow" int,int
-#deffunc rlez_open_window int p_width,int p_height
-_rlez_open_window p_width,p_height
+//void RlezOpenWindow(int width,int height,int option);
+#func global _rlez_open_window "RlezOpenWindow" int,int,int
+#deffunc rlez_open_window int p_width,int p_height,int p_option
+_rlez_open_window p_width,p_height,p_option
 return
 
 //void RlezSetWindowFocus(void);
@@ -757,6 +757,20 @@ return
 #deffunc rlez_set_shader_value_texture int p_shader,int p_location,int p_value_texture
 _rlez_set_shader_value_texture p_shader,p_location,p_value_texture
 return
+
+//void RlezSetMasterVolume(double volume);
+#func global _rlez_set_master_volume "RlezSetMasterVolume" double
+#deffunc rlez_set_master_volume double p_volume
+_rlez_set_master_volume p_volume
+return
+
+//double RlezGetMasterVolume(void);
+#func global _rlez_get_master_volume "RlezGetMasterVolume"
+#defcfunc rlez_get_master_volume local temp_return
+temp_return=double(0)
+_rlez_get_master_volume
+rlez_return_double temp_return
+return temp_return
 
 //int RlezLoadSoundFromMemory(const char* file_type,void* sound_data,int sound_data_size,int is_music,double music_update_time,int music_update_samples);
 #cfunc global _rlez_load_sound_from_memory "RlezLoadSoundFromMemory" str,var,int,int,double,int
