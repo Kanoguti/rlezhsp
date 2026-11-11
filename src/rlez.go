@@ -196,7 +196,13 @@ func registerResource(data interface{}, type_data reflect.Type) int32 {
 	target_resource.original_data = data
 	target_resource.data = interfaceToPointer(target_resource.original_data)
 	target_resource.life = true
-	target_resource.type_name, target_resource.type_size = type_data.Name(), int32(type_data.Size())
+	target_resource.type_name = ""
+	if type_data.Kind() == reflect.Ptr {
+		target_resource.type_name = type_data.Elem().Name()
+	} else {
+		target_resource.type_name = type_data.Name()
+	}
+	target_resource.type_size = int32(type_data.Size())
 	target_resource.group = ""
 	if append_flag == true {
 		system.resource = append(system.resource, target_resource)
@@ -209,10 +215,10 @@ func registerResource(data interface{}, type_data reflect.Type) int32 {
 func getTexture(id int32) *rl.Texture2D {
 	return_data := &rl.Texture2D{}
 	if checkResource(id) == true {
-		switch system.resource[id].type_name {
-		case "Texture2D":
+		switch system.resource[id].original_data.(type) {
+		case rl.Texture2D:
 			return_data = (*rl.Texture2D)(system.resource[id].data)
-		case "RenderTexture2D":
+		case rl.RenderTexture2D:
 			return_data = &((*rl.RenderTexture2D)(system.resource[id].data).Texture)
 		}
 	}
@@ -984,38 +990,38 @@ func RlezGroup(id int32, name uintptr) {
 func RlezDelete(id int32) {
 	if 0 <= id && id < int32(len(system.resource)) {
 		if system.resource[id].life == true {
-			switch system.resource[id].type_name {
-			case "Image":
+			switch system.resource[id].original_data.(type) {
+			case *rl.Image:
 				rl.UnloadImage((*rl.Image)(system.resource[id].data))
-			case "Texture2D":
+			case rl.Texture2D:
 				rl.UnloadTexture(*(*rl.Texture2D)(system.resource[id].data))
-			case "RenderTexture2D":
+			case rl.RenderTexture2D:
 				rl.UnloadRenderTexture(*(*rl.RenderTexture2D)(system.resource[id].data))
-			case "Font":
+			case rl.Font:
 				rl.UnloadFont(*(*rl.Font)(system.resource[id].data))
-			case "Shader":
+			case rl.Shader:
 				rl.UnloadShader(*(*rl.Shader)(system.resource[id].data))
-			case "Material":
+			case rl.Material:
 				rl.UnloadMaterial(*(*rl.Material)(system.resource[id].data))
-			case "Mesh":
+			case *rl.Mesh:
 				rl.UnloadMesh((*rl.Mesh)(system.resource[id].data))
-			case "Model":
+			case rl.Model:
 				rl.UnloadModel(*(*rl.Model)(system.resource[id].data))
-			case "ModelAnimation":
-				//rl.UnloadModelAnimations
-			case "Wave":
+			case []rl.ModelAnimation:
+				rl.UnloadModelAnimations(*(*[]rl.ModelAnimation)(system.resource[id].data))
+			case rl.Wave:
 				rl.UnloadWave(*(*rl.Wave)(system.resource[id].data))
-			case "AudioStream":
+			case rl.AudioStream:
 				rl.UnloadAudioStream(*(*rl.AudioStream)(system.resource[id].data))
-			case "Sound":
+			case rl.Sound:
 				rl.UnloadSound(*(*rl.Sound)(system.resource[id].data))
-			case "Music":
+			case rl.Music:
 				rl.UnloadMusicStream(*(*rl.Music)(system.resource[id].data))
-			case "VrStereoConfig":
+			case rl.VrStereoConfig:
 				rl.UnloadVrStereoConfig(*(*rl.VrStereoConfig)(system.resource[id].data))
-			case "AutomationEventList":
+			case *rl.AutomationEventList:
 				rl.UnloadAutomationEventList((*rl.AutomationEventList)(system.resource[id].data))
-			case "RLEZMesh":
+			case RLEZMesh:
 				data := (*RLEZMesh)(system.resource[id].data)
 				if data.IsFromMesh == true {
 					maps := unsafe.Slice(data.Material.Maps, rl.MaxMaterialMaps)
@@ -1041,20 +1047,18 @@ func RlezDelete(id int32) {
 							material_maps[cnt2].Texture = data.ModelTextures[cnt1][cnt2]
 						}
 					}
-					for cnt := 0; cnt < len(data.ModelAnimations); cnt++ {
-						rl.UnloadModelAnimations(data.ModelAnimations)
-					}
+					rl.UnloadModelAnimations(data.ModelAnimations)
 					rl.UnloadModel(data.Model)
 				} else {
 					rl.UnloadMesh(&data.Mesh)
 				}
-			case "RLEZFont":
+			case RLEZFont:
 				data := (*RLEZFont)(system.resource[id].data)
 				for cnt := 0; cnt < len(data.Fonts); cnt++ {
 					rl.UnloadTexture(data.Fonts[cnt].Texture)
 				}
 				rl.UnloadFontData(data.GlyphInfos)
-			case "RLEZSound":
+			case RLEZSound:
 				data := (*RLEZSound)(system.resource[id].data)
 				RlezStopSound(id)
 				if data.IsMusic == false {
@@ -1225,9 +1229,11 @@ func RlezGetWindowHandle() uintptr {
 func RlezSetWindowIcon(texture int32) {
 	if system.window_status == true {
 		if checkResource(texture) == true {
-			if system.resource[texture].type_name == "RenderTexture2D" || system.resource[texture].type_name == "Texture2D" {
+			_, ok_RenderTexture2D := system.resource[texture].original_data.(rl.RenderTexture2D)
+			_, ok_Texture2D := system.resource[texture].original_data.(rl.Texture2D)
+			if ok_RenderTexture2D || ok_Texture2D {
 				image := rl.LoadImageFromTexture(*getTexture(texture))
-				if system.resource[texture].type_name == "RenderTexture2D" {
+				if ok_RenderTexture2D {
 					rl.ImageFlipVertical(image)
 				}
 				rl.SetWindowIcon(*image)
@@ -1256,7 +1262,9 @@ func RlezGetWidth(resource int32) int32 {
 	return_data := int32(0)
 	if system.window_status == true {
 		if checkResource(resource) == true {
-			if system.resource[resource].type_name == "RenderTexture2D" || system.resource[resource].type_name == "Texture2D" {
+			_, ok_RenderTexture2D := system.resource[resource].original_data.(rl.RenderTexture2D)
+			_, ok_Texture2D := system.resource[resource].original_data.(rl.Texture2D)
+			if ok_RenderTexture2D || ok_Texture2D {
 				return_data = getTexture(resource).Width
 			}
 		} else {
@@ -1271,7 +1279,9 @@ func RlezGetHeight(resource int32) int32 {
 	return_data := int32(0)
 	if system.window_status == true {
 		if checkResource(resource) == true {
-			if system.resource[resource].type_name == "RenderTexture2D" || system.resource[resource].type_name == "Texture2D" {
+			_, ok_RenderTexture2D := system.resource[resource].original_data.(rl.RenderTexture2D)
+			_, ok_Texture2D := system.resource[resource].original_data.(rl.Texture2D)
+			if ok_RenderTexture2D || ok_Texture2D {
 				return_data = getTexture(resource).Height
 			}
 		} else {
@@ -1425,7 +1435,7 @@ func RlezBeginDraw(resource int32) {
 	if system.window_status == true {
 		if system.draw_mode == "NONE" {
 			if checkResource(resource) == true {
-				if system.resource[resource].type_name == "RenderTexture2D" {
+				if _, ok := system.resource[resource].original_data.(rl.RenderTexture2D); ok {
 					system.draw_mode = "RENDER_TEXTURE"
 					get_render_texture := (*rl.RenderTexture2D)(system.resource[resource].data)
 					rl.BeginTextureMode(*get_render_texture)
@@ -1541,7 +1551,7 @@ func RlezEndBlend() {
 func RlezBeginShader(resource int32) {
 	if system.window_status == true {
 		if checkResource(resource) == true {
-			if system.resource[resource].type_name == "Shader" {
+			if _, ok := system.resource[resource].original_data.(rl.Shader); ok {
 				rl.BeginShaderMode(*(*rl.Shader)(system.resource[resource].data))
 			}
 		}
@@ -1748,7 +1758,9 @@ func RlezLoadTextureFromMemory(file_type uintptr, data uintptr, size int32) int3
 //export RlezSetTextureFilter
 func RlezSetTextureFilter(texture int32, filter_type uintptr) {
 	if system.window_status == true {
-		if system.resource[texture].type_name == "RenderTexture2D" || system.resource[texture].type_name == "Texture2D" {
+		_, ok_RenderTexture2D := system.resource[texture].original_data.(rl.RenderTexture2D)
+		_, ok_Texture2D := system.resource[texture].original_data.(rl.Texture2D)
+		if ok_RenderTexture2D || ok_Texture2D {
 			rl.SetTextureFilter(*getTexture(texture), getTextureFilter(toString(filter_type)))
 		}
 	}
@@ -1757,7 +1769,9 @@ func RlezSetTextureFilter(texture int32, filter_type uintptr) {
 //export RlezSetTextureMipmaps
 func RlezSetTextureMipmaps(texture int32) {
 	if system.window_status == true {
-		if system.resource[texture].type_name == "RenderTexture2D" || system.resource[texture].type_name == "Texture2D" {
+		_, ok_RenderTexture2D := system.resource[texture].original_data.(rl.RenderTexture2D)
+		_, ok_Texture2D := system.resource[texture].original_data.(rl.Texture2D)
+		if ok_RenderTexture2D || ok_Texture2D {
 			rl.GenTextureMipmaps(getTexture(texture))
 		}
 	}
@@ -1876,7 +1890,7 @@ func drawText(draw_switch bool, font int32, text uintptr, x, y float64, size, sp
 	if system.window_status == true {
 		check_font := false
 		if checkResource(font) == true {
-			if system.resource[font].type_name == "RLEZFont" {
+			if _, ok := system.resource[font].original_data.(RLEZFont); ok {
 				check_font = true
 			}
 		}
@@ -1949,9 +1963,11 @@ func RlezLoadPixels(texture int32, format uintptr) {
 		RlezUnloadPixels()
 		if texture >= 0 {
 			if checkResource(texture) == true {
-				if system.resource[texture].type_name == "RenderTexture2D" || system.resource[texture].type_name == "Texture2D" {
+				_, ok_RenderTexture2D := system.resource[texture].original_data.(rl.RenderTexture2D)
+				_, ok_Texture2D := system.resource[texture].original_data.(rl.Texture2D)
+				if ok_RenderTexture2D || ok_Texture2D {
 					system.pixels = rl.LoadImageFromTexture(*getTexture(texture))
-					if system.resource[texture].type_name == "RenderTexture2D" {
+					if ok_RenderTexture2D {
 						rl.ImageFlipVertical(system.pixels.(*rl.Image))
 					}
 					system.pixels_resource = texture
@@ -2035,7 +2051,7 @@ func RlezSetPixel(x, y int32) {
 func RlezUpdatePixels() {
 	if system.window_status == true && system.pixels != nil && system.pixels_resource >= 0 {
 		image := system.pixels.(*rl.Image)
-		if system.resource[system.pixels_resource].type_name == "RenderTexture2D" {
+		if _, ok := system.resource[system.pixels_resource].original_data.(rl.RenderTexture2D); ok {
 			rl.ImageFlipVertical(image)
 		}
 		pixels := unsafe.Slice((*color.RGBA)((*image).Data), ((*image).Width)*((*image).Height))
@@ -2078,7 +2094,9 @@ func RlezBeginShape(mode uintptr, auto_normal int32, resource int32) {
 		system.shape_texture_height = 1
 		system.shape_texture_flip = false
 		if checkResource(resource) == true {
-			if system.resource[resource].type_name == "RenderTexture2D" || system.resource[resource].type_name == "Texture2D" {
+			_, ok_RenderTexture2D := system.resource[resource].original_data.(rl.RenderTexture2D)
+			_, ok_Texture2D := system.resource[resource].original_data.(rl.Texture2D)
+			if ok_RenderTexture2D || ok_Texture2D {
 				system.shape_texture = resource
 				temp_texture := *getTexture(resource)
 				system.shape_texture_width = temp_texture.Width
@@ -2089,7 +2107,7 @@ func RlezBeginShape(mode uintptr, auto_normal int32, resource int32) {
 				if system.shape_texture_height < 1 {
 					system.shape_texture_height = 1
 				}
-				if system.resource[resource].type_name == "RenderTexture2D" {
+				if ok_RenderTexture2D {
 					system.shape_texture_flip = true
 				}
 			}
@@ -2300,14 +2318,16 @@ func RlezEndMesh() int32 {
 func RlezSetMeshTexture(mesh int32, texture int32) {
 	if system.window_status == true {
 		if checkResource(mesh) == true {
-			if system.resource[mesh].type_name == "RLEZMesh" {
+			if _, ok := system.resource[mesh].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[mesh].data)
 				maps := unsafe.Slice(get_mesh.Material.Maps, rl.MaxMaterialMaps)
 				default_maps := unsafe.Slice(system.default_material.Maps, rl.MaxMaterialMaps)
 				if texture < 0 {
 					maps[rl.MapAlbedo].Texture = default_maps[rl.MapAlbedo].Texture
 				} else {
-					if system.resource[texture].type_name == "RenderTexture2D" || system.resource[texture].type_name == "Texture2D" {
+					_, ok_RenderTexture2D := system.resource[texture].original_data.(rl.RenderTexture2D)
+					_, ok_Texture2D := system.resource[texture].original_data.(rl.Texture2D)
+					if ok_RenderTexture2D || ok_Texture2D {
 						maps[rl.MapAlbedo].Texture = *getTexture(texture)
 					} else {
 						maps[rl.MapAlbedo].Texture = default_maps[rl.MapAlbedo].Texture
@@ -2347,7 +2367,7 @@ func RlezLoadModel(path uintptr, load_animation int32) int32 {
 func RlezFromMeshToModel(mesh int32) {
 	if system.window_status == true {
 		if checkResource(mesh) == true {
-			if system.resource[mesh].type_name == "RLEZMesh" {
+			if _, ok := system.resource[mesh].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[mesh].data)
 				if get_mesh.IsModel == false {
 					get_mesh.IsModel = true
@@ -2371,7 +2391,7 @@ func RlezFromMeshToModel(mesh int32) {
 func RlezSetModelTexture(model int32, material_index int32, map_name uintptr, texture int32) {
 	if system.window_status == true {
 		if checkResource(model) == true {
-			if system.resource[model].type_name == "RLEZMesh" {
+			if _, ok := system.resource[model].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[model].data)
 				if get_mesh.IsModel == true {
 					if 0 <= material_index && material_index < get_mesh.Model.MaterialCount {
@@ -2380,7 +2400,9 @@ func RlezSetModelTexture(model int32, material_index int32, map_name uintptr, te
 						var get_texture rl.Texture2D
 						if texture >= 0 {
 							if checkResource(texture) == true {
-								if system.resource[texture].type_name == "Texture2D" || system.resource[texture].type_name == "RenderTexture2D" {
+								_, ok_RenderTexture2D := system.resource[texture].original_data.(rl.RenderTexture2D)
+								_, ok_Texture2D := system.resource[texture].original_data.(rl.Texture2D)
+								if ok_RenderTexture2D || ok_Texture2D {
 									get_texture = *getTexture(texture)
 								} else {
 									get_texture = get_mesh.ModelTextures[material_index][material_maps_index]
@@ -2408,7 +2430,7 @@ func RlezGetAnimationCount(model int32) int32 {
 	return_data := int32(0)
 	if system.window_status == true {
 		if checkResource(model) == true {
-			if system.resource[model].type_name == "RLEZMesh" {
+			if _, ok := system.resource[model].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[model].data)
 				if get_mesh.IsModel == true {
 					return_data = int32(len(get_mesh.ModelAnimations))
@@ -2424,7 +2446,7 @@ func RlezGetAnimationId(model int32, name uintptr) int32 {
 	return_data := int32(-1)
 	if system.window_status == true {
 		if checkResource(model) == true {
-			if system.resource[model].type_name == "RLEZMesh" {
+			if _, ok := system.resource[model].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[model].data)
 				if get_mesh.IsModel == true {
 					get_name := toString(name)
@@ -2446,7 +2468,7 @@ func RlezGetAnimationFrames(model int32, id int32) int32 {
 	return_data := int32(-1)
 	if system.window_status == true {
 		if checkResource(model) == true {
-			if system.resource[model].type_name == "RLEZMesh" {
+			if _, ok := system.resource[model].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[model].data)
 				if get_mesh.IsModel == true {
 					if int32(0) <= id && id < int32(len(get_mesh.ModelAnimations)) {
@@ -2463,7 +2485,7 @@ func RlezGetAnimationFrames(model int32, id int32) int32 {
 func RlezSetModelAnimation(model int32, id int32, frame float64) {
 	if system.window_status == true {
 		if checkResource(model) == true {
-			if system.resource[model].type_name == "RLEZMesh" {
+			if _, ok := system.resource[model].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[model].data)
 				if get_mesh.IsModel == true {
 					if int32(0) <= id && id < int32(len(get_mesh.ModelAnimations)) {
@@ -2479,7 +2501,7 @@ func RlezSetModelAnimation(model int32, id int32, frame float64) {
 func RlezSetModelAnimationBlend(model int32, a_id int32, a_frame float64, b_id int32, b_frame float64, blend float64) {
 	if system.window_status == true {
 		if checkResource(model) == true {
-			if system.resource[model].type_name == "RLEZMesh" {
+			if _, ok := system.resource[model].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[model].data)
 				if get_mesh.IsModel == true {
 					if int32(0) <= a_id && a_id < int32(len(get_mesh.ModelAnimations)) && int32(0) <= b_id && b_id < int32(len(get_mesh.ModelAnimations)) {
@@ -2525,7 +2547,7 @@ func RlezGetColorA() int32 {
 func RlezDrawMesh(mesh int32) {
 	if system.window_status == true {
 		if checkResource(mesh) == true {
-			if system.resource[mesh].type_name == "RLEZMesh" {
+			if _, ok := system.resource[mesh].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[mesh].data)
 				if get_mesh.IsModel == false {
 					maps := unsafe.Slice(get_mesh.Material.Maps, rl.MaxMaterialMaps)
@@ -2541,7 +2563,7 @@ func RlezDrawMesh(mesh int32) {
 func RlezDrawModel(model int32) {
 	if system.window_status == true {
 		if checkResource(model) == true {
-			if system.resource[model].type_name == "RLEZMesh" {
+			if _, ok := system.resource[model].original_data.(RLEZMesh); ok {
 				get_mesh := (*RLEZMesh)(system.resource[model].data)
 				if get_mesh.IsModel == true {
 					rl.DrawModel(get_mesh.Model, rl.Vector3{X: float32(0), Y: float32(0), Z: float32(0)}, float32(1.0), system.color)
@@ -2669,7 +2691,7 @@ func RlezDrawTexture(texture int32, src_x, src_y, src_w, src_h int32, dest_x, de
 			get_texture := *getTexture(texture)
 			src_rect := rl.Rectangle{X: float32(src_x), Y: float32(src_y), Width: float32(src_w), Height: float32(src_h)}
 			src_size := [2]float32{float32(get_texture.Width), float32(get_texture.Height)}
-			if system.resource[texture].type_name == "RenderTexture2D" {
+			if _, ok := system.resource[texture].original_data.(rl.RenderTexture2D); ok {
 				src_rect.Y = src_size[1] - src_rect.Y
 				src_rect.Height = -src_rect.Height
 			}
@@ -2721,7 +2743,7 @@ func RlezGetShaderLocation(shader int32, uniform_name uintptr) int32 {
 	return_data := int32(-1)
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok {
 				get_shader := (*rl.Shader)(system.resource[shader].data)
 				return_data = rl.GetShaderLocation(*get_shader, toString(uniform_name))
 			}
@@ -2734,7 +2756,7 @@ func RlezGetShaderLocation(shader int32, uniform_name uintptr) int32 {
 func RlezSetShaderValueFloatArray(shader int32, location int32, value_double_array, value_type uintptr, count int32) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" && count > 0 {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok && count > 0 {
 				get_shader := (*rl.Shader)(system.resource[shader].data)
 				get_value_type, get_value_count := getUniformDataType(toString(value_type))
 				get_value := unsafe.Slice((*float64)(unsafe.Pointer(value_double_array)), count*get_value_count)
@@ -2752,7 +2774,7 @@ func RlezSetShaderValueFloatArray(shader int32, location int32, value_double_arr
 func RlezSetShaderValueFloat(shader int32, location int32, value_double float64) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok {
 				get_double := value_double
 				get_type := fromString("SHADER_UNIFORM_FLOAT")
 				RlezSetShaderValueFloatArray(shader, location, uintptr(unsafe.Pointer(&get_double)), get_type.string_uintptr, 1)
@@ -2765,7 +2787,7 @@ func RlezSetShaderValueFloat(shader int32, location int32, value_double float64)
 func RlezSetShaderValueIntArray(shader int32, location int32, value_int_array, value_type uintptr, count int32) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" && count > 0 {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok && count > 0 {
 				get_shader := (*rl.Shader)(system.resource[shader].data)
 				get_value_type, get_value_count := getUniformDataType(toString(value_type))
 				get_value := unsafe.Slice((*int32)(unsafe.Pointer(value_int_array)), count*get_value_count)
@@ -2783,7 +2805,7 @@ func RlezSetShaderValueIntArray(shader int32, location int32, value_int_array, v
 func RlezSetShaderValueInt(shader int32, location int32, value_int int32) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok {
 				get_int := value_int
 				get_type := fromString("SHADER_UNIFORM_INT")
 				RlezSetShaderValueIntArray(shader, location, uintptr(unsafe.Pointer(&get_int)), get_type.string_uintptr, 1)
@@ -2796,7 +2818,7 @@ func RlezSetShaderValueInt(shader int32, location int32, value_int int32) {
 func RlezSetShaderValueAnyArray(shader int32, location int32, value_any_array, value_type uintptr, count int32) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" && count > 0 {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok && count > 0 {
 				get_shader := (*rl.Shader)(system.resource[shader].data)
 				get_value_type, _ := getUniformDataType(toString(value_type))
 				get_value := *(*[]float32)(unsafe.Pointer(value_any_array))
@@ -2810,7 +2832,7 @@ func RlezSetShaderValueAnyArray(shader int32, location int32, value_any_array, v
 func RlezSetShaderValueAny(shader int32, location int32, value_any, value_type uintptr) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok {
 				RlezSetShaderValueAnyArray(shader, location, value_any, value_type, 1)
 			}
 		}
@@ -2821,7 +2843,7 @@ func RlezSetShaderValueAny(shader int32, location int32, value_any, value_type u
 func RlezSetShaderValueMatrix(shader int32, location int32, value_matrix uintptr) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok {
 				get_shader := (*rl.Shader)(system.resource[shader].data)
 				get_value := unsafe.Slice((*float64)(unsafe.Pointer(value_matrix)), 16)
 				get_matrix := doubleToMatrix(get_value)
@@ -2835,7 +2857,7 @@ func RlezSetShaderValueMatrix(shader int32, location int32, value_matrix uintptr
 func RlezSetShaderValueTexture(shader int32, location int32, value_texture int32) {
 	if system.window_status == true {
 		if checkResource(shader) == true {
-			if system.resource[shader].type_name == "Shader" {
+			if _, ok := system.resource[shader].original_data.(rl.Shader); ok {
 				get_shader := (*rl.Shader)(system.resource[shader].data)
 				get_texture := getTexture(value_texture)
 				rl.SetShaderValueTexture(*get_shader, location, *get_texture)
@@ -2969,7 +2991,7 @@ func RlezLoadSound(path uintptr, is_music int32, music_update_time float64, musi
 func RlezStopSound(sound int32) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					rl.StopSound(get_sound.SoundData)
@@ -2986,7 +3008,7 @@ func RlezStopSound(sound int32) {
 func RlezPauseSound(sound int32) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					rl.PauseSound(get_sound.SoundData)
@@ -3003,7 +3025,7 @@ func RlezPauseSound(sound int32) {
 func RlezResumeSound(sound int32) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					rl.ResumeSound(get_sound.SoundData)
@@ -3020,7 +3042,7 @@ func RlezResumeSound(sound int32) {
 func RlezPlaySound(sound int32, music_loop int32) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					rl.PlaySound(get_sound.SoundData)
@@ -3049,7 +3071,7 @@ func RlezGetSoundStatus(sound int32) int32 {
 	return_data := int32(0)
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					if rl.IsSoundPlaying(get_sound.SoundData) == true {
@@ -3074,7 +3096,7 @@ func RlezGetSoundTime(sound int32) float64 {
 	return_data := float64(0)
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == true {
 					get_sound.ChannelMessage <- "update"
@@ -3091,7 +3113,7 @@ func RlezGetSoundTime(sound int32) float64 {
 func RlezSetSoundTime(sound int32, set_time float64) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == true {
 					target_time := float32(set_time)
@@ -3132,7 +3154,7 @@ func RlezGetSoundLength(sound int32) float64 {
 	return_data := float64(0)
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == true {
 					return_data = float64(rl.GetMusicTimeLength(get_sound.MusicData))
@@ -3148,7 +3170,7 @@ func RlezGetSoundLength(sound int32) float64 {
 func RlezSetSoundPitch(sound int32, pitch float64) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					rl.SetSoundPitch(get_sound.SoundData, float32(pitch))
@@ -3165,7 +3187,7 @@ func RlezSetSoundPitch(sound int32, pitch float64) {
 func RlezSetSoundVolume(sound int32, volume float64) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					rl.SetSoundVolume(get_sound.SoundData, float32(volume))
@@ -3182,7 +3204,7 @@ func RlezSetSoundVolume(sound int32, volume float64) {
 func RlezSetSoundPan(sound int32, pan float64) {
 	if system.window_status == true && rl.IsAudioDeviceReady() == true {
 		if checkResource(sound) == true {
-			if system.resource[sound].type_name == "RLEZSound" {
+			if _, ok := system.resource[sound].original_data.(RLEZSound); ok {
 				get_sound := (*RLEZSound)(system.resource[sound].data)
 				if get_sound.IsMusic == false {
 					rl.SetSoundPan(get_sound.SoundData, float32((-pan+float64(1))/float64(2)))
