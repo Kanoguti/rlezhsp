@@ -32,6 +32,5 @@ debug:
 	go run .
 
 download_raylib:
-	go clean -modcache
-	go get -v -u github.com/gen2brain/raylib-go/raylib@v0.60.1
+	go get -v -u github.com/gen2brain/raylib-go/raylib@v0.62.0
 	go mod tidy

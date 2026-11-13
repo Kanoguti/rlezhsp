@@ -14,7 +14,7 @@ C/C++言語向けのゲーム制作ライブラリのraylibを、rlezhspの作�
 ## 動作確認環境
 
 - OS:Windows 11 64bit
-- HSP3言語のバージョン:3.8 beta1(64bit版)
+- HSP3言語のバージョン:3.8 beta2(64bit版)
 
 ## rlezhspの使用例
 
@@ -58,7 +58,7 @@ rlez.dllの関数リファレンスは`Reference.md`ファイルまたは`Refere
 作者がrlez.dllを作成する際、以下の環境で行いました。
 
 - Go言語
-    - バージョン:1.27
+    - バージョン:1.27.4
 - MSYS2(MinGW-w64)
     - gccコマンドやmakeコマンド等を使用できるようにしてください。
     - ANGLEバックエンドを用いたrlez.dllを作成する場合は、ANGLEの開発環境もインストールしてください。
