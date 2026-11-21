@@ -18,12 +18,12 @@ endif
 
 build_opengl33:
 	$(call make-folder,"./build/opengl33")
-	go build -buildmode=c-shared -ldflags="-s -w" -o $(OUTPUT_FILE) .
+	go build -tags "glfw" -buildmode=c-shared -ldflags="-s -w" -o $(OUTPUT_FILE) .
 	$(call copy-file,"./$(OUTPUT_FILE)","./build/opengl33/$(OUTPUT_FILE)")
 
 build_angle:
 	$(call make-folder,"./build/angle")
-	go build -tags es2 -buildmode=c-shared -ldflags="-s -w -extldflags '-L. -lGLESv2 -lEGL -Wl,--allow-multiple-definition'" -o $(OUTPUT_FILE) .
+	go build -tags "glfw,es2" -buildmode=c-shared -ldflags="-s -w -extldflags '-L. -lGLESv2 -lEGL -Wl,--allow-multiple-definition'" -o $(OUTPUT_FILE) .
 	$(call copy-file,"./$(OUTPUT_FILE)","./build/angle/$(OUTPUT_FILE)")
 
 build_all: build_opengl33 build_angle
@@ -32,5 +32,5 @@ debug:
 	go run .
 
 download_raylib:
-	go get -v -u github.com/gen2brain/raylib-go/raylib@v0.62.0
+	go get -v -u github.com/gen2brain/raylib-go/raylib@v0.63.0
 	go mod tidy
