@@ -1,7 +1,10 @@
 export CGO_ENABLED=1
 
 ifeq ($(OS),Windows_NT)
+SHELL:=pwsh.exe
+ifeq ($(wildcard $(SHELL)),)
 SHELL:=powershell.exe
+endif
 .SHELLFLAGS:=-Command
 make-folder=if (-not (Test-Path -Path $(1))) { New-Item -ItemType Directory -Path $(1) }
 copy-file=Copy-Item -Path $(1) -Destination $(2) -Force
